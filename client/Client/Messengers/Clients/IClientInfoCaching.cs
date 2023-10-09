@@ -3,7 +3,7 @@ using Common.Server.Servers.RUdp;
 using System;
 using System.Collections.Generic;
 
-namespace Client.Messengers.clients
+namespace Client.Messengers.Clients
 {
     /// <summary>
     /// 客户端缓存

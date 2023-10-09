@@ -1,10 +1,10 @@
-﻿using common.forward;
-using common.libs.extends;
+﻿using Common.ForWard;
+using Common.Libs.Extends;
 using System;
 using System.ComponentModel;
 using System.Net;
 
-namespace server.service.forward.model
+namespace Server.Service.ForWard.model
 {
     public sealed class ForwardSignInInfo
     {

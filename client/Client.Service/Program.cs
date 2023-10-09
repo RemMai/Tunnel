@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
+using Client;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.PunchHole;
 using Client.Service.ForWard;
@@ -31,30 +33,26 @@ Assembly[] assemblies = new[]
     typeof(LoggerClientService).Assembly,
     typeof(PunchHoleMessenger).Assembly,
     typeof(Common.Server.Model.SignInMessengerIds).Assembly,
-
     typeof(ProxyMessenger).Assembly,
     typeof(ProxyClientService).Assembly,
     typeof(ProxyMessengerIds).Assembly,
-
+    typeof(IIPv6AddressRequest).Assembly,
     typeof(ForwardClientService).Assembly,
     typeof(ServerForwardClientService).Assembly,
     typeof(Common.ForWard.ForwardMessengerIds).Assembly,
-
     typeof(VeaClientService).Assembly,
     typeof(ServerVeaClientService).Assembly,
     typeof(Common.Vea.VeaSocks5MessengerIds).Assembly,
-
     typeof(UsersClientService).Assembly,
     typeof(ServerUsersClientService).Assembly,
     typeof(Common.User.UsersMessengerIds).Assembly,
-}.Concat(AppDomain.CurrentDomain.GetAssemblies()).ToArray();
-
-
+}.Concat(AppDomain.CurrentDomain.GetAssemblies()).Distinct().ToArray();
+AppDomain.CurrentDomain.UnhandledException += (a, b) => { Logger.Instance.Error(b.ExceptionObject + ""); };
+LoggerConsole();
 var host = Host.CreateApplicationBuilder();
 host.Services.AddAutoInject(assemblies);
 var app = host.Build();
-PluginLoader.LoadAfter(app.Services, assemblies);
-
+PluginLoader.Init(app.Services, assemblies);
 PrintProxyPlugin(app.Services, assemblies);
 
 SignInStateInfo signInStateInfo = app.Services.GetService<SignInStateInfo>();
@@ -76,6 +74,48 @@ app.Services.GetService<ISignInTransfer>().SignIn(config.Client.AutoReg);
 app.Run();
 return;
 
+
+
+void LoggerConsole()
+{
+    if (Directory.Exists("log") == false)
+    {
+        Directory.CreateDirectory("log");
+    }
+
+    Logger.Instance.OnLogger += (model) =>
+    {
+        ConsoleColor currentForeColor = Console.ForegroundColor;
+        switch (model.Type)
+        {
+            case LoggerTypes.DEBUG:
+                Console.ForegroundColor = ConsoleColor.Blue;
+                break;
+            case LoggerTypes.INFO:
+                Console.ForegroundColor = ConsoleColor.White;
+                break;
+            case LoggerTypes.WARNING:
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                break;
+            case LoggerTypes.ERROR:
+                Console.ForegroundColor = ConsoleColor.Red;
+                break;
+            default:
+                break;
+        }
+
+        string line = $"[{model.Type,-7}][{model.Time:yyyy-MM-dd HH:mm:ss}]:{model.Content}";
+        Console.WriteLine(line);
+        Console.ForegroundColor = currentForeColor;
+
+        using StreamWriter sw = File.AppendText(Path.Combine("log", $"{DateTime.Now:yyyy-MM-dd}.log"));
+        sw.WriteLine(line);
+        sw.Flush();
+        sw.Close();
+        sw.Dispose();
+    };
+}
+
 static void PrintProxyPlugin(IServiceProvider services, Assembly[] assemblies)
 {
     var iAccesses = ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IAccess))
@@ -85,7 +125,7 @@ static void PrintProxyPlugin(IServiceProvider services, Assembly[] assemblies)
     Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
     Logger.Instance.Debug("权限值,uint 每个权限占一位，最多32个权限");
     Logger.Instance.Info(
-        $"{Convert.ToString((uint)EnumServiceAccess.Relay, 2).PadLeft(Logger.Instance.PaddingWidth, '0')}  relay");
+        $"{Convert.ToString((uint)EnumServiceAccess.Relay, 2).PadLeft(Logger.Instance.PaddingWidth, '0')}  Relay");
     foreach (var item in iAccesses.OrderBy(c => c.Access))
     {
         Logger.Instance.Info(

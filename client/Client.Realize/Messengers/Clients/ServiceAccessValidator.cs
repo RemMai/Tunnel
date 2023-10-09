@@ -1,4 +1,4 @@
-﻿using Client.Messengers.clients;
+﻿using Client.Messengers.Clients;
 using Client.Messengers.Signin;
 using Common.Libs.AutoInject.Attributes;
 using Common.Server;

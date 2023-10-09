@@ -4,7 +4,7 @@ using Client.Messengers.Relay;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Client.Realize.Messengers.relay
+namespace Client.Realize.Messengers.Relay
 {
     [AutoInject(ServiceLifetime.Singleton,typeof(IClientConnectsCaching))]
     public sealed class ClientConnectsCaching : IClientConnectsCaching

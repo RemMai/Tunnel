@@ -1,16 +1,19 @@
-﻿using common.libs;
-using common.libs.extends;
-using common.server;
-using common.server.model;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Libs.Extends;
+using Common.Server;
+using Common.Server.Model;
+using Server.Messengers.SignIn;
 using System.Text;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.messengers
+namespace Server.Service.Messengers
 {
     /// <summary>
     /// 加密
     /// </summary>
-    [MessengerIdRange((ushort)CryptoMessengerIds.Min, (ushort)CryptoMessengerIds.Max)]
+    [MessengerIdRange((ushort)CryptoMessengerIds.Min, (ushort)CryptoMessengerIds.Max)]   
+    [AutoInject(ServiceLifetime.Singleton)]
     public sealed class CryptoMessenger : IMessenger
     {
         private readonly IAsymmetricCrypto asymmetricCrypto;

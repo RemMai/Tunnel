@@ -9,7 +9,7 @@ namespace Client.Service.Vea.Platforms
     {
         private IVeaPlatform veaPlatform { get; set; }
 
-        private VeaPlatform(Config config)
+        public VeaPlatform(Config config)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

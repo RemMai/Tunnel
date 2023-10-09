@@ -1,34 +1,36 @@
-﻿using common.libs;
+﻿using Common.Libs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using common.server;
-using common.server.servers.iocp;
-using common.server.servers.rudp;
+using Common.Server;
+using Common.Server.Servers.Iocp;
+using Common.Server.Servers.RUdp;
 using System.Reflection;
-using common.libs.database;
-using server.service.validators;
-using server.messengers.singnin;
-using server.service.messengers.singnin;
-using common.proxy;
+using Common.Libs.DataBase;
+using Server.Service.Validators;
+using Server.Messengers.SignIn;
+using Server.Service.Messengers.SignIn;
+using Common.Proxy;
 
-namespace server.service
+namespace Server.Service
 {
     public sealed class Plugin : IPlugin
     {
-        public void LoadBefore(ServiceCollection services, Assembly[] assemblys)
+        public void LoadBefore(ServiceCollection services, Assembly[] assemblies)
         {
+            // TODO
+
             services.AddTransient(typeof(IConfigDataProvider<>), typeof(ConfigDataFileProvider<>));
             services.AddSingleton<Config>();
             services.AddSingleton<ITcpServer, TcpServer>();
             services.AddSingleton<IUdpServer, UdpServer>();
 
             services.AddSingleton<IClientSignInCaching, ClientSignInCaching>();
-            services.AddSingleton<IRelaySourceConnectionSelector, messengers.RelaySourceConnectionSelector>();
+            services.AddSingleton<IRelaySourceConnectionSelector, RelaySourceConnectionSelector>();
 
 
             services.AddSingleton<ISignInValidatorHandler, SignInValidatorHandler>();
             services.AddSingleton<IRelayValidator, RelayValidator>();
-            services.AddSingleton<IServiceAccessValidator, validators.ServiceAccessValidator>();
+            services.AddSingleton<IServiceAccessValidator, Validators.ServiceAccessValidator>();
 
 
             services.AddSingleton<MessengerResolver>();
@@ -37,28 +39,29 @@ namespace server.service
             services.AddSingleton<IAsymmetricCrypto, RsaCrypto>();
             services.AddSingleton<WheelTimer<object>>();
 
-            services.AddSingleton<common.proxy.Config>();
+            services.AddSingleton<Common.Proxy.Config>();
             services.AddSingleton<IProxyMessengerSender, ProxyMessengerSender>();
             services.AddSingleton<IProxyClient, ProxyClient>();
             services.AddSingleton<IProxyServer, ProxyServer>();
             services.AddSingleton<ProxyPluginValidatorHandler>();
-            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblys, typeof(IProxyPluginValidator)))
+            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IProxyPluginValidator)))
             {
                 services.AddSingleton(item);
             }
 
 
-            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblys, typeof(IMessenger)))
+            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IMessenger)))
             {
                 services.AddSingleton(item);
             }
-            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblys, typeof(ISignInValidator)))
+
+            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(ISignInValidator)))
             {
                 services.AddSingleton(item);
             }
         }
 
-        public void LoadAfter(ServiceProvider services, Assembly[] assemblys)
+        public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             var config = services.GetService<Config>();
 
@@ -86,16 +89,15 @@ namespace server.service
             }
 
             MessengerResolver messengerResolver = services.GetService<MessengerResolver>();
-            messengerResolver.LoadMessenger(assemblys);
+            messengerResolver.LoadMessenger(assemblies);
 
             ISignInValidatorHandler signInMiddlewareHandler = services.GetService<ISignInValidatorHandler>();
-            signInMiddlewareHandler.LoadValidator(assemblys);
+            
+            signInMiddlewareHandler.LoadValidator();
 
-            ProxyPluginValidatorHandler proxyPluginValidatorHandler = services.GetService<ProxyPluginValidatorHandler>();
-            proxyPluginValidatorHandler.LoadValidator(assemblys);
+            ProxyPluginValidatorHandler proxyPluginValidatorHandler =
+                services.GetService<ProxyPluginValidatorHandler>();
+            proxyPluginValidatorHandler.LoadValidator(assemblies);
         }
-
-
-
     }
 }

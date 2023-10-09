@@ -1,7 +1,7 @@
 ﻿using Common.ForWard;
 using Common.Server;
 using Common.Server.Model;
-using server.service.forward.model;
+using Server.Service.ForWard.model;
 using System.Threading.Tasks;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;

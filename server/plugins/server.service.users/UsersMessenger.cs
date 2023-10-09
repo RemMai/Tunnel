@@ -1,28 +1,31 @@
-﻿using common.libs;
-using common.libs.extends;
-using common.server;
-using common.user;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Libs.Extends;
+using Common.Server;
+using Common.User;
+using Server.Messengers.SignIn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.users
+namespace Server.Service.Users
 {
     /// <summary>
     /// 服务端权限配置
     /// </summary>
     [MessengerIdRange((ushort)UsersMessengerIds.Min, (ushort)UsersMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class UsersMessenger : IMessenger
     {
         private readonly IServiceAccessValidator serviceAccessValidator;
         private readonly IUserStore userStore;
-        private readonly common.user.Config config;
+        private readonly Common.User.Config config;
         private readonly IUserInfoCaching userInfoCaching;
         private readonly IClientSignInCaching clientSignInCaching;
 
-        public UsersMessenger(IServiceAccessValidator serviceAccessValidator, IUserStore userStore, common.user.Config config, IUserInfoCaching userInfoCaching, IClientSignInCaching clientSignInCaching)
+        public UsersMessenger(IServiceAccessValidator serviceAccessValidator, IUserStore userStore, Common.User.Config config, IUserInfoCaching userInfoCaching, IClientSignInCaching clientSignInCaching)
         {
             this.serviceAccessValidator = serviceAccessValidator;
             this.userStore = userStore;

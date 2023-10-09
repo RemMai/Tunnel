@@ -6,17 +6,16 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace client.service.tray
+namespace Client.Service.Tray
 {
     public partial class Form1 : Form
     {
         private NotifyIcon notifyIcon = null;
         private Process proc;
-        Image unright = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"client.service.tray.right-gray.png"));
-        Image right = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"client.service.tray.right.png"));
-
-        Icon icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"client.service.tray.logo.ico"));
-        Icon iconGray = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"client.service.tray.logo-gray.ico"));
+        private readonly Image unRight = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"Client.Service.Tray.right-gray.png"));
+        private readonly Image right = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"Client.Service.Tray.right.png"));
+        private readonly Icon icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"Client.Service.Tray.logo.ico"));
+        private readonly Icon iconGray = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(@"Client.Service.Tray.logo-gray.ico"));
 
         string name = "p2p-tunnel客户端托盘程序";
 
@@ -57,8 +56,8 @@ namespace client.service.tray
             notifyIcon.Visible = true;
 
             notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-            notifyIcon.ContextMenuStrip.Items.Add("服务托管", unright, Service);
-            notifyIcon.ContextMenuStrip.Items.Add("自启动", unright, StartUp);
+            notifyIcon.ContextMenuStrip.Items.Add("服务托管", unRight, Service);
+            notifyIcon.ContextMenuStrip.Items.Add("自启动", unRight, StartUp);
             notifyIcon.ContextMenuStrip.Items.Add("管理页面", null, OpenWeb);
             notifyIcon.ContextMenuStrip.Items.Add("退出", null, Close);
             notifyIcon.DoubleClick += ContextMenuStrip_MouseDoubleClick;
@@ -81,7 +80,7 @@ namespace client.service.tray
                 else
                 {
                     notifyIcon.BalloonTipText = "托管服务失败";
-                    notifyIcon.ContextMenuStrip.Items[0].Image = unright;
+                    notifyIcon.ContextMenuStrip.Items[0].Image = unRight;
                     notifyIcon.Icon = iconGray;
                 }
                 notifyIcon.ShowBalloonTip(1000);
@@ -90,7 +89,7 @@ namespace client.service.tray
             {
                 notifyIcon.BalloonTipText = "已取消托管服务";
                 notifyIcon.ShowBalloonTip(1000);
-                notifyIcon.ContextMenuStrip.Items[0].Image = unright;
+                notifyIcon.ContextMenuStrip.Items[0].Image = unRight;
                 notifyIcon.Icon = iconGray;
                 KillExe();
             }
@@ -101,7 +100,7 @@ namespace client.service.tray
             {
                 string filename = Process.GetCurrentProcess().MainModule.FileName;
                 string dir = Path.GetDirectoryName(filename);
-                string file = Path.Combine(dir, "./client.service.exe");
+                string file = Path.Combine(dir, "./Client.Service.exe");
                 ProcessStartInfo processStartInfo = new ProcessStartInfo()
                 {
                     WorkingDirectory = dir,
@@ -207,7 +206,7 @@ namespace client.service.tray
             if (has == false)
             {
                 isStartUp = false;
-                notifyIcon.ContextMenuStrip.Items[1].Image = unright;
+                notifyIcon.ContextMenuStrip.Items[1].Image = unRight;
             }
             else
             {
@@ -256,7 +255,7 @@ namespace client.service.tray
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            string resourceName = "client.service.tray." + new AssemblyName(args.Name).Name + ".dll";
+            string resourceName = "Client.Service.Tray." + new AssemblyName(args.Name).Name + ".dll";
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
                 if (stream != null)
@@ -277,18 +276,18 @@ cd  ""%CD%""
 for /f ""tokens=4,5 delims=. "" %%a in ('ver') do if %%a%%b geq 60 goto new
 
 :old
-cmd /c netsh firewall delete allowedprogram program=""%CD%\client.service.exe"" profile=ALL
-cmd /c netsh firewall add allowedprogram program=""%CD%\client.service.exe"" name=""client.service"" ENABLE
-cmd /c netsh firewall add allowedprogram program=""%CD%\client.service.exe"" name=""client.service"" ENABLE profile=ALL
+cmd /c netsh firewall delete allowedprogram program=""%CD%\Client.Service.exe"" profile=ALL
+cmd /c netsh firewall add allowedprogram program=""%CD%\Client.Service.exe"" name=""Client.Service"" ENABLE
+cmd /c netsh firewall add allowedprogram program=""%CD%\Client.Service.exe"" name=""Client.Service"" ENABLE profile=ALL
 goto end
 :new
-cmd /c netsh advfirewall firewall delete rule name=""client.service""
-cmd /c netsh advfirewall firewall add rule name=""client.service"" dir=in action=allow program=""%CD%\client.service.exe"" protocol=tcp enable=yes profile=public
-cmd /c netsh advfirewall firewall add rule name=""client.service"" dir=in action=allow program=""%CD%\client.service.exe"" protocol=udp enable=yes profile=public
-cmd /c netsh advfirewall firewall add rule name=""client.service"" dir=in action=allow program=""%CD%\client.service.exe"" protocol=tcp enable=yes profile=domain
-cmd /c netsh advfirewall firewall add rule name=""client.service"" dir=in action=allow program=""%CD%\client.service.exe"" protocol=udp enable=yes profile=domain
-cmd /c netsh advfirewall firewall add rule name=""client.service"" dir=in action=allow program=""%CD%\client.service.exe"" protocol=tcp enable=yes profile=private
-cmd /c netsh advfirewall firewall add rule name=""client.service"" dir=in action=allow program=""%CD%\client.service.exe"" protocol=udp enable=yes profile=private
+cmd /c netsh advfirewall firewall delete rule name=""Client.Service""
+cmd /c netsh advfirewall firewall add rule name=""Client.Service"" dir=in action=allow program=""%CD%\Client.Service.exe"" protocol=tcp enable=yes profile=public
+cmd /c netsh advfirewall firewall add rule name=""Client.Service"" dir=in action=allow program=""%CD%\Client.Service.exe"" protocol=udp enable=yes profile=public
+cmd /c netsh advfirewall firewall add rule name=""Client.Service"" dir=in action=allow program=""%CD%\Client.Service.exe"" protocol=tcp enable=yes profile=domain
+cmd /c netsh advfirewall firewall add rule name=""Client.Service"" dir=in action=allow program=""%CD%\Client.Service.exe"" protocol=udp enable=yes profile=domain
+cmd /c netsh advfirewall firewall add rule name=""Client.Service"" dir=in action=allow program=""%CD%\Client.Service.exe"" protocol=tcp enable=yes profile=private
+cmd /c netsh advfirewall firewall add rule name=""Client.Service"" dir=in action=allow program=""%CD%\Client.Service.exe"" protocol=udp enable=yes profile=private
 :end";
             System.IO.File.WriteAllText("firewall.bat", content);
 

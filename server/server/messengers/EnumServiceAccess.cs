@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace server.messengers
+namespace Server.Messengers
 {
 
     /// <summary>

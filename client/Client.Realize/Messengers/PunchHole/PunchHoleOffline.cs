@@ -1,7 +1,7 @@
 ﻿using Common.Server;
 using Common.Server.Model;
 using System.Threading.Tasks;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;

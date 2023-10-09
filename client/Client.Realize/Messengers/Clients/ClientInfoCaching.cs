@@ -4,7 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 

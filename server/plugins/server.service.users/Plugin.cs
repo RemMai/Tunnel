@@ -1,16 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using common.server;
+using Common.Server;
 using System.Reflection;
-using common.user;
-using common.libs;
+using Common.User;
+using Common.Libs;
+using System;
 
-namespace server.service.users
+namespace Server.Service.Users
 {
     public sealed class Plugin : IPlugin
     {
-        public void LoadAfter(ServiceProvider services, Assembly[] assemblys)
+        public void Init(IServiceProvider services, Assembly[] assemblies)
         {
-            var config = services.GetService<common.user.Config>();
+            var config = services.GetService<Common.User.Config>();
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             Logger.Instance.Info("账号模块已加载");
             if (config.Enable)
@@ -22,13 +23,6 @@ namespace server.service.users
                 Logger.Instance.Info($"未启用账号验证");
             }
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-        }
-
-        public void LoadBefore(ServiceCollection services, Assembly[] assemblys)
-        {
-            services.AddSingleton<common.user.Config>();
-            services.AddSingleton<IUserStore, UserStore>();
-            services.AddSingleton<IUserInfoCaching, SignInAccessValidator>();
         }
     }
 }

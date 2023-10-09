@@ -19,9 +19,9 @@
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\common\common.proxy\common.proxy.csproj" />
-	  <ProjectReference Include="..\..\..\common\common.vea\common.vea.csproj" />
-	  <ProjectReference Include="..\..\server\server.csproj" />
+	  <ProjectReference Include="..\..\..\common\Common.Proxy\Common.Proxy.csproj" />
+	  <ProjectReference Include="..\..\..\common\Common.Vea\Common.Vea.csproj" />
+	  <ProjectReference Include="..\..\server\Server.csproj" />
 	</ItemGroup>
 
 </Project>

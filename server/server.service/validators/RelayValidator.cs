@@ -1,13 +1,15 @@
-﻿using common.server;
-using server.messengers.singnin;
-using common.server.model;
+﻿using Common.Server;
+using Server.Messengers.SignIn;
+using Common.Server.Model;
 using System.Collections.Generic;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.validators
+namespace Server.Service.Validators
 {
+    [AutoInject(ServiceLifetime.Singleton, typeof(IRelayValidator), typeof(ISignInValidator), typeof(IAccess))]
     public sealed class RelayValidator : IRelayValidator, ISignInValidator, IAccess
     {
-
         private readonly Config config;
         private readonly IServiceAccessValidator serviceAccessProvider;
 
@@ -21,6 +23,7 @@ namespace server.service.validators
             this.config = config;
             this.serviceAccessProvider = serviceAccessProvider;
         }
+
         public bool Validate(IConnection connection)
         {
             return config.RelayEnable || serviceAccessProvider.Validate(connection.ConnectId, Access);
@@ -34,11 +37,10 @@ namespace server.service.validators
 
         public void Validated(SignInCacheInfo cache)
         {
-
         }
     }
 
-
+    [AutoInject(ServiceLifetime.Singleton, typeof(ISignInValidator), typeof(IAccess))]
     public sealed class SettingValidator : ISignInValidator, IAccess
     {
         public EnumSignInValidatorOrder Order => EnumSignInValidatorOrder.Level9;

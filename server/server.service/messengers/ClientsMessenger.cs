@@ -1,22 +1,27 @@
-﻿using common.libs;
-using common.libs.extends;
-using common.server;
-using common.server.model;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Libs.Extends;
+using Common.Server;
+using Common.Server.Model;
+using Server.Messengers.SignIn;
 using System.Net;
 using System;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.messengers
+namespace Server.Service.Messengers
 {
     /// <summary>
     /// 客户端
     /// </summary>
     [MessengerIdRange((ushort)ClientsMessengerIds.Min, (ushort)ClientsMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class ClientsMessenger : IMessenger
     {
         private readonly IClientSignInCaching clientSignInCache;
         private readonly ClientsMessenger clientsMessenger;
-        public ClientsMessenger(IClientSignInCaching clientSignInCache, IUdpServer udpServer, MessengerResolver messenger)
+
+        public ClientsMessenger(IClientSignInCaching clientSignInCache, IUdpServer udpServer,
+            MessengerResolver messenger)
         {
             this.clientSignInCache = clientSignInCache;
 
@@ -24,6 +29,7 @@ namespace server.service.messengers
             {
                 clientsMessenger = obj as ClientsMessenger;
             }
+
             udpServer.OnMessage += (IPEndPoint remoteEndpoint, Memory<byte> data) =>
             {
                 try
@@ -65,6 +71,7 @@ namespace server.service.messengers
             AddTunnel(model, connection.Address.Port);
             connection.Write((ushort)connection.Address.Port);
         }
+
         public void AddTunnel(TunnelRegisterInfo model, int port)
         {
             if (clientSignInCache.Get(model.TargetId, out SignInCacheInfo target))

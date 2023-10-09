@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection;
 using System.Threading.Tasks;
 using Common.Libs;
@@ -12,7 +13,6 @@ using Common.Server.Model;
 
 namespace Common.Server
 {
-    
     /// <summary>
     /// 消息处理总线
     /// </summary>
@@ -20,84 +20,99 @@ namespace Common.Server
     public sealed class MessengerResolver
     {
         delegate void VoidDelegate(IConnection connection);
+
         delegate Task TaskDelegate(IConnection connection);
 
         private readonly Dictionary<ushort, MessengerCacheInfo> messengers = new();
 
-        private readonly ITcpServer tcpserver;
-        private readonly IUdpServer udpserver;
+        private readonly ITcpServer _tcpServer;
+        private readonly IUdpServer _udpServer;
         private readonly MessengerSender messengerSender;
         private readonly IRelaySourceConnectionSelector sourceConnectionSelector;
-        private readonly IRelayValidator relayValidator;
-        private readonly IServiceProvider serviceProvider;
+        private readonly IRelayValidator _relayValidator;
+        private readonly IServiceProvider _serviceProvider;
 
 
-        public MessengerResolver(IUdpServer udpserver, ITcpServer tcpserver, MessengerSender messengerSender,
-            IRelaySourceConnectionSelector sourceConnectionSelector, IRelayValidator relayValidator, IServiceScopeFactory serviceScopeFactory)
+        public MessengerResolver(IUdpServer udpServer, ITcpServer tcpServer, MessengerSender messengerSender,
+            IRelaySourceConnectionSelector sourceConnectionSelector, IRelayValidator relayValidator,
+            IServiceScopeFactory serviceScopeFactory)
         {
-            this.tcpserver = tcpserver;
-            this.udpserver = udpserver;
+            this._tcpServer = tcpServer;
+            this._udpServer = udpServer;
             this.messengerSender = messengerSender;
-
-            this.tcpserver.OnPacket = InputData;
-            this.udpserver.OnPacket = InputData;
+            this._tcpServer.OnPacket = InputData;
+            this._udpServer.OnPacket = InputData;
             this.sourceConnectionSelector = sourceConnectionSelector;
-            this.relayValidator = relayValidator;
-            this.serviceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
+            this._relayValidator = relayValidator;
+            this._serviceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
         }
 
-        public void LoadMessenger(Assembly[] assemblys)
+        public void LoadMessenger(Assembly[] assemblies)
         {
             Type voidType = typeof(void);
             Type midType = typeof(MessengerIdAttribute);
 
-            foreach (Type type in ReflectionHelper.GetInterfaceSchieves(assemblys, typeof(IMessenger)).Distinct())
+            var messages = _serviceProvider.GetServices<IMessenger>();
+            foreach (IMessenger messenger in messages)
             {
-                object obj = serviceProvider.GetService(type);
+                Console.WriteLine(messenger.GetType().FullName);
+            }
 
-                foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
+
+            foreach (IMessenger messenger in _serviceProvider.GetServices<IMessenger>())
+            {
+                foreach (var method in messenger.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public |
+                                                                      BindingFlags.DeclaredOnly))
                 {
-                    MessengerIdAttribute mid = method.GetCustomAttribute(midType) as MessengerIdAttribute;
-                    if (mid != null)
+                    if (method.GetCustomAttribute(midType) is MessengerIdAttribute mid)
                     {
                         if (messengers.ContainsKey(mid.Id) == false)
                         {
-                            MessengerCacheInfo cache = new MessengerCacheInfo
+                            MessengerCacheInfo cache = new()
                             {
-                                Target = obj
+                                Target = messenger
                             };
                             if (method.ReturnType == voidType)
                             {
-                                cache.VoidMethod = (VoidDelegate)Delegate.CreateDelegate(typeof(VoidDelegate), obj, method);
+                                cache.VoidMethod =
+                                    (VoidDelegate)Delegate.CreateDelegate(typeof(VoidDelegate), messenger, method);
                             }
-                            else if (method.ReturnType.GetProperty("IsCompleted") != null && method.ReturnType.GetMethod("GetAwaiter") != null)
+                            else if (method.ReturnType.GetProperty("IsCompleted") != null &&
+                                     method.ReturnType.GetMethod("GetAwaiter") != null)
                             {
-                                cache.TaskMethod = (TaskDelegate)Delegate.CreateDelegate(typeof(TaskDelegate), obj, method);
+                                cache.TaskMethod =
+                                    (TaskDelegate)Delegate.CreateDelegate(typeof(TaskDelegate), messenger, method);
                             }
 
                             messengers.TryAdd(mid.Id, cache);
+                            Logger.Instance.Info($"{messenger.GetType().Name}->{method.Name}->{mid.Id} 消息id已存在");
                         }
                         else
                         {
-                            Logger.Instance.Error($"{type.Name}->{method.Name}->{mid.Id} 消息id已存在");
+                            Logger.Instance.Error($"{messenger.GetType().Name}->{method.Name}->{mid.Id} 消息id已存在");
                         }
                     }
                 }
             }
 
 
-            List<Tuple<string, ushort, ushort>> ushorts = ReflectionHelper.GetEnums(assemblys).Where(c => c.Name.EndsWith("MessengerIds")).Distinct().Select(item =>
-            {
-                var fields = item.GetFields(BindingFlags.Static | BindingFlags.Public).Select(c => (ushort)c.GetValue(null));
-                return new Tuple<string, ushort, ushort>(item.Name, fields.Min(), fields.Max());
-            }).OrderBy(c => c.Item2).ToList();
+            List<Tuple<string, ushort, ushort>> uShorts = ReflectionHelper.GetEnums(assemblies)
+                .Where(c => c.Name.EndsWith("MessengerIds")).Distinct().Select(item =>
+                {
+                    var fields = item
+                        .GetFields(BindingFlags.Static | BindingFlags.Public)
+                        .Select(c => (ushort)c.GetValue(null)!).ToArray();
+
+                    return new Tuple<string, ushort, ushort>(item.Name, fields.Min(), fields.Max());
+                }).OrderBy(c => c.Item2).ToList();
 
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             Logger.Instance.Debug($"枚举类型ushort，已存在消息列表如下:");
-            foreach (var item in ushorts)
+            foreach (var item in uShorts)
             {
                 Logger.Instance.Info($"{item.Item1.PadLeft(32, '-')}  {item.Item2}-{item.Item3}");
             }
+
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
 
@@ -109,6 +124,7 @@ namespace Common.Server
                 obj = cache.Target;
                 return true;
             }
+
             return false;
         }
 
@@ -140,7 +156,8 @@ namespace Common.Server
                     responseWrap.FromArray(readReceive);
                     if (responseWrap.Relay && responseWrap.RelayIdLength - 1 - responseWrap.RelayIdIndex >= 0)
                     {
-                        ulong nextId = responseWrap.RelayIds.Span.Slice(responseWrap.RelayIdIndex * MessageRequestWrap.RelayIdSize).ToUInt64();
+                        ulong nextId = responseWrap.RelayIds.Span
+                            .Slice(responseWrap.RelayIdIndex * MessageRequestWrap.RelayIdSize).ToUInt64();
                         //目的地连接对象
                         IConnection _connection = sourceConnectionSelector.Select(connection, nextId);
                         if (_connection == null || ReferenceEquals(connection, _connection)) return;
@@ -160,12 +177,16 @@ namespace Common.Server
                         {
                             if (responseWrap.Relay)
                             {
-                                connection.FromConnection = sourceConnectionSelector.Select(connection, responseWrap.RelayIds.Span.ToUInt64());
+                                connection.FromConnection =
+                                    sourceConnectionSelector.Select(connection, responseWrap.RelayIds.Span.ToUInt64());
                             }
+
                             responseWrap.Payload = connection.FromConnection.Crypto.Decode(responseWrap.Payload);
                         }
+
                         messengerSender.Response(responseWrap);
                     }
+
                     return;
                 }
 
@@ -177,9 +198,10 @@ namespace Common.Server
                     //还在路上
                     if (requestWrap.RelayIdLength - 1 - requestWrap.RelayIdIndex >= 0)
                     {
-                        if (relayValidator.Validate(connection))
+                        if (_relayValidator.Validate(connection))
                         {
-                            ulong nextId = requestWrap.RelayIds.Span.Slice(requestWrap.RelayIdIndex * MessageRequestWrap.RelayIdSize).ToUInt64();
+                            ulong nextId = requestWrap.RelayIds.Span
+                                .Slice(requestWrap.RelayIdIndex * MessageRequestWrap.RelayIdSize).ToUInt64();
                             //目的地连接对象
                             IConnection _connection = sourceConnectionSelector.Select(connection, nextId);
                             if (_connection == null || ReferenceEquals(connection, _connection)) return;
@@ -194,20 +216,24 @@ namespace Common.Server
                                 _connection.Release();
                             }
                         }
+
                         return;
                     }
                 }
 
                 if (requestWrap.Relay)
                 {
-                    connection.FromConnection = sourceConnectionSelector.Select(connection, requestWrap.RelayIds.Span.ToUInt64());
+                    connection.FromConnection =
+                        sourceConnectionSelector.Select(connection, requestWrap.RelayIds.Span.ToUInt64());
                 }
+
                 IConnection responseConnection = connection;
                 if (connection.EncodeEnabled && requestWrap.Encode)
                 {
                     responseConnection = connection.FromConnection;
                     requestWrap.Payload = connection.FromConnection.Crypto.Decode(requestWrap.Payload);
                 }
+
                 //404,没这个插件
                 if (messengers.TryGetValue(requestWrap.MessengerId, out MessengerCacheInfo plugin) == false)
                 {
@@ -224,9 +250,10 @@ namespace Common.Server
                             RequestId = requestWrap.RequestId
                         }).ConfigureAwait(false);
                     }
+
                     return;
                 }
-               
+
                 if (plugin.VoidMethod != null)
                 {
                     plugin.VoidMethod(connection);
@@ -255,7 +282,8 @@ namespace Common.Server
                     Logger.Instance.Error(ex);
                     if (receive.Length > 1024)
                     {
-                        Logger.Instance.Error($"{connection.Address}:{string.Join(",", receive.Slice(0, 1024).ToArray())}");
+                        Logger.Instance.Error(
+                            $"{connection.Address}:{string.Join(",", receive.Slice(0, 1024).ToArray())}");
                     }
                     else
                     {
@@ -268,7 +296,6 @@ namespace Common.Server
             {
                 connection.Return();
             }
-
         }
 
 
@@ -280,11 +307,13 @@ namespace Common.Server
             /// <summary>
             /// 对象
             /// </summary>
-            public object Target { get; set; }
+            public IMessenger Target { get; set; }
+
             /// <summary>
             /// 空返回方法
             /// </summary>
             public VoidDelegate VoidMethod { get; set; }
+
             /// <summary>
             /// Task返回方法
             /// </summary>

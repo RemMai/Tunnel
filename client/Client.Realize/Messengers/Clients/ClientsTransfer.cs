@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.Tcp;
 using Client.Messengers.PunchHole.udp;
@@ -15,7 +15,7 @@ using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;
 using Client.Realize.Messengers.Heart;
 using Client.Realize.Messengers.PunchHole;
-using Client.Realize.Messengers.relay;
+using Client.Realize.Messengers.Relay;
 using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
@@ -429,13 +429,13 @@ namespace Client.Realize.Messengers.Clients
         {
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"clients 登出清理");
+                Logger.Instance.Debug($"Clients 登出清理");
             }
             firstClients.Reset();
             clientInfoCaching.Clear();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"clients 登出清理结束");
+                Logger.Instance.Debug($"Clients 登出清理结束");
             }
         }
 
@@ -558,7 +558,7 @@ namespace Client.Realize.Messengers.Clients
         {
             if ((signInState.RemoteInfo.Access & 1) != 1)
             {
-                Logger.Instance.Warning($"server relay not available");
+                Logger.Instance.Warning($"server Relay not available");
                 return;
             }
 
@@ -598,7 +598,7 @@ namespace Client.Realize.Messengers.Clients
                 bool relayResult = await relayMessengerSender.Relay(relayids, connection);
                 if (relayResult == false)
                 {
-                    Logger.Instance.Error($"relay fail");
+                    Logger.Instance.Error($"Relay fail");
                     return;
                 }
                 if (config.Client.Encode)

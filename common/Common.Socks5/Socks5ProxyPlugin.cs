@@ -3,8 +3,11 @@ using Common.Libs.Extends;
 using System;
 using System.Text;
 using Common.Libs;
+using Common.Libs.AutoInject.Attributes;
 using Common.Proxy;
+using Common.Server;
 using Common.Server.Model;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.socks5
 {
@@ -12,6 +15,8 @@ namespace Common.socks5
     {
         public IPAddress ProxyIp => IPAddress.Any;
     }
+
+    [AutoInject(ServiceLifetime.Singleton, typeof(IAccess), typeof(ISocks5ProxyPlugin))]
     public class Socks5ProxyPlugin : ISocks5ProxyPlugin
     {
         public virtual byte Id => 0;
@@ -27,8 +32,8 @@ namespace Common.socks5
         public virtual ushort Port => 0;
 
 
-
         private readonly IProxyServer proxyServer;
+
         public Socks5ProxyPlugin(IProxyServer proxyServer)
         {
             this.proxyServer = proxyServer;
@@ -40,6 +45,7 @@ namespace Common.socks5
             {
                 info.Rsv = (byte)Socks5EnumStep.Request;
             }
+
             return (Socks5EnumStep)info.Rsv switch
             {
                 Socks5EnumStep.Request => Socks5Parser.ValidateRequestData(info.Data),
@@ -68,6 +74,7 @@ namespace Common.socks5
                 proxyServer.InputData(info);
                 return false;
             }
+
             //command 的
             if (info.Step == EnumProxyStep.Command)
             {
@@ -98,9 +105,11 @@ namespace Common.socks5
                 if (info.TargetPort == 53)
                 {
                     if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Debug($"[DNS查询]:{string.Join(",", info.Data.ToArray())}:{Encoding.UTF8.GetString(info.Data.ToArray())}");
+                        Logger.Instance.Debug(
+                            $"[DNS查询]:{string.Join(",", info.Data.ToArray())}:{Encoding.UTF8.GetString(info.Data.ToArray())}");
                 }
             }
+
             if (info.TargetAddress.GetIsAnyAddress()) return false;
 
             return true;
@@ -121,30 +130,32 @@ namespace Common.socks5
             switch (info.Step)
             {
                 case EnumProxyStep.Command:
-                    {
-                        //command的，需要区分成功和失败，成功则回复指定数据，失败则关闭连接
-                        Socks5EnumResponseCommand type = (Socks5EnumResponseCommand)info.CommandStatus;
-                        info.Data = Socks5Parser.MakeConnectResponse(new IPEndPoint(ProxyIp, Port), (byte)type);
-                        //走到转发步骤
-                        info.Rsv = (byte)Socks5EnumStep.Forward;
-                        info.Step = EnumProxyStep.ForwardTcp;
-                    }
+                {
+                    //command的，需要区分成功和失败，成功则回复指定数据，失败则关闭连接
+                    Socks5EnumResponseCommand type = (Socks5EnumResponseCommand)info.CommandStatus;
+                    info.Data = Socks5Parser.MakeConnectResponse(new IPEndPoint(ProxyIp, Port), (byte)type);
+                    //走到转发步骤
+                    info.Rsv = (byte)Socks5EnumStep.Forward;
+                    info.Step = EnumProxyStep.ForwardTcp;
+                }
                     break;
                 case EnumProxyStep.ForwardTcp:
-                    {
-                        info.Rsv = (byte)Socks5EnumStep.Forward;
-                        info.Step = EnumProxyStep.ForwardTcp;
-                    }
+                {
+                    info.Rsv = (byte)Socks5EnumStep.Forward;
+                    info.Step = EnumProxyStep.ForwardTcp;
+                }
                     break;
                 case EnumProxyStep.ForwardUdp:
-                    {
-                        //组装udp包
-                        info.Data = Socks5Parser.MakeUdpResponse(new IPEndPoint(new IPAddress(info.TargetAddress.Span), info.TargetPort), info.Data);
-                        info.Rsv = (byte)Socks5EnumStep.ForwardUdp;
-                        info.Step = EnumProxyStep.ForwardUdp;
-                    }
+                {
+                    //组装udp包
+                    info.Data = Socks5Parser.MakeUdpResponse(
+                        new IPEndPoint(new IPAddress(info.TargetAddress.Span), info.TargetPort), info.Data);
+                    info.Rsv = (byte)Socks5EnumStep.ForwardUdp;
+                    info.Step = EnumProxyStep.ForwardUdp;
+                }
                     break;
             }
+
             return true;
         }
 
@@ -152,7 +163,8 @@ namespace Common.socks5
         {
             try
             {
-                info.TargetAddress = Socks5Parser.GetRemoteEndPoint(info.Data, out Socks5EnumAddressType addressType, out ushort port, out index);
+                info.TargetAddress = Socks5Parser.GetRemoteEndPoint(info.Data, out Socks5EnumAddressType addressType,
+                    out ushort port, out index);
                 info.AddressType = (EnumProxyAddressType)addressType;
                 info.TargetPort = port;
             }
@@ -164,7 +176,5 @@ namespace Common.socks5
                 throw;
             }
         }
-
-
     }
 }

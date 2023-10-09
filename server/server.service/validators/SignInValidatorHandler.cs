@@ -1,13 +1,15 @@
-﻿using common.server.model;
-using server.messengers.singnin;
+﻿using Common.Server.Model;
+using Server.Messengers.SignIn;
 using Microsoft.Extensions.DependencyInjection;
-using common.libs;
+using Common.Libs;
 using System.Reflection;
 using System.Linq;
 using System;
+using Common.Libs.AutoInject.Attributes;
 
-namespace server.service.validators
+namespace Server.Service.Validators
 {
+    [AutoInject(ServiceLifetime.Singleton, typeof(ISignInValidatorHandler))]
     public sealed class SignInValidatorHandler : ISignInValidatorHandler
     {
         Wrap<ISignInValidator> first;
@@ -15,17 +17,20 @@ namespace server.service.validators
 
         private readonly Config config;
         private readonly IClientSignInCaching clientSignInCache;
-        private readonly ServiceProvider serviceProvider;
-        public SignInValidatorHandler(Config config, IClientSignInCaching clientSignInCache, ServiceProvider serviceProvider)
+        private readonly IServiceProvider serviceProvider;
+
+        public SignInValidatorHandler(Config config, IClientSignInCaching clientSignInCache,
+            IServiceScopeFactory serviceScopeFactory)
         {
             this.config = config;
             this.clientSignInCache = clientSignInCache;
-            this.serviceProvider = serviceProvider;
+            this.serviceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
         }
 
-        public void LoadValidator(Assembly[] assemblys)
+        public void LoadValidator()
         {
-            foreach (ISignInValidator validator in ReflectionHelper.GetInterfaceSchieves(assemblys, typeof(ISignInValidator)).Distinct().Select(c => (ISignInValidator)serviceProvider.GetService(c)).OrderBy(c => c.Order))
+            foreach (ISignInValidator validator in
+                     serviceProvider.GetServices<ISignInValidator>().OrderBy(c => c.Order))
             {
                 if (first == null)
                 {
@@ -43,7 +48,8 @@ namespace server.service.validators
         public SignInResultInfo.SignInResultInfoCodes Validate(SignInParamsInfo model, ref uint access)
         {
             //未开启登入，且不是管理员分组
-            if (config.RegisterEnable == false && (string.IsNullOrWhiteSpace(config.AdminGroup) || model.GroupId != config.AdminGroup))
+            if (config.RegisterEnable == false &&
+                (string.IsNullOrWhiteSpace(config.AdminGroup) || model.GroupId != config.AdminGroup))
             {
                 return SignInResultInfo.SignInResultInfoCodes.ENABLE;
             }
@@ -54,7 +60,8 @@ namespace server.service.validators
                 try
                 {
                     //同个设备
-                    if (model.Connection.Address.Address.Equals(client.Connection.Address.Address) && model.LocalIps[1].Equals(client.LocalIps[1]))
+                    if (model.Connection.Address.Address.Equals(client.Connection.Address.Address) &&
+                        model.LocalIps[1].Equals(client.LocalIps[1]))
                     {
                         clientSignInCache.Remove(client.ConnectionId);
                     }
@@ -72,7 +79,7 @@ namespace server.service.validators
             //是管理员分组的
             if (string.IsNullOrWhiteSpace(config.AdminGroup) == false && model.GroupId == config.AdminGroup)
             {
-                access |= (uint)common.server.EnumServiceAccess.All;
+                access |= (uint)Common.Server.EnumServiceAccess.All;
             }
             else
             {
@@ -86,6 +93,7 @@ namespace server.service.validators
                     {
                         return code;
                     }
+
                     current = current.Next;
                 }
             }

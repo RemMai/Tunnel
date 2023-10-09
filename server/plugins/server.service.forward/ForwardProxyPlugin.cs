@@ -1,20 +1,27 @@
-﻿using common.forward;
-using common.proxy;
-using server.messengers.singnin;
+﻿using Common.ForWard;
+using Common.Proxy;
+using Server.Messengers.SignIn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.forward
+namespace Server.Service.ForWard
 {
-    public sealed class ForwardProxyPlugin : common.forward.ForwardProxyPlugin, IForwardProxyPlugin
+    [AutoInject(ServiceLifetime.Singleton, typeof(IForwardProxyPlugin))]
+    public sealed class ForwardProxyPlugin : Common.ForWard.ForwardProxyPlugin
     {
         public override HttpHeaderCacheInfo Headers { get; set; }
         public override Memory<byte> HeadersBytes { get; set; }
 
-        public ForwardProxyPlugin(common.forward.Config config, IProxyServer proxyServer,
-            IForwardTargetProvider forwardTargetProvider, IClientSignInCaching clientSignInCaching,
-            IForwardTargetCaching<ForwardTargetCacheInfo> forwardTargetCaching) : base(config, proxyServer, forwardTargetProvider)
+        public ForwardProxyPlugin(
+            Common.ForWard.Config config,
+            IProxyServer proxyServer,
+            IForwardTargetProvider forwardTargetProvider,
+            IClientSignInCaching clientSignInCaching,
+            IForwardTargetCaching<ForwardTargetCacheInfo> forwardTargetCaching)
+            : base(config, proxyServer, forwardTargetProvider)
         {
             clientSignInCaching.OnOffline += (client) =>
             {
@@ -31,7 +38,8 @@ namespace server.service.forward
 
         public override bool HandleRequestData(ProxyInfo info)
         {
-            info.ProxyPlugin.Headers = new HttpHeaderCacheInfo { Addr = info.ClientEP.Address, Name = "/", Proxy = Name };
+            info.ProxyPlugin.Headers = new HttpHeaderCacheInfo
+                { Addr = info.ClientEP.Address, Name = "/", Proxy = Name };
             return base.HandleRequestData(info);
         }
     }

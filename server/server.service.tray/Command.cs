@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace server.service.tray
+namespace Server.Service.Tray
 {
     public sealed class Command
     {

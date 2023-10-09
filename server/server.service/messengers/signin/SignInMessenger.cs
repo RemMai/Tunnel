@@ -1,13 +1,13 @@
-﻿using common.libs;
-using common.server;
-using common.server.model;
-using server.messengers;
-using server.messengers.singnin;
-using server.service.validators;
+﻿using Common.Libs;
+using Common.Server;
+using Common.Server.Model;
+using Server.Messengers;
+using Server.Messengers.SignIn;
+using Server.Service.Validators;
 using System;
 using System.Threading.Tasks;
 
-namespace server.service.messengers.singnin
+namespace Server.Service.Messengers.SignIn
 {
 
     /// <summary>
@@ -34,7 +34,7 @@ namespace server.service.messengers.singnin
             model.DeBytes(connection.ReceiveRequestWrap.Payload);
             model.Connection = connection;
 
-            uint access = (uint)common.server.EnumServiceAccess.None;
+            uint access = (uint)Common.Server.EnumServiceAccess.None;
             //登入验证
             SignInResultInfo.SignInResultInfoCodes code = signInValidatorHandler.Validate(model, ref access);
             if (code != SignInResultInfo.SignInResultInfoCodes.OK)

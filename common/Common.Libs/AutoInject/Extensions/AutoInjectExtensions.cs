@@ -20,7 +20,7 @@ public static class AutoInjectExtensions
     {
         var allTypes = assemblies
             .SelectMany(assembly => assembly.GetTypes().Where(type =>
-                type is { IsClass: true, IsAbstract: false, IsPublic: true }
+                type is { IsClass: true, IsAbstract: false }
                 && type.IsDefined(typeof(AutoInjectAttribute), false)
             ))
             .ToList();

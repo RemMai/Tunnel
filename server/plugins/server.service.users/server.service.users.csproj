@@ -19,8 +19,8 @@
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\common\common.user\common.user.csproj" />
-	  <ProjectReference Include="..\..\server\server.csproj" />
+	  <ProjectReference Include="..\..\..\common\Common.User\Common.User.csproj" />
+	  <ProjectReference Include="..\..\server\Server.csproj" />
 	</ItemGroup>
 
 </Project>

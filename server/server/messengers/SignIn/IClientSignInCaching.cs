@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace server.messengers.singnin
+namespace Server.Messengers.SignIn
 {
     public interface IClientSignInCaching
     {

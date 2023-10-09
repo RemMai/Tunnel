@@ -1,20 +1,22 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using common.libs;
-using common.server;
+using Common.Libs;
+using Common.Server;
 using System.Reflection;
-using common.forward;
-using common.proxy;
+using Common.ForWard;
+using Common.Proxy;
+using System;
 
-namespace server.service.forward
+namespace Server.Service.ForWard
 {
     public sealed class Plugin : IPlugin
     {
-        public void LoadAfter(ServiceProvider services, Assembly[] assemblys)
+        public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             ProxyPluginLoader.LoadPlugin(services.GetService<IForwardProxyPlugin>());
+            
             IProxyServer proxyServer = services.GetService<IProxyServer>();
 
-            common.forward.Config config = services.GetService<common.forward.Config>();
+            Common.ForWard.Config config = services.GetService<Common.ForWard.Config>();
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             Logger.Instance.Info($"端口转发穿透已加载，插件id:{config.Plugin}");
             if (config.ConnectEnable)
@@ -34,18 +36,6 @@ namespace server.service.forward
             }
 
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-        }
-
-        public void LoadBefore(ServiceCollection services, Assembly[] assemblys)
-        {
-            services.AddSingleton<common.forward.Config>();//启动器
-
-            services.AddSingleton<IForwardTargetCaching<ForwardTargetCacheInfo>, ForwardTargetCaching>();
-
-
-            services.AddSingleton<IForwardTargetProvider, ForwardTargetProvider>();
-            services.AddSingleton<IForwardProxyPlugin, ForwardProxyPlugin>();
-
         }
     }
 }

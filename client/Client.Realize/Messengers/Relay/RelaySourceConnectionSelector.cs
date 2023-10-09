@@ -1,10 +1,10 @@
-﻿using Client.Messengers.clients;
+﻿using Client.Messengers.Clients;
 using Client.Messengers.Relay;
 using Common.Libs.AutoInject.Attributes;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Client.Realize.Messengers.relay
+namespace Client.Realize.Messengers.Relay
 {
     [AutoInject(ServiceLifetime.Singleton,typeof(IRelaySourceConnectionSelector))]
     public sealed class RelaySourceConnectionSelector : IRelaySourceConnectionSelector

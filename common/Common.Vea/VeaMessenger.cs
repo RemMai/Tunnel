@@ -13,13 +13,13 @@ namespace Common.Vea
     /// 组网消息
     /// </summary>
     [MessengerIdRange((ushort)VeaSocks5MessengerIds.Min, (ushort)VeaSocks5MessengerIds.Max)]
-    
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class VeaMessenger : IMessenger
     {
         private readonly Config config;
         private readonly IVeaAccessValidator veaValidator;
         private readonly MessengerSender sender;
+
         public VeaMessenger(Config config, IVeaAccessValidator veaValidator, MessengerSender sender)
         {
             this.config = config;
@@ -35,11 +35,13 @@ namespace Common.Vea
                 connection.WriteUTF8(new DHCPInfo { IP = config.DefaultIPValue }.ToJson());
                 return;
             }
+
             DHCPInfo info = config.GetNetwork(result.Key);
             foreach (var item in info.Assigned)
             {
                 item.Value.OnLine = item.Value.Connection != null && item.Value.Connection.Connected;
             }
+
             connection.WriteUTF8(info.ToJson());
         }
 
@@ -51,6 +53,7 @@ namespace Common.Vea
                 connection.Write(Helper.FalseArray);
                 return;
             }
+
             config.AddNetwork(result.Key, connection.ReceiveRequestWrap.Payload.ToUInt32(), (assign) =>
             {
                 if (assign.Connection != null && assign.Connection.Connected)
@@ -74,6 +77,7 @@ namespace Common.Vea
                 connection.Write((uint)0);
                 return;
             }
+
             byte ip = connection.ReceiveRequestWrap.Payload.Span[0];
             uint newIP = config.AssignIP(result.Key, ip, connection, result.Name);
             connection.Write(newIP);
@@ -101,6 +105,7 @@ namespace Common.Vea
                     Payload = BitConverter.GetBytes(newIP)
                 });
             }
+
             connection.Write(Helper.TrueArray);
         }
 
@@ -134,6 +139,7 @@ namespace Common.Vea
                 connection.Write(Helper.FalseArray);
                 return;
             }
+
             string jsonStr = connection.ReceiveRequestWrap.Payload.GetUTF8String();
             await config.SaveConfig(jsonStr);
 

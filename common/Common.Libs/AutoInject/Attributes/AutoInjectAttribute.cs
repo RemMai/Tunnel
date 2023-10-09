@@ -20,21 +20,26 @@ public class AutoInjectAttribute : Attribute
     /// </summary>
     public List<Type> ImplementationInterfaces { get; } = new();
 
+    public bool InjectSelf { get; set; } = false;
+
+
     /// <summary>
     /// AutoInject , Custom definition 
     /// </summary>
     /// <param name="life"> <para>1: Scoped </para> <para>2: Singleton</para><para>3: Transient</para> </param>
+    /// <param name="injectSelf"></param>
     /// <param name="implementationInterface"></param>
+    public AutoInjectAttribute(ServiceLifetime life, bool injectSelf, params Type[] implementationInterface)
+    {
+        Life = life;
+        InjectSelf = injectSelf;
+        ImplementationInterfaces.AddRange(implementationInterface);
+    }
+
     public AutoInjectAttribute(ServiceLifetime life, params Type[] implementationInterface)
     {
         Life = life;
         ImplementationInterfaces.AddRange(implementationInterface);
-    }
-
-    public AutoInjectAttribute(ServiceLifetime life, Type implementationInterface)
-    {
-        Life = life;
-        ImplementationInterfaces.Add(implementationInterface);
     }
 
 
@@ -42,9 +47,10 @@ public class AutoInjectAttribute : Attribute
     ///  AutoInject, default Scoped
     /// </summary>
     /// <param name="implementationInterface"></param>
-    public AutoInjectAttribute(Type implementationInterface)
+    public AutoInjectAttribute(bool injectSelf, Type implementationInterface)
     {
         Life = ServiceLifetime.Scoped;
+        InjectSelf = injectSelf;
         ImplementationInterfaces.Add(implementationInterface);
     }
 
@@ -52,9 +58,10 @@ public class AutoInjectAttribute : Attribute
     ///  AutoInject, default Scoped
     /// </summary>
     /// <param name="implementationInterfaces"></param>
-    public AutoInjectAttribute(params Type[] implementationInterfaces)
+    public AutoInjectAttribute(bool injectSelf, params Type[] implementationInterfaces)
     {
         Life = ServiceLifetime.Scoped;
+        InjectSelf = injectSelf;
         ImplementationInterfaces.AddRange(implementationInterfaces);
     }
 

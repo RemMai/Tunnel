@@ -1,10 +1,13 @@
-﻿using common.forward;
-using common.libs;
-using common.proxy;
-using server.messengers.singnin;
+﻿using Common.ForWard;
+using Common.Libs;
+using Common.Libs.AutoInject.Attributes;
+using Common.Proxy;
+using Microsoft.Extensions.DependencyInjection;
+using Server.Messengers.SignIn;
 
-namespace server.service.forward
+namespace Server.Service.ForWard
 {
+    [AutoInject(ServiceLifetime.Singleton, typeof(IForwardTargetProvider))]
     internal class ForwardTargetProvider : IForwardTargetProvider
     {
         private readonly IClientSignInCaching clientSignInCaching;

@@ -33,16 +33,20 @@
 		<Content Include="logo.ico" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\common\common.libs\common.libs.csproj" />
-	  <ProjectReference Include="..\..\common\common.server\common.server.csproj" />
-	  <ProjectReference Include="..\plugins\server.service.forward\server.service.forward.csproj" />
-	  <ProjectReference Include="..\plugins\server.service.users\server.service.users.csproj" />
-	  <ProjectReference Include="..\plugins\server.service.vea\server.service.vea.csproj" />
-	  <ProjectReference Include="..\server\server.csproj" />
+	  <ProjectReference Include="..\..\common\Common.Libs\Common.Libs.csproj" />
+	  <ProjectReference Include="..\..\common\common.Server\Common.Server.csproj" />
+	  <ProjectReference Include="..\plugins\Server.Service.ForWard\Server.Service.ForWard.csproj" />
+	  <ProjectReference Include="..\plugins\Server.Service.Users\Server.Service.Users.csproj" />
+	  <ProjectReference Include="..\plugins\Server.Service.Vea\Server.Service.Vea.csproj" />
+	  <ProjectReference Include="..\server\Server.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="public\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 	</ItemGroup>
 
 </Project>

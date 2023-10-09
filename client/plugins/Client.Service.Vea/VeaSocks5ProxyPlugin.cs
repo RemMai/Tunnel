@@ -8,9 +8,10 @@ using System;
 using System.Buffers.Binary;
 using System.Linq;
 using System.Net;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Messengers.Signin;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Vea
@@ -20,7 +21,7 @@ namespace Client.Service.Vea
     }
 
 
-    [AutoInject(ServiceLifetime.Singleton, typeof(IVeaSocks5ProxyPlugin), typeof(IVeaSocks5ProxyPlugin))]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IVeaSocks5ProxyPlugin), typeof(IVeaAccessValidator), typeof(IAccess))]
     public class VeaSocks5ProxyPlugin : Socks5ProxyPlugin, IVeaSocks5ProxyPlugin, IVeaAccessValidator
     {
         public override byte Id => config.Plugin;

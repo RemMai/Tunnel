@@ -1,11 +1,11 @@
-﻿using common.server;
+﻿using Common.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.Json.Serialization;
 
-namespace server.messengers.singnin
+namespace Server.Messengers.SignIn
 {
     public sealed class SignInCacheInfo
     {

@@ -1,28 +1,22 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using common.server;
+using Common.Server;
 using System.Reflection;
-using common.libs;
-using common.proxy;
-using common.vea;
+using Common.Libs;
+using Common.Proxy;
+using Common.Vea;
+using System;
 
-namespace server.service.vea
+namespace Server.Service.Vea
 {
     public sealed class Plugin : IPlugin
     {
-        public void LoadAfter(ServiceProvider services, Assembly[] assemblys)
+        public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             ProxyPluginLoader.LoadPlugin(services.GetService<IVeaSocks5ProxyPlugin>());
-            var config = services.GetService<common.vea.Config>();
+            var config = services.GetService<Common.Vea.Config>();
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             Logger.Instance.Info("组网自动分配IP模块已加载");
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-        }
-
-        public void LoadBefore(ServiceCollection services, Assembly[] assemblys)
-        {
-            services.AddSingleton<common.vea.Config>();
-            services.AddSingleton<IVeaAccessValidator, VeaSocks5ProxyPlugin>();
-            services.AddSingleton<IVeaSocks5ProxyPlugin, VeaSocks5ProxyPlugin>();
         }
     }
 }

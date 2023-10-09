@@ -1,10 +1,13 @@
-﻿using common.libs;
-using common.server;
-using common.server.model;
+﻿using Common.Libs;
+using Common.Libs.AutoInject.Attributes;
+using Common.Server;
+using Common.Server.Model;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.messengers
+namespace Server.Service.Messengers
 {
     [MessengerIdRange((ushort)HeartMessengerIds.Min, (ushort)HeartMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class HeartMessenger : IMessenger
     {
         public HeartMessenger()

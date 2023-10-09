@@ -4,7 +4,7 @@ using Common.Server;
 using Common.Server.Model;
 using Common.User;
 using System;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Messengers.Signin;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;

@@ -4,7 +4,7 @@ using Common.Libs.DataBase;
 using Common.Libs.Extends;
 using Common.Server;
 using Common.Server.Model;
-using server.service.forward.model;
+using Server.Service.ForWard.model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

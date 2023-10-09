@@ -11,8 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Common.Proxy
 {
     [MessengerIdRange((ushort)ProxyMessengerIds.Min, (ushort)ProxyMessengerIds.Max)]
-    
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class ProxyMessenger : IMessenger
     {
         private readonly IProxyClient proxyClient;

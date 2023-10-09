@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.Tcp;
 using Client.Messengers.Signin;

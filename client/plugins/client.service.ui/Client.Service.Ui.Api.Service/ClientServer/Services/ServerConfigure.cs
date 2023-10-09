@@ -9,7 +9,7 @@ using Client.Service.Ui.Api.ClientServer;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Client.service.udpforward
+namespace Client.Service.udpforward
 {
     /// <summary>
     /// 服务端主配置文件

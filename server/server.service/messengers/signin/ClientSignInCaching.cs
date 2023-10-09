@@ -1,18 +1,21 @@
-﻿using common.libs;
-using common.libs.extends;
-using common.libs.rateLimit;
-using common.server;
-using common.server.model;
-using common.server.servers.rudp;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Libs.Extends;
+using Common.Libs.RateLimit;
+using Common.Server;
+using Common.Server.Model;
+using Common.Server.Servers.RUdp;
+using Server.Messengers.SignIn;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.messengers.singnin
+namespace Server.Service.Messengers.SignIn
 {
+    [AutoInject(ServiceLifetime.Singleton, typeof(IClientSignInCaching))]
     public sealed class ClientSignInCaching : IClientSignInCaching
     {
         private readonly ConcurrentDictionary<ulong, SignInCacheInfo> cache = new();

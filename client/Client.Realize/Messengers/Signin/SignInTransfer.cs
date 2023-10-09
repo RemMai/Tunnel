@@ -29,9 +29,12 @@ namespace Client.Realize.Messengers.Signin
 
         public SignInTransfer(
             SignInMessengerSender signinMessengerSender,
-            ITcpServer tcpServer, IUdpServer udpServer,
-            Config config, SignInStateInfo signInState,
-            CryptoSwap cryptoSwap, IIPv6AddressRequest iPv6AddressRequest
+            ITcpServer tcpServer, 
+            IUdpServer udpServer,
+            Config config, 
+            SignInStateInfo signInState,
+            CryptoSwap cryptoSwap, 
+            IIPv6AddressRequest iPv6AddressRequest
         )
         {
             this.signinMessengerSender = signinMessengerSender;

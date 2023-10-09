@@ -3,7 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace Client.Messengers.clients
+namespace Client.Messengers.Clients
 {
     /// <summary>
     /// 客户单操作

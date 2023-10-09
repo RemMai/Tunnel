@@ -28,7 +28,7 @@ namespace Client.Service.Vea.Server
             MessageResponeInfo resp = await messengerSender.SendReply(new Common.Server.Model.MessageRequestWrap
             {
                 Connection = signInStateInfo.Connection,
-                MessengerId = (ushort)Common.Vea.VeaSocks5MessengerIds.Network,
+                MessengerId = (ushort)VeaSocks5MessengerIds.Network,
             });
             if (resp.Code == Common.Server.Model.MessageResponeCodes.OK)
             {

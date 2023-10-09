@@ -1,16 +1,19 @@
-﻿using common.libs;
-using common.libs.extends;
-using common.server;
-using common.server.model;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Libs.Extends;
+using Common.Server;
+using Common.Server.Model;
+using Server.Messengers.SignIn;
 using System.Linq;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.messengers
+namespace Server.Service.Messengers
 {
     /// <summary>
     /// 中继
     /// </summary>
     [MessengerIdRange((ushort)RelayMessengerIds.Min, (ushort)RelayMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class RelayMessenger : IMessenger
     {
         private readonly IClientSignInCaching clientSignInCache;
@@ -31,9 +34,10 @@ namespace server.service.messengers
         [MessengerId((ushort)RelayMessengerIds.AskConnects)]
         public void AskConnects(IConnection connection)
         {
-            if(clientSignInCache.Get(connection.ConnectId,out SignInCacheInfo cache))
+            if (clientSignInCache.Get(connection.ConnectId, out SignInCacheInfo cache))
             {
-                foreach (var item in clientSignInCache.Get(cache.GroupId).Where(c => c.ConnectionId != connection.ConnectId))
+                foreach (var item in clientSignInCache.Get(cache.GroupId)
+                             .Where(c => c.ConnectionId != connection.ConnectId))
                 {
                     _ = messengerSender.SendOnly(new MessageRequestWrap
                     {
@@ -61,6 +65,7 @@ namespace server.service.messengers
         }
     }
 
+    [AutoInject(ServiceLifetime.Singleton, typeof(IRelaySourceConnectionSelector))]
     public sealed class RelaySourceConnectionSelector : IRelaySourceConnectionSelector
     {
         private readonly IClientSignInCaching clientSignInCaching;
@@ -79,6 +84,7 @@ namespace server.service.messengers
                     return client.Connection;
                 }
             }
+
             return connection;
         }
     }

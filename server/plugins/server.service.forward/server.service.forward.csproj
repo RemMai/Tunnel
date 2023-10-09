@@ -21,8 +21,8 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\common\common.forward\common.forward.csproj" />
-	  <ProjectReference Include="..\..\server\server.csproj" />
-	  <ProjectReference Include="..\server.service.forward.model\server.service.forward.model.csproj" />
+	  <ProjectReference Include="..\..\server\Server.csproj" />
+	  <ProjectReference Include="..\server.service.forward.model\Server.Service.ForWard.Model.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Vea
 {
@@ -15,6 +17,7 @@ namespace Client.Service.Vea
     /// 组网消息
     /// </summary>
     [MessengerIdRange((ushort)VeaSocks5MessengerIds.Min, (ushort)VeaSocks5MessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class VeaMessenger : IMessenger
     {
         private readonly VeaTransfer veaTransfer;

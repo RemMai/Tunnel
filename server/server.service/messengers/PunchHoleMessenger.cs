@@ -1,13 +1,14 @@
-﻿using common.libs.extends;
-using common.server;
-using common.server.model;
-using server.messengers.singnin;
-using System;
+﻿using Common.Server;
+using Common.Server.Model;
+using Server.Messengers.SignIn;
 using System.Threading.Tasks;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.messengers
+namespace Server.Service.Messengers
 {
     [MessengerIdRange((ushort)PunchHoleMessengerIds.Min, (ushort)PunchHoleMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class PunchHoleMessenger : IMessenger
     {
         private readonly IClientSignInCaching clientSignInCache;

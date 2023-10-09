@@ -167,7 +167,7 @@ namespace Client.Service.Ui.Api.Service.ClientServer
             PluginPathCacheInfo plugin = plugins[model.Path];
             try
             {
-                ClientServiceParamsInfo param = new ClientServiceParamsInfo
+                ClientServiceParamsInfo param = new()
                 {
                     RequestId = model.RequestId,
                     Content = model.Content

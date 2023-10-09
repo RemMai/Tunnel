@@ -1,4 +1,4 @@
-﻿namespace server.service.tray
+﻿namespace Server.Service.Tray
 {
     partial class Form1
     {

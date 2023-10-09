@@ -2,8 +2,11 @@
 using System;
 using System.Net;
 using Common.Libs;
+using Common.Libs.AutoInject.Attributes;
 using Common.Proxy;
+using Common.Server;
 using Common.Server.Model;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.ForWard
 {
@@ -13,6 +16,7 @@ namespace Common.ForWard
         public Action<ushort> AfterStop { get; set; }
     }
 
+    [AutoInject(ServiceLifetime.Singleton, typeof(IForwardProxyPlugin), typeof(IAccess))]
     public class ForwardProxyPlugin : IForwardProxyPlugin
     {
         public byte Id => config.Plugin;
@@ -31,6 +35,7 @@ namespace Common.ForWard
         private readonly Config config;
         private readonly IProxyServer proxyServer;
         private readonly IForwardTargetProvider forwardTargetProvider;
+
         public ForwardProxyPlugin(Config config, IProxyServer proxyServer, IForwardTargetProvider forwardTargetProvider)
         {
             this.config = config;
@@ -51,6 +56,7 @@ namespace Common.ForWard
                 info.Connection = null;
                 GetConnection(info);
             }
+
             if (isMagicData)
             {
                 info.Data = ProxyHelper.MagicData;
@@ -70,6 +76,7 @@ namespace Common.ForWard
             info.AddressType = EnumProxyAddressType.IPV4;
             return true;
         }
+
         public bool HandleAnswerData(ProxyInfo info)
         {
             if (info.Step == EnumProxyStep.Command)
@@ -77,6 +84,7 @@ namespace Common.ForWard
                 info.Step = EnumProxyStep.ForwardTcp;
                 return false;
             }
+
             return true;
         }
 
@@ -84,6 +92,7 @@ namespace Common.ForWard
         {
             AfterStart(port);
         }
+
         public void Stoped(ushort port)
         {
             AfterStop(port);
@@ -91,6 +100,7 @@ namespace Common.ForWard
 
         //80443
         private Memory<byte> port = new byte[] { 56, 48, 52, 52, 51 };
+
         private void GetConnection(ProxyInfo info)
         {
             ForwardAliveTypes aliveTypes = (ForwardAliveTypes)info.Rsv;
@@ -111,13 +121,12 @@ namespace Common.ForWard
                         hostBytes = hostBytes.Slice(0, portStart);
                     }
                 }
+
                 if (hostBytes.Length > 0)
                 {
                     forwardTargetProvider.Get(hostBytes.GetString(), info);
                 }
             }
         }
-
-
     }
 }

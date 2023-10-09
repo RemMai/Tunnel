@@ -10,7 +10,7 @@ namespace Client.Realize.Messengers.Clients
     /// 服务器发来的客户端列表
     /// </summary>
     [MessengerIdRange((ushort)ClientsMessengerIds.Min, (ushort)ClientsMessengerIds.Max)]
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class ClientsMessenger : IMessenger
     {
         private readonly ClientsMessengerSender clientsMessengerSender;

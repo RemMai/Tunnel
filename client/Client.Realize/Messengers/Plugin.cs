@@ -2,7 +2,7 @@
 using Common.Server;
 using System;
 using System.Reflection;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Realize.Messengers.PunchHole;
 using Common.Proxy;
 

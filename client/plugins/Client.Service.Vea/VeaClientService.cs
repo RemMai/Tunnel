@@ -5,7 +5,7 @@ using System;
 using System.Buffers.Binary;
 using System.Linq;
 using System.Threading.Tasks;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Service.Ui.Api.ClientServer;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;

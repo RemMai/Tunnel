@@ -1,30 +1,37 @@
-﻿using common.libs;
-using common.server;
-using common.server.model;
-using common.user;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Server;
+using Common.Server.Model;
+using Common.User;
+using Server.Messengers.SignIn;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.users
+namespace Server.Service.Users
 {
     /// <summary>
     /// 登入权限验证
     /// </summary>
+    [AutoInject(ServiceLifetime.Singleton, typeof(IUserInfoCaching), typeof(ISignInValidator), typeof(IAccess))]
     public sealed class SignInAccessValidator : ISignInValidator, IUserInfoCaching, IAccess
     {
-        public ConcurrentDictionary<ulong, UserInfo> Connections { get; set; } = new ConcurrentDictionary<ulong, UserInfo>();
+        public ConcurrentDictionary<ulong, UserInfo> Connections { get; set; } =
+            new ConcurrentDictionary<ulong, UserInfo>();
+
         private readonly IServiceAccessValidator serviceAccessValidator;
         private readonly IUserStore userStore;
-        private readonly common.user.Config config;
+        private readonly Common.User.Config config;
         private readonly MessengerSender messengerSender;
         private readonly IClientSignInCaching clientSignInCaching;
 
         private const string useridKey = "UserInfoID";
 
-        public SignInAccessValidator(IServiceAccessValidator serviceAccessValidator, IUserStore userStore, IClientSignInCaching clientSignInCaching, common.user.Config config, MessengerSender messengerSender, WheelTimer<object> wheelTimer)
+        public SignInAccessValidator(IServiceAccessValidator serviceAccessValidator, IUserStore userStore,
+            IClientSignInCaching clientSignInCaching, Common.User.Config config, MessengerSender messengerSender,
+            WheelTimer<object> wheelTimer)
         {
             this.serviceAccessValidator = serviceAccessValidator;
             this.userStore = userStore;
@@ -45,7 +52,7 @@ namespace server.service.users
         }
 
         public EnumSignInValidatorOrder Order => EnumSignInValidatorOrder.None;
-        public uint Access => (uint)messengers.EnumServiceAccess.SignIn;
+        public uint Access => (uint)Messengers.EnumServiceAccess.SignIn;
         public string Name => "sign in";
 
         public SignInResultInfo.SignInResultInfoCodes Validate(Dictionary<string, string> args, ref uint access)
@@ -57,11 +64,13 @@ namespace server.service.users
                 {
                     return SignInResultInfo.SignInResultInfoCodes.ENABLE;
                 }
+
                 //账号过期了
                 if (user.EndTime <= DateTime.Now)
                 {
                     return SignInResultInfo.SignInResultInfoCodes.TIME_OUT_RANGE;
                 }
+
                 //超过登录数量
                 if (user.SignLimitDenied)
                 {
@@ -75,6 +84,7 @@ namespace server.service.users
                                 MessengerId = (ushort)ClientsMessengerIds.Exit,
                             });
                         }
+
                         user.Connections.Clear();
                     }
                     else
@@ -82,6 +92,7 @@ namespace server.service.users
                         return SignInResultInfo.SignInResultInfoCodes.LIMIT_OUT_RANGE;
                     }
                 }
+
                 access |= user.Access;
                 args[useridKey] = user.ID.ToString();
             }
@@ -90,8 +101,10 @@ namespace server.service.users
             {
                 return SignInResultInfo.SignInResultInfoCodes.NOT_FOUND;
             }
+
             return SignInResultInfo.SignInResultInfoCodes.OK;
         }
+
         public void Validated(SignInCacheInfo cache)
         {
             if (GetUser(cache.Args, out UserInfo user))
@@ -100,6 +113,7 @@ namespace server.service.users
                 {
                     cache.Connection.SendDenied |= config.NetFlowBit;
                 }
+
                 user.Connections.TryAdd(cache.ConnectionId, new UserConnectionWrap { Connection = cache.Connection });
             }
         }
@@ -111,8 +125,10 @@ namespace server.service.users
             {
                 return GetUser(sign.Args, out user);
             }
+
             return false;
         }
+
         private bool GetUser(Dictionary<string, string> args, out UserInfo user)
         {
             user = default;
@@ -124,8 +140,10 @@ namespace server.service.users
             {
                 return userStore.Get(account, password, out user);
             }
+
             return false;
         }
+
         private bool GetAccountPassword(Dictionary<string, string> args, out string account, out string password)
         {
             bool res = args.TryGetValue("account", out account);
@@ -144,7 +162,8 @@ namespace server.service.users
                 List<SignInCacheInfo> caches = clientSignInCaching.Get();
                 foreach (SignInCacheInfo item in caches.Where(c => c.Connection != null && c.Connection.Connected))
                 {
-                    if (GetUser(item.Args, out UserInfo user) && user.Connections.TryGetValue(item.ConnectionId, out UserConnectionWrap wrap))
+                    if (GetUser(item.Args, out UserInfo user) &&
+                        user.Connections.TryGetValue(item.ConnectionId, out UserConnectionWrap wrap))
                     {
                         ulong netflow = (item.Connection.SentBytes - wrap.LastSentBytes);
                         user.SentBytes += netflow;
@@ -168,9 +187,9 @@ namespace server.service.users
                                 connection.Value.Connection.SendDenied &= (byte)(~config.NetFlowBit);
                             }
                         }
-
                     }
                 }
+
                 userStore.Save();
             }
             catch (Exception)
@@ -178,6 +197,4 @@ namespace server.service.users
             }
         }
     }
-
-
 }

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 
-namespace client.service.tray
+namespace Client.Service.Tray
 {
     internal static class Program
     {

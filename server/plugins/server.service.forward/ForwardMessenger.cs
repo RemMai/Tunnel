@@ -1,28 +1,33 @@
-﻿using common.forward;
-using common.libs;
-using common.libs.extends;
-using common.proxy;
-using common.server;
-using server.messengers.singnin;
-using server.service.forward.model;
+﻿using Common.ForWard;
+using Common.Libs;
+using Common.Libs.Extends;
+using Common.Proxy;
+using Common.Server;
+using Server.Messengers.SignIn;
+using Server.Service.ForWard.model;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.forward
+namespace Server.Service.ForWard
 {
     [MessengerIdRange((ushort)ForwardMessengerIds.Min, (ushort)ForwardMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class ForwardMessenger : IMessenger
     {
         private readonly IClientSignInCaching clientSignInCache;
-        private readonly common.forward.Config config;
+        private readonly Common.ForWard.Config config;
         private readonly IForwardTargetCaching<ForwardTargetCacheInfo> forwardTargetCaching;
         private readonly IServiceAccessValidator serviceAccessValidator;
         private readonly IProxyServer proxyServer;
         private readonly IForwardProxyPlugin forwardProxyPlugin;
 
-        public ForwardMessenger(IClientSignInCaching clientSignInCache, common.forward.Config config,
-            IForwardTargetCaching<ForwardTargetCacheInfo> forwardTargetCaching, IServiceAccessValidator serviceAccessValidator, IProxyServer proxyServer, IForwardProxyPlugin forwardProxyPlugin)
+        public ForwardMessenger(IClientSignInCaching clientSignInCache, Common.ForWard.Config config,
+            IForwardTargetCaching<ForwardTargetCacheInfo> forwardTargetCaching,
+            IServiceAccessValidator serviceAccessValidator, IProxyServer proxyServer,
+            IForwardProxyPlugin forwardProxyPlugin)
         {
             this.clientSignInCache = clientSignInCache;
             this.config = config;
@@ -43,7 +48,8 @@ namespace server.service.forward
         public void Ports(IConnection connection)
         {
             connection.Write(config.WebListens
-                .Concat(new ushort[] {
+                .Concat(new ushort[]
+                {
                     config.TunnelListenRange.Min,
                     config.TunnelListenRange.Max
                 }).ToArray());
@@ -59,7 +65,9 @@ namespace server.service.forward
 
                 if (clientSignInCache.Get(connection.ConnectId, out SignInCacheInfo source))
                 {
-                    ForwardTargetCacheInfo cache = model.AliveType == ForwardAliveTypes.Web ? forwardTargetCaching.Get(model.SourceIp, model.SourcePort) : forwardTargetCaching.Get(model.SourcePort);
+                    ForwardTargetCacheInfo cache = model.AliveType == ForwardAliveTypes.Web
+                        ? forwardTargetCaching.Get(model.SourceIp, model.SourcePort)
+                        : forwardTargetCaching.Get(model.SourcePort);
 
                     if (cache != null && cache.ConnectionId == source.ConnectionId)
                     {
@@ -74,12 +82,14 @@ namespace server.service.forward
                         }
                     }
                 }
+
                 connection.Write(new ForwardSignInResultInfo { }.ToBytes());
                 return;
             }
             catch (Exception ex)
             {
-                connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.UNKNOW, Msg = ex.Message }.ToBytes());
+                connection.Write(new ForwardSignInResultInfo
+                    { Code = ForwardSignInResultCodes.UNKNOW, Msg = ex.Message }.ToBytes());
                 return;
             }
         }
@@ -96,9 +106,11 @@ namespace server.service.forward
                 //取出注册缓存，没取出来就说明没注册
                 if (clientSignInCache.Get(connection.ConnectId, out SignInCacheInfo source))
                 {
-                    if (config.ConnectEnable == false && serviceAccessValidator.Validate(connection.ConnectId, forwardProxyPlugin.Access) == false)
+                    if (config.ConnectEnable == false &&
+                        serviceAccessValidator.Validate(connection.ConnectId, forwardProxyPlugin.Access) == false)
                     {
-                        connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.DISABLED }.ToBytes());
+                        connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.DISABLED }
+                            .ToBytes());
                         return;
                     }
 
@@ -109,9 +121,11 @@ namespace server.service.forward
                         //已存在相同的注册
                         if (target != null && target.ConnectionId != source.ConnectionId)
                         {
-                            connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.EXISTS }.ToBytes());
+                            connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.EXISTS }
+                                .ToBytes());
                             return;
                         }
+
                         forwardTargetCaching.AddOrUpdate(model.SourceIp, model.SourcePort, new ForwardTargetCacheInfo
                         {
                             ConnectionId = source.ConnectionId,
@@ -124,9 +138,14 @@ namespace server.service.forward
                     else
                     {
                         //限制的端口范围
-                        if (model.SourcePort < config.TunnelListenRange.Min || model.SourcePort > config.TunnelListenRange.Max)
+                        if (model.SourcePort < config.TunnelListenRange.Min ||
+                            model.SourcePort > config.TunnelListenRange.Max)
                         {
-                            connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.OUT_RANGE, Msg = $"{config.TunnelListenRange.Min}-{config.TunnelListenRange.Max}" }.ToBytes());
+                            connection.Write(new ForwardSignInResultInfo
+                            {
+                                Code = ForwardSignInResultCodes.OUT_RANGE,
+                                Msg = $"{config.TunnelListenRange.Min}-{config.TunnelListenRange.Max}"
+                            }.ToBytes());
                             return;
                         }
 
@@ -134,7 +153,8 @@ namespace server.service.forward
                         //已存在相同的注册
                         if (target != null && target.ConnectionId != source.ConnectionId)
                         {
-                            connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.EXISTS }.ToBytes());
+                            connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.EXISTS }
+                                .ToBytes());
                             return;
                         }
 
@@ -154,9 +174,10 @@ namespace server.service.forward
                         {
                             Logger.Instance.Error(ex);
                         }
+
                         try
                         {
-                            proxyServer.Start(model.SourcePort, config.Plugin,(byte)ForwardAliveTypes.Tunnel);
+                            proxyServer.Start(model.SourcePort, config.Plugin, (byte)ForwardAliveTypes.Tunnel);
                         }
                         catch (Exception ex)
                         {
@@ -165,12 +186,14 @@ namespace server.service.forward
                         }
                     }
                 }
+
                 connection.Write(new ForwardSignInResultInfo { }.ToBytes());
                 return;
             }
             catch (Exception ex)
             {
-                connection.Write(new ForwardSignInResultInfo { Code = ForwardSignInResultCodes.UNKNOW, Msg = ex.Message }.ToBytes());
+                connection.Write(new ForwardSignInResultInfo
+                    { Code = ForwardSignInResultCodes.UNKNOW, Msg = ex.Message }.ToBytes());
                 return;
             }
         }
@@ -190,7 +213,9 @@ namespace server.service.forward
                 connection.Write(Helper.FalseArray);
                 return;
             }
-            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)common.server.EnumServiceAccess.Setting) == false)
+
+            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)Common.Server.EnumServiceAccess.Setting) ==
+                false)
             {
                 connection.Write(Helper.FalseArray);
                 return;
@@ -211,6 +236,5 @@ namespace server.service.forward
 
             connection.Write(Helper.TrueArray);
         }
-
     }
 }

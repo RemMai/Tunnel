@@ -11,9 +11,9 @@ namespace Common.Libs
         {
             return GetInterfaceSchieves(AppDomain.CurrentDomain.GetAssemblies(), type);
         }
-        public static IEnumerable<Type> GetInterfaceSchieves(Assembly[] assemblys, Type type)
+        public static IEnumerable<Type> GetInterfaceSchieves(Assembly[] assemblies, Type type)
         {
-            return assemblys.SelectMany(c => c.GetTypes())
+            return assemblies.SelectMany(c => c.GetTypes())
                .Where(c => !c.IsAbstract).Where(c => c.GetInterfaces().Contains(type));
         }
         public static IEnumerable<Type> GetSubClass(Assembly[] assemblys, Type type)

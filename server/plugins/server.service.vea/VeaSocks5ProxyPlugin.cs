@@ -1,16 +1,21 @@
-﻿using common.proxy;
-using common.server;
-using common.server.model;
-using common.vea;
-using server.messengers.singnin;
+﻿using Common.Proxy;
+using Common.Server;
+using Common.Server.Model;
+using Common.Vea;
+using Server.Messengers.SignIn;
 using System;
 using System.Net;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.vea
+namespace Server.Service.Vea
 {
-    public interface IVeaSocks5ProxyPlugin : IProxyPlugin { }
+    public interface IVeaSocks5ProxyPlugin : IProxyPlugin
+    {
+    }
 
 
+    [AutoInject(ServiceLifetime.Singleton, typeof(IVeaAccessValidator), typeof(IVeaSocks5ProxyPlugin), typeof(IAccess))]
     public class VeaSocks5ProxyPlugin : IVeaSocks5ProxyPlugin, IVeaAccessValidator
     {
         public byte Id => config.Plugin;
@@ -19,14 +24,16 @@ namespace server.service.vea
         public IPAddress BroadcastBind => IPAddress.Any;
         public HttpHeaderCacheInfo Headers { get; set; }
         public Memory<byte> HeadersBytes { get; set; }
-        public uint Access => common.vea.Config.access;
+        public uint Access => Common.Vea.Config.access;
         public string Name => "vea";
         public ushort Port => 0;
 
-        private readonly common.vea.Config config;
+        private readonly Common.Vea.Config config;
         private readonly IServiceAccessValidator serviceAccessValidator;
         private readonly IClientSignInCaching clientSignInCaching;
-        public VeaSocks5ProxyPlugin(common.vea.Config config, IServiceAccessValidator serviceAccessValidator, IClientSignInCaching clientSignInCaching)
+
+        public VeaSocks5ProxyPlugin(Common.Vea.Config config, IServiceAccessValidator serviceAccessValidator,
+            IClientSignInCaching clientSignInCaching)
         {
             this.config = config;
             this.serviceAccessValidator = serviceAccessValidator;
@@ -37,10 +44,12 @@ namespace server.service.vea
         {
             return true;
         }
+
         public EnumProxyValidateDataResult ValidateData(ProxyInfo info)
         {
             return EnumProxyValidateDataResult.Equal;
         }
+
         public bool HandleAnswerData(ProxyInfo info)
         {
             return true;
@@ -53,6 +62,7 @@ namespace server.service.vea
             {
                 return false;
             }
+
             result = new VeaAccessValidateResult
             {
                 Connection = sign.Connection,

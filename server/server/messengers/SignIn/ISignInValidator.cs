@@ -1,14 +1,13 @@
-﻿using common.server;
-using common.server.model;
+﻿using System;
+using Common.Server.Model;
 using System.Collections.Generic;
-using System.Reflection;
 
-namespace server.messengers.singnin
+namespace Server.Messengers.SignIn
 {
-
     public interface ISignInValidatorHandler
     {
-        public void LoadValidator(Assembly[] assemblys);
+        public void LoadValidator();
+
         /// <summary>
         /// 登入前验证
         /// </summary>
@@ -16,6 +15,7 @@ namespace server.messengers.singnin
         /// <param name="access"></param>
         /// <returns></returns>
         public SignInResultInfo.SignInResultInfoCodes Validate(SignInParamsInfo model, ref uint access);
+
         /// <summary>
         /// 登入后
         /// </summary>
@@ -29,6 +29,7 @@ namespace server.messengers.singnin
         /// 执行顺序，升序
         /// </summary>
         public EnumSignInValidatorOrder Order { get; }
+
         /// <summary>
         /// 登入前验证
         /// </summary>
@@ -36,6 +37,7 @@ namespace server.messengers.singnin
         /// <param name="access"></param>
         /// <returns></returns>
         public SignInResultInfo.SignInResultInfoCodes Validate(Dictionary<string, string> args, ref uint access);
+
         /// <summary>
         /// 登入成功后
         /// </summary>

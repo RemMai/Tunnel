@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace server.service.tray.Properties
+namespace Server.Service.Tray.Properties
 {
 
 

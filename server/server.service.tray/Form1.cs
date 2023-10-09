@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace server.service.tray
+namespace Server.Service.Tray
 {
     public partial class Form1 : Form
     {

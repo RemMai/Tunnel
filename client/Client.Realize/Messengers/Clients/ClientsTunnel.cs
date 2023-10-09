@@ -7,7 +7,7 @@ using System;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
-using Client.Messengers.clients;
+using Client.Messengers.Clients;
 using Client.Messengers.Signin;
 using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
@@ -119,7 +119,7 @@ namespace Client.Realize.Messengers.Clients
             ushort port = await tcs.Task.ConfigureAwait(false);
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"clients new udp port {port}");
+                Logger.Instance.Debug($"Clients new udp port {port}");
             }
 
             clientInfoCaching.AddTunnelPort(targetId, localport);
@@ -162,7 +162,7 @@ namespace Client.Realize.Messengers.Clients
             ushort port = await clientsMessengerSender.AddTunnel(connection, selfId, targetId, localport);
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"clients new tcp port {port}");
+                Logger.Instance.Debug($"Clients new tcp port {port}");
             }
             clientInfoCaching.AddTunnelPort(targetId, localport);
             //clientInfoCaching.AddUdpserver(targetId, tempTcpServer);

@@ -1,4 +1,4 @@
-﻿using Client.Messengers.clients;
+﻿using Client.Messengers.Clients;
 using Common.Libs;
 using Common.Libs.Extends;
 using Common.Server;
@@ -15,7 +15,7 @@ namespace Client.Realize.Messengers.Crypto
     /// </summary>
     [MessengerIdRange((ushort)CryptoMessengerIds.Min, (ushort)CryptoMessengerIds.Max)]
     
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class CryptoMessenger : IMessenger
     {
         private readonly IAsymmetricCrypto asymmetricCrypto;

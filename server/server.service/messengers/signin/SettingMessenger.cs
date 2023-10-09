@@ -1,11 +1,11 @@
-﻿using common.libs;
-using common.libs.extends;
-using common.server;
-using common.server.model;
-using server.messengers.singnin;
+﻿using Common.Libs;
+using Common.Libs.Extends;
+using Common.Server;
+using Common.Server.Model;
+using Server.Messengers.SignIn;
 using System.Threading.Tasks;
 
-namespace server.service.messengers.singnin
+namespace Server.Service.Messengers.SignIn
 {
     /// <summary>
     /// 服务端配置
@@ -33,7 +33,7 @@ namespace server.service.messengers.singnin
             {
                 return;
             }
-            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)common.server.EnumServiceAccess.Setting) == false)
+            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)Common.Server.EnumServiceAccess.Setting) == false)
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace server.service.messengers.singnin
                 connection.Write(Helper.FalseArray);
                 return;
             }
-            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)common.server.EnumServiceAccess.Setting) == false)
+            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)Common.Server.EnumServiceAccess.Setting) == false)
             {
                 connection.Write(Helper.FalseArray);
                 return;

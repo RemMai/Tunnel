@@ -1,11 +1,14 @@
-﻿using server.messengers.singnin;
-using common.server.model;
+﻿using Server.Messengers.SignIn;
+using Common.Server.Model;
 using System.Collections.Generic;
-using common.libs;
-using common.server;
+using Common.Libs;
+using Common.Libs.AutoInject.Attributes;
+using Common.Server;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace server.service.validators
+namespace Server.Service.Validators
 {
+    [AutoInject(ServiceLifetime.Singleton, typeof(ISignInValidator), typeof(IAccess))]
     public sealed class VersionValidator : ISignInValidator, IAccess
     {
         public EnumSignInValidatorOrder Order => EnumSignInValidatorOrder.None;
@@ -25,8 +28,6 @@ namespace server.service.validators
 
         public void Validated(SignInCacheInfo cache)
         {
-
         }
     }
-
 }

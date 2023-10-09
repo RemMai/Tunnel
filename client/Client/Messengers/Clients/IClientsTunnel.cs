@@ -3,7 +3,7 @@ using Common.Server.Model;
 using System;
 using System.Threading.Tasks;
 
-namespace Client.Messengers.clients
+namespace Client.Messengers.Clients
 {
     /// <summary>
     /// 客户端打洞新通道

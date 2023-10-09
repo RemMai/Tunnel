@@ -13,7 +13,7 @@ namespace Common.Server
 
     public static class PluginLoader
     {
-        public static void LoadAfter(IServiceProvider services, Assembly[] assemblies)
+        public static void Init(IServiceProvider services, Assembly[] assemblies)
         {
             IEnumerable<Type> types = ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IPlugin)).Distinct();
             IPlugin[] plugins = types.Select(c => (IPlugin)Activator.CreateInstance(c)).ToArray();

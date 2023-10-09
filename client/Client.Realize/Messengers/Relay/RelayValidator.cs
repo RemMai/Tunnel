@@ -2,13 +2,13 @@
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Client.Realize.Messengers.relay
+namespace Client.Realize.Messengers.Relay
 {
-    [AutoInject(ServiceLifetime.Singleton,typeof(IRelayValidator))]
-    public sealed class RelayValidator : IRelayValidator,IAccess
+    [AutoInject(ServiceLifetime.Singleton, typeof(IRelayValidator), typeof(IAccess))]
+    public sealed class RelayValidator : IRelayValidator, IAccess
     {
         public uint Access => (uint)EnumServiceAccess.Relay;
-        public string Name => "relay";
+        public string Name => "Relay";
 
         private readonly Config config;
         private readonly IServiceAccessValidator serviceAccessValidator;
@@ -18,9 +18,11 @@ namespace Client.Realize.Messengers.relay
             this.config = config;
             this.serviceAccessValidator = serviceAccessValidator;
         }
+
         public bool Validate(IConnection connection)
         {
-            return config.Client.UseRelay || serviceAccessValidator.Validate(connection.ConnectId,(uint)EnumServiceAccess.Relay);
+            return config.Client.UseRelay ||
+                   serviceAccessValidator.Validate(connection.ConnectId, (uint)EnumServiceAccess.Relay);
         }
     }
 }

@@ -4,18 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Service.Ui.Api.ClientServer;
+using Common.Libs.AutoInject.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Logger
 {
     /// <summary>
     /// 日志
     /// </summary>
+    [AutoInject(ServiceLifetime.Singleton)]
     public sealed class LoggerClientService : IClientService
     {
         /// <summary>
         /// 日志
         /// </summary>
-        public List<LoggerModel> Data { get; } = new List<LoggerModel>();
+        public List<LoggerModel> Data { get; } = new();
 
         /// <summary>
         /// 获取日志列表
