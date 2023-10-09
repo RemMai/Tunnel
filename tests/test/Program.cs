@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using common.libs.extends;
+using Common.Libs.Extends;
 using System.Buffers.Binary;
 using System.Net;
 using System.Text;

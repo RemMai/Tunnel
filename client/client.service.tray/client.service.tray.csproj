@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9F80193D-3BA8-4DDA-B5A9-2C2498EA5255}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>client.service.tray</RootNamespace>
-    <AssemblyName>client.service.tray</AssemblyName>
+    <RootNamespace>Client.Service.tray</RootNamespace>
+    <AssemblyName>Client.Service.tray</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,7 +42,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\plugins\client.service.ui\client.service.ui.api.service\public\</OutputPath>
+    <OutputPath>..\plugins\Client.Service.ui\Client.Service.Ui.Api.service\public\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

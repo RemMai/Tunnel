@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\common\common.libs\common.libs.csproj" />
-    <ProjectReference Include="..\..\common\common.proxy\common.proxy.csproj" />
+    <ProjectReference Include="..\..\common\Common.Libs\Common.Libs.csproj" />
+    <ProjectReference Include="..\..\common\Common.Proxy\Common.Proxy.csproj" />
   </ItemGroup>
 
 </Project>

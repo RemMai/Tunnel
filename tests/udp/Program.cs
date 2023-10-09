@@ -8,12 +8,12 @@ namespace udp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"client or server、请输入:");
+            Console.WriteLine($"Client or server、请输入:");
             string type = Console.ReadLine();
 
             switch (type)
             {
-                case "client":
+                case "Client":
                     Client();
                     break;
                 case "server":

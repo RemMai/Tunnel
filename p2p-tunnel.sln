@@ -9,39 +9,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{ED7110
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{445E2A5D-0BFB-4C87-AC15-B703960BB22D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client", "client\client\client.csproj", "{E3F0F1AD-3821-455B-96E2-CEC89888908F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "client\Client\Client.csproj", "{E3F0F1AD-3821-455B-96E2-CEC89888908F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service", "client\client.service\client.service.csproj", "{F7ACA3CA-CC35-40AF-BEA6-B3EE211474BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service", "client\Client.Service\Client.Service.csproj", "{F7ACA3CA-CC35-40AF-BEA6-B3EE211474BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{689218D7-FC93-47D5-A95B-66780B9D4870}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.logger", "client\plugins\client.service.logger\client.service.logger.csproj", "{A7E1A8C6-4159-4EBB-92DF-049DDEDEE7A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Logger", "client\plugins\Client.Service.Logger\Client.Service.Logger.csproj", "{A7E1A8C6-4159-4EBB-92DF-049DDEDEE7A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.service", "server\server.service\server.service.csproj", "{1FF71033-CC1C-44E2-B689-B0268127F29F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.libs", "common\common.libs\common.libs.csproj", "{612FDDA6-39B6-456F-B3A0-36725B37AF79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Libs", "common\Common.Libs\Common.Libs.csproj", "{612FDDA6-39B6-456F-B3A0-36725B37AF79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.server", "common\common.server\common.server.csproj", "{C2114A63-05C2-409E-A30B-7E4A28F13486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Server", "common\Common.Server\Common.Server.csproj", "{C2114A63-05C2-409E-A30B-7E4A28F13486}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.ui.api", "client\plugins\client.service.ui\client.service.ui.api\client.service.ui.api.csproj", "{A377D8BC-9F70-4969-AC5C-F4051F5DAA21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Ui.Api", "client\plugins\client.service.ui\Client.Service.Ui.Api\Client.Service.Ui.Api.csproj", "{A377D8BC-9F70-4969-AC5C-F4051F5DAA21}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client.service.ui", "client.service.ui", "{DE48968C-138E-44FA-8A4D-0A4508FA7037}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.UI", "Client.Service.UI", "{DE48968C-138E-44FA-8A4D-0A4508FA7037}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.ui.api.service", "client\plugins\client.service.ui\client.service.ui.api.service\client.service.ui.api.service.csproj", "{FE95EED5-0653-4F27-96C5-743CE31C69EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Ui.Api.Service", "client\plugins\client.service.ui\Client.Service.Ui.Api.Service\Client.Service.Ui.Api.Service.csproj", "{FE95EED5-0653-4F27-96C5-743CE31C69EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{B678CEEF-2268-4906-9610-9B12CB9C4D7B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server", "server\server\server.csproj", "{0474D5EF-A792-4B48-8C3A-A799CB607CA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.socks5", "common\common.socks5\common.socks5.csproj", "{103E0606-960F-4F07-9D5D-09E676DE6CE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Socks5", "common\Common.Socks5\Common.Socks5.csproj", "{103E0606-960F-4F07-9D5D-09E676DE6CE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.realize", "client\client.realize\client.realize.csproj", "{B281838A-3805-48EA-8368-5A1AFD59F95E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Realize", "client\Client.Realize\Client.Realize.csproj", "{B281838A-3805-48EA-8368-5A1AFD59F95E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.vea", "client\plugins\client.service.vea\client.service.vea.csproj", "{DD690846-BCD7-464A-A330-C3B3D11B304B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Vea", "client\plugins\Client.Service.Vea\Client.Service.Vea.csproj", "{DD690846-BCD7-464A-A330-C3B3D11B304B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0732D9F3-310A-44BE-AD37-E2346C5ACEB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.users.server", "client\plugins\client.service.users.server\client.service.users.server.csproj", "{66202D5B-A3AC-4DA5-94CB-F051D5F0E459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Users.Server", "client\plugins\Client.Service.Users.Server\Client.Service.Users.Server.csproj", "{66202D5B-A3AC-4DA5-94CB-F051D5F0E459}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.service.users", "server\plugins\server.service.users\server.service.users.csproj", "{60A33778-F37A-41FB-A085-1D5BAE300B3D}"
 EndProject
@@ -51,31 +51,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server.service.tray", "serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "tests\test\test.csproj", "{AC263F4C-CF06-4EE8-847B-DBEF56EC48F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.proxy", "common\common.proxy\common.proxy.csproj", "{FF6FE360-0B3B-4911-8A5A-FC19448D3BE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Proxy", "common\Common.Proxy\Common.Proxy.csproj", "{FF6FE360-0B3B-4911-8A5A-FC19448D3BE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.forward", "client\plugins\client.service.forward\client.service.forward.csproj", "{FBBCEFF4-10FA-4CF9-B165-8D7F0497174D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Forward", "client\plugins\Client.Service.Forward\Client.Service.Forward.csproj", "{FBBCEFF4-10FA-4CF9-B165-8D7F0497174D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.forward.server", "client\plugins\client.service.forward.server\client.service.forward.server.csproj", "{E41B1E63-339F-4FAB-9BA4-3A253D9B714B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Forward.Server", "client\plugins\Client.Service.Forward.Server\Client.Service.Forward.Server.csproj", "{E41B1E63-339F-4FAB-9BA4-3A253D9B714B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.forward", "common\common.forward\common.forward.csproj", "{96164CBE-72E9-43D3-B9C3-DD5AE0309C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Forward", "common\Common.Forward\Common.Forward.csproj", "{96164CBE-72E9-43D3-B9C3-DD5AE0309C9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.service.forward", "server\plugins\server.service.forward\server.service.forward.csproj", "{2DEC3466-8B66-4640-9117-0345C837B560}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.service.forward.model", "server\plugins\server.service.forward.model\server.service.forward.model.csproj", "{A4491C64-1675-4B82-B0CA-1D563A21DD29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.user", "common\common.user\common.user.csproj", "{FC50EF6A-4A8E-4A82-B0D9-533A7380DACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.User", "common\Common.User\Common.User.csproj", "{FC50EF6A-4A8E-4A82-B0D9-533A7380DACA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.users", "client\plugins\client.service.users\client.service.users.csproj", "{A512EF3B-E869-4D90-AAA3-579875E15C63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Users", "client\plugins\Client.Service.Users\Client.Service.Users.csproj", "{A512EF3B-E869-4D90-AAA3-579875E15C63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.proxy", "client\plugins\client.service.proxy\client.service.proxy.csproj", "{574751E1-E250-4C2D-BDE1-36AE6DF0E0C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Proxy", "client\plugins\Client.Service.Proxy\Client.Service.Proxy.csproj", "{574751E1-E250-4C2D-BDE1-36AE6DF0E0C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "udp", "tests\udp\udp.csproj", "{39EB497C-3FFC-4278-8121-34B17B86E5A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common.vea", "common\common.vea\common.vea.csproj", "{8BA473E9-1A9E-4187-8094-C929BDC68B9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Vea", "common\Common.Vea\Common.Vea.csproj", "{8BA473E9-1A9E-4187-8094-C929BDC68B9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.service.vea", "server\plugins\server.service.vea\server.service.vea.csproj", "{85F8253D-ED13-4391-B638-3F8148A50834}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "client.service.vea.server", "client\plugins\client.service.vea.server\client.service.vea.server.csproj", "{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Vea.Server", "client\plugins\Client.Service.Vea.Server\Client.Service.Vea.Server.csproj", "{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
