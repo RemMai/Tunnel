@@ -2,7 +2,7 @@
 using Client.Service.Logger;
 using client.service.logger.Models;
 using client.service.ui.api.Interfaces;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace client.service.logger.Implementations

@@ -1,4 +1,4 @@
-﻿namespace Common.Proxy
+﻿namespace Common.Proxy.Implementations
 {
     public sealed class Wrap<T>
     {

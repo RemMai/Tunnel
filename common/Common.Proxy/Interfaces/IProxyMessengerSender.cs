@@ -1,12 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Text;
-using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
-using Common.Server;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System.Threading.Tasks;
+using Common.Proxy.Models;
 
-namespace Common.Proxy
+namespace Common.Proxy.Interfaces
 {
     public interface IProxyMessengerSender
     {

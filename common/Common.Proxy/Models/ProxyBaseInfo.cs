@@ -2,10 +2,10 @@
 using System.Buffers;
 using System.Net;
 using Common.Libs.Extends;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
 using Common.Server.Models;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
     public class ProxyBaseInfo
     {

@@ -7,12 +7,12 @@ using client.service.ui.api.Enums;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
 using Client.Service.Vea.Models;
-using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Proxy;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Service.Vea.Implementations
 {
@@ -45,7 +45,7 @@ namespace Client.Service.Vea.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 arg.SetCode(ClientServiceResponseCodes.Error, ex.Message);
             }
             return false;

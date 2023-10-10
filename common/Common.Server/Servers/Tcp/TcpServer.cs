@@ -4,12 +4,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Server.Servers.Tcp
 {
@@ -154,8 +155,7 @@ namespace Common.Server.Servers.Tcp
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
             return null;
         }
@@ -208,8 +208,7 @@ namespace Common.Server.Servers.Tcp
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 CloseClientSocket(e);
             }
         }

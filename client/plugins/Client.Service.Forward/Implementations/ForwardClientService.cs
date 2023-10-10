@@ -7,8 +7,8 @@ using client.service.forward.Models;
 using client.service.ui.api.Enums;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
-using Common.Libs.AutoInject.Attributes;
-using Common.proxy.Enums;
+using Common.Extensions.AutoInject.Attributes;
+using Common.Proxy.Enums;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.ForWard;

@@ -4,7 +4,7 @@ using Common.Libs;
 using System.Reflection;
 using System.Linq;
 using System;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Enums;
 using Common.Server.Models;
 

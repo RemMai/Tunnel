@@ -7,12 +7,13 @@ using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.DataBase;
 using Common.Server.Interfaces;
 using Common.Vea.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Vea
 {
@@ -214,7 +215,7 @@ namespace Common.Vea
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
             finally
             {

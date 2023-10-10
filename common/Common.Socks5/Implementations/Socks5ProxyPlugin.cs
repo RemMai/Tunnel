@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Proxy;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Common.Socks5.Enums;
 using Common.Socks5.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Socks5.Implementations
 {
@@ -103,7 +105,7 @@ namespace Common.Socks5.Implementations
                 if (info.TargetPort == 53)
                 {
                     if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Debug(
+                        Log.Debug(
                             $"[DNS查询]:{string.Join(",", info.Data.ToArray())}:{Encoding.UTF8.GetString(info.Data.ToArray())}");
                 }
             }
@@ -168,8 +170,8 @@ namespace Common.Socks5.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
-                Logger.Instance.Error($"step:{info.Step},data:{string.Join(",", info.Data.ToArray())}");
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
+                Log.Error($"step:{info.Step},data:{string.Join(",", info.Data.ToArray())}");
 
                 throw;
             }

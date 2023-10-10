@@ -3,7 +3,7 @@ using Common.Libs.Extends;
 using Common.Server;
 using Server.Messengers.SignIn;
 using System.Linq;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;

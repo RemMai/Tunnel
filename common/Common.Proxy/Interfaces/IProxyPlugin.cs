@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Net;
-using Common.proxy.Enums;
-using Common.Server;
+using Common.Proxy;
+using Common.Proxy.Enums;
+using Common.Proxy.Models;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 
-namespace Common.Proxy
+namespace Common.Proxy.Interfaces
 {
     public interface IProxyPlugin : IAccess
     {

@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Server;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Realize.Messengers.Signin
 {
@@ -59,16 +59,16 @@ namespace Client.Realize.Messengers.Signin
                 return;
             }
 
-            Logger.Instance.Error($"{connection.ServerType} signin 断开~~~~${connection.Address}");
+            Log.Error($"{connection.ServerType} signin 断开~~~~${connection.Address}");
             Exit();
             if (Interlocked.CompareExchange(ref lockObject, 1, 0) == 0)
             {
-                Logger.Instance.Warning($"{connection.ServerType} signin 触发重新登入");
+                Log.Warning($"{connection.ServerType} signin 触发重新登入");
                 SignIn(true).ContinueWith((result) => { Interlocked.Exchange(ref lockObject, 0); });
             }
             else
             {
-                Logger.Instance.Error($"{connection.ServerType} signin 触发重新登入失败");
+                Log.Error($"{connection.ServerType} signin 触发重新登入失败");
             }
         }
 
@@ -90,31 +90,31 @@ namespace Client.Realize.Messengers.Signin
         {
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"开始登出");
+                Log.Debug($"开始登出");
             }
 
             signInState.Offline();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"开始停止监听");
+                Log.Debug($"开始停止监听");
             }
 
             udpServer.Stop();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"已停止UDP监听");
+                Log.Debug($"已停止UDP监听");
             }
 
             tcpServer.Stop();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"已停止TCP监听");
+                Log.Debug($"已停止TCP监听");
             }
 
             GCHelper.FlushMemory();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"已登出");
+                Log.Debug($"已登出");
             }
         }
 
@@ -131,7 +131,7 @@ namespace Client.Realize.Messengers.Signin
             if (signInState.LocalInfo.IsConnecting)
             {
                 success.ErrorMsg = "登入操作中...";
-                Logger.Instance.Error(success.ErrorMsg);
+                Log.Error(success.ErrorMsg);
                 return success;
             }
 
@@ -146,14 +146,14 @@ namespace Client.Realize.Messengers.Signin
                         if (signInState.LocalInfo.IsConnecting)
                         {
                             success.ErrorMsg = "登入操作中...";
-                            Logger.Instance.Error(success.ErrorMsg);
+                            Log.Error(success.ErrorMsg);
                             break;
                         }
 
                         //先退出
                         Exit1();
 
-                        Logger.Instance.Info($"开始登入");
+                        Log.Information($"开始登入");
                         signInState.LocalInfo.IsConnecting = true;
 
                         IPAddress serverAddress = NetworkHelper.GetDomainIp(config.Server.Ip);
@@ -171,9 +171,9 @@ namespace Client.Realize.Messengers.Signin
                         SignInResult result = await signinMessengerSender.SignIn().ConfigureAwait(false);
                         if (result.NetState.Code != MessageResponeCodes.OK)
                         {
-                            Logger.Instance.Error(
+                            Log.Error(
                                 $"登入失败，网络问题:{result.NetState.Code.GetDesc((byte)result.NetState.Code)}");
-                            Logger.Instance.Error(success.ErrorMsg);
+                            Log.Error(success.ErrorMsg);
                             signInState.LocalInfo.IsConnecting = false;
                             await Task.Delay((int)interval, cancellationToken.Token);
                             continue;
@@ -182,7 +182,7 @@ namespace Client.Realize.Messengers.Signin
                         if (result.Data.Code != SignInResultInfo.SignInResultInfoCodes.OK)
                         {
                             success.ErrorMsg = $"登入失败:{result.Data.Code.GetDesc((byte)result.Data.Code)}";
-                            Logger.Instance.Error(success.ErrorMsg);
+                            Log.Error(success.ErrorMsg);
                             signInState.LocalInfo.IsConnecting = false;
                             break;
                         }
@@ -199,7 +199,7 @@ namespace Client.Realize.Messengers.Signin
 
                         success.ErrorMsg = "登入成功~";
                         success.Data = true;
-                        Logger.Instance.Debug(success.ErrorMsg);
+                        Log.Debug(success.ErrorMsg);
                         break;
                     }
                     catch (TaskCanceledException tex)
@@ -210,7 +210,7 @@ namespace Client.Realize.Messengers.Signin
                     }
                     catch (Exception ex)
                     {
-                        Logger.Instance.Error(ex);
+                        Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                         success.ErrorMsg = ex.Message;
                         signInState.LocalInfo.IsConnecting = false;
                         await Task.Delay((int)interval, cancellationToken.Token);

@@ -2,8 +2,8 @@
 using System.Buffers.Binary;
 using System.Threading.Tasks;
 using Client.Service.Vea.Models;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server;
 using Common.Server.Implementations;

@@ -5,7 +5,7 @@ using System.Linq;
 using Client.Messengers.Clients;
 using Client.Messengers.Relay;
 using Client.Messengers.Signin;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;
 using Common.Server.Models;

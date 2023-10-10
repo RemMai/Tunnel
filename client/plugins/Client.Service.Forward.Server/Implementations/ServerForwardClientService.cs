@@ -4,7 +4,7 @@ using Client.Service.ForWard.Server;
 using client.service.forward.server.Models;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
 

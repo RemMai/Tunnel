@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<RootNamespace>common.proxy</RootNamespace>
 	</PropertyGroup>
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>

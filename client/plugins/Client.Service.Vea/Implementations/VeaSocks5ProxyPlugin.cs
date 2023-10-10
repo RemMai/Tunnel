@@ -6,21 +6,20 @@ using Client.Messengers.Clients;
 using Client.Messengers.Signin;
 using Client.Service.Vea.Interfaces;
 using Client.Service.Vea.Models;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Proxy;
-using Common.proxy.Enums;
-using Common.Server;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Common.Server.Interfaces;
 using Common.Server.Models;
-using Common.Socks5;
 using Common.Socks5.Enums;
 using Common.Socks5.Implementations;
-using Common.Vea;
 using Common.Vea.Implementations;
 using Common.Vea.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Service.Vea.Implementations
 {
@@ -46,7 +45,7 @@ namespace Client.Service.Vea.Implementations
         private readonly IProxyMessengerSender proxyMessengerSender;
         private readonly IClientInfoCaching clientInfoCaching;
 
-        public VeaSocks5ProxyPlugin(Models.Config config, Client.Config config1, IProxyServer proxyServer
+        public VeaSocks5ProxyPlugin(Models.Config config, Config config1, IProxyServer proxyServer
             , VeaTransfer veaTransfer, IProxyMessengerSender proxyMessengerSender, SignInStateInfo signInStateInfo,
             IClientInfoCaching clientInfoCaching) : base(proxyServer)
         {
@@ -93,7 +92,7 @@ namespace Client.Service.Vea.Implementations
                     proxyServer.InputData(info);
                     if (Logger.Instance.LoggerLevel <= LoggerTypes.WARNING)
                     {
-                        Logger.Instance.Warning($"{info.ProxyPlugin.Name}->target not exists or not connect");
+                        Log.Warning($"{info.ProxyPlugin.Name}->target not exists or not connect");
                     }
 
                     return false;

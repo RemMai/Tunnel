@@ -1,7 +1,7 @@
 ﻿using System;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
     public sealed class FirewallCacheType
     {

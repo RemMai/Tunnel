@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
 using client.service.ui.api.Interfaces;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Enums;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server.Implementations;
 using Common.Server.Models;

@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.Libs

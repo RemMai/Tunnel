@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Server;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Server.Implementations
 {
@@ -53,13 +53,6 @@ namespace Common.Server.Implementations
             Type voidType = typeof(void);
             Type midType = typeof(MessengerIdAttribute);
 
-            var messages = _serviceProvider.GetServices<IMessenger>();
-            foreach (IMessenger messenger in messages)
-            {
-                Console.WriteLine(messenger.GetType().FullName);
-            }
-
-
             foreach (IMessenger messenger in _serviceProvider.GetServices<IMessenger>())
             {
                 foreach (var method in messenger.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public |
@@ -86,11 +79,10 @@ namespace Common.Server.Implementations
                             }
 
                             messengers.TryAdd(mid.Id, cache);
-                            Logger.Instance.Info($"{messenger.GetType().Name}->{method.Name}->{mid.Id} 消息id已存在");
                         }
                         else
                         {
-                            Logger.Instance.Error($"{messenger.GetType().Name}->{method.Name}->{mid.Id} 消息id已存在");
+                            Log.Error($"{messenger.GetType().Name}->{method.Name}->{mid.Id} 消息id已存在");
                         }
                     }
                 }
@@ -107,14 +99,14 @@ namespace Common.Server.Implementations
                     return new Tuple<string, ushort, ushort>(item.Name, fields.Min(), fields.Max());
                 }).OrderBy(c => c.Item2).ToList();
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-            Logger.Instance.Debug($"枚举类型ushort，已存在消息列表如下:");
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Debug($"枚举类型ushort，已存在消息列表如下:");
             foreach (var item in uShorts)
             {
-                Logger.Instance.Info($"{item.Item1.PadLeft(32, '-')}  {item.Item2}-{item.Item3}");
+                Log.Information($"{item.Item1.PadLeft(32, '-')}  {item.Item2}-{item.Item3}");
             }
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
 
         public bool GetMessenger(ushort id, out object obj)
@@ -239,7 +231,7 @@ namespace Common.Server.Implementations
                 if (messengers.TryGetValue(requestWrap.MessengerId, out MessengerCacheInfo plugin) == false)
                 {
                     if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Error($"{requestWrap.MessengerId},{connection.ServerType}, not found");
+                        Log.Error($"{requestWrap.MessengerId},{connection.ServerType}, not found");
                     if (requestWrap.Reply == true)
                     {
                         bool res = await messengerSender.ReplyOnly(new MessageResponseWrap
@@ -280,15 +272,15 @@ namespace Common.Server.Implementations
             {
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                 {
-                    Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                     if (receive.Length > 1024)
                     {
-                        Logger.Instance.Error(
+                        Log.Error(
                             $"{connection.Address}:{string.Join(",", receive.Slice(0, 1024).ToArray())}");
                     }
                     else
                     {
-                        Logger.Instance.Error($"{connection.Address}:{string.Join(",", receive.ToArray())}");
+                        Log.Error($"{connection.Address}:{string.Join(",", receive.ToArray())}");
                     }
                 }
                 //connection.Disponse();

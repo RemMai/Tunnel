@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Common.Proxy.Models;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations.Comparers
 {
     public sealed class ConnectionKeyUdpComparer : IEqualityComparer<ConnectionKeyUdp>
     {

@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;

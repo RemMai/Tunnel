@@ -4,9 +4,9 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using Common.Libs;
 using Common.Libs.Extends;
-using Common.Server;
 using Common.Server.Interfaces;
 using Common.Server.Models;
+using Serilog;
 
 namespace Common.Server.Implementations
 {
@@ -60,8 +60,7 @@ namespace Common.Server.Implementations
                 catch (Exception ex)
                 {
                     Disponse();
-                    if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             }
             return false;

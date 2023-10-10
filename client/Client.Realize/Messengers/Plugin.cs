@@ -5,6 +5,7 @@ using System.Reflection;
 using Client.Messengers.Clients;
 using Client.Realize.Messengers.PunchHole;
 using Common.Proxy;
+using Common.Proxy.Implementations;
 using Common.Server.Implementations;
 
 namespace Client.Realize.Messengers

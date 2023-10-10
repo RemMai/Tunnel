@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Net;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Ui.Api.Service.WebServer

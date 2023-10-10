@@ -1,5 +1,5 @@
 ﻿using System;
-using Common.Proxy;
+using Common.Proxy.Interfaces;
 
 namespace Common.ForWard.Interfaces
 {

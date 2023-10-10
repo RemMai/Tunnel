@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.proxy.Enums
+namespace Common.Proxy.Enums
 {
     /// <summary>
     /// 代理消息编号

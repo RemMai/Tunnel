@@ -1,12 +1,12 @@
 ﻿using System;
-using Common.ForWard;
 using Common.Libs;
-using Common.Proxy;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using client.service.forward.Implementations;
 using Common.ForWard.Interfaces;
+using Common.Proxy.Implementations;
+using Serilog;
 
 namespace Client.Service.ForWard
 {
@@ -19,18 +19,18 @@ namespace Client.Service.ForWard
 
             Common.ForWard.Config config = services.GetService<Common.ForWard.Config>();
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-            Logger.Instance.Debug($"端口转发已加载，插件id:{config.Plugin}");
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Debug($"端口转发已加载，插件id:{config.Plugin}");
             if (config.ConnectEnable)
             {
-                Logger.Instance.Debug($"端口转发已允许连接");
+                Log.Debug($"端口转发已允许连接");
             }
             else
             {
-                Logger.Instance.Info($"端口转发未允许连接");
+                Log.Information($"端口转发未允许连接");
             }
             forwardTransfer.Start();
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
     }
 }

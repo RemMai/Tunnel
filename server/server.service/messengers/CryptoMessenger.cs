@@ -1,13 +1,12 @@
 ﻿using Common.Libs;
 using Common.Libs.Extends;
-using Common.Server;
 using Server.Messengers.SignIn;
-using System.Text;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Server.Service.Messengers
 {
@@ -64,7 +63,7 @@ namespace Server.Service.Messengers
         public void Test(IConnection connection)
         {
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                Logger.Instance.Debug($"encoder test : {connection.Crypto.Decode(connection.ReceiveRequestWrap.Payload).Span.GetString()}");
+                Log.Debug($"encoder test : {connection.Crypto.Decode(connection.ReceiveRequestWrap.Payload).Span.GetString()}");
             connection.Write(Helper.TrueArray);
         }
 

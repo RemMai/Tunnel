@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Common.Libs.AutoInject.Attributes;
+﻿using System.Reflection;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Common.Libs.AutoInject.Extensions;
+namespace Common.Extensions.AutoInject.Extensions;
 
 public static class AutoInjectExtensions
 {

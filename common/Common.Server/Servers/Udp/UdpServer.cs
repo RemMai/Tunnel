@@ -5,12 +5,13 @@ using System.Buffers;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Server.Servers.Udp
 {
@@ -76,7 +77,7 @@ namespace Common.Server.Servers.Udp
             };
             listener.NetworkErrorEvent += (endPoint, socketError) =>
             {
-                Logger.Instance.Error($"NetworkErrorEvent:{endPoint}-{socketError}");
+                Log.Error($"NetworkErrorEvent:{endPoint}-{socketError}");
             };
             listener.NetworkReceiveEvent += (NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod) =>
             {
@@ -148,7 +149,7 @@ namespace Common.Server.Servers.Udp
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
         public async Task InputData(IConnection connection)
@@ -179,8 +180,7 @@ namespace Common.Server.Servers.Udp
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 return null;
             }
             finally
@@ -197,8 +197,7 @@ namespace Common.Server.Servers.Udp
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 return null;
             }
         }
@@ -238,7 +237,7 @@ namespace Common.Server.Servers.Udp
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 

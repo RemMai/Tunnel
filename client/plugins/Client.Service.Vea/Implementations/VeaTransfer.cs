@@ -9,12 +9,13 @@ using Client.Messengers.Clients;
 using Client.Messengers.Signin;
 using Client.Service.Vea.Models;
 using Client.Service.Vea.Platforms;
-using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Proxy;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Implementations;
+using Common.Proxy.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Service.Vea.Implementations
 {
@@ -198,17 +199,17 @@ namespace Client.Service.Vea.Implementations
             Stop();
 
             byte oldIP = (byte)(BinaryPrimitives.ReadUInt32BigEndian(config.IP.GetAddressBytes()) & 0xff);
-            Logger.Instance.Info($"【{signInStateInfo.Connection?.ConnectId ?? 0}】开始从服务器分配组网IP，本地ip:{oldIP}");
+            Log.Information($"【{signInStateInfo.Connection?.ConnectId ?? 0}】开始从服务器分配组网IP，本地ip:{oldIP}");
             uint ip = await veaMessengerSender.AssignIP(signInStateInfo.Connection, oldIP);
             if (ip > 0)
             {
-                Logger.Instance.Info($"【{signInStateInfo.Connection?.ConnectId ?? 0}】从服务器分配到组网IP:{ip & 0x000000ff}");
+                Log.Information($"【{signInStateInfo.Connection?.ConnectId ?? 0}】从服务器分配到组网IP:{ip & 0x000000ff}");
                 config.IP = new IPAddress(BinaryPrimitives.ReverseEndianness(ip).ToBytes());
                 await config.SaveConfig();
             }
             else
             {
-                Logger.Instance.Warning($"未能从服务器分配到组网IP，将使用ip:{oldIP}");
+                Log.Warning($"未能从服务器分配到组网IP，将使用ip:{oldIP}");
             }
 
             if (config.ListenEnable)

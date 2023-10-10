@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using Common.Libs;
 using Common.Libs.Extends;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
 
     public sealed class UdpToken

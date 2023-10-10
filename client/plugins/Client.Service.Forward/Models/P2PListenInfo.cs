@@ -2,7 +2,7 @@
 using Common.ForWard;
 using Common.ForWard.Enums;
 using Common.Proxy;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
 
 namespace client.service.forward.Models
 {

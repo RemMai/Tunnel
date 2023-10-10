@@ -1,4 +1,4 @@
-﻿namespace Common.proxy.Enums
+﻿namespace Common.Proxy.Enums
 {
     /// <summary>
     /// 请求的回复数据的指令

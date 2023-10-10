@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     [AutoInject(ServiceLifetime.Singleton)]
     public sealed class ProxyPluginValidatorHandler

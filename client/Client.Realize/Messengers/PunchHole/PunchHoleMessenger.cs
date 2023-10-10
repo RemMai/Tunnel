@@ -1,6 +1,6 @@
 ﻿using Common.Server;
 using System.Threading.Tasks;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;
 using Common.Server.Models;

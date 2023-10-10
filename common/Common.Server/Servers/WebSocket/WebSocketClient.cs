@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using Common.Libs;
+using Serilog;
 
 namespace Common.Server.Servers.WebSocket
 {
@@ -158,8 +159,7 @@ namespace Common.Server.Servers.WebSocket
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 OnConnectFail(ex.Message);
             }
         }
@@ -187,8 +187,7 @@ namespace Common.Server.Servers.WebSocket
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
         private void TargetProcessReceive()
@@ -232,8 +231,7 @@ namespace Common.Server.Servers.WebSocket
             catch (Exception ex)
             {
                 CloseClientSocket();
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 

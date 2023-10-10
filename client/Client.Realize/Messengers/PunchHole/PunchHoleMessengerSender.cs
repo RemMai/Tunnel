@@ -10,7 +10,7 @@ using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.udp;
 using Client.Messengers.Signin;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;

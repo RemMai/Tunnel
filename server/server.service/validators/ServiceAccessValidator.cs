@@ -1,4 +1,4 @@
-﻿using Common.Libs.AutoInject.Attributes;
+﻿using Common.Extensions.AutoInject.Attributes;
 using Common.Server;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;

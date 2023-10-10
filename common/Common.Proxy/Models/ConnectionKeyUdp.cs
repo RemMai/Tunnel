@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
     public readonly struct ConnectionKeyUdp
     {

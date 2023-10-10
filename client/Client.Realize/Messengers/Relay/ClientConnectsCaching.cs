@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Client.Messengers.Relay;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 

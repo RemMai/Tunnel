@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Interfaces;
-using Common.Libs.AutoInject.Attributes;
 using Common.Server.Enums;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;

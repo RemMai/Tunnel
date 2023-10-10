@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Implementations;
 using Common.ForWard.Interfaces;
-using Common.Libs.AutoInject.Attributes;
 using Common.Proxy;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
+using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Messengers.SignIn;
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Common.Libs;
+using Serilog;
 
 namespace Common.Server.Servers.WebSocket
 {
@@ -130,7 +131,7 @@ namespace Common.Server.Servers.WebSocket
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
         private void ProcessAccept(SocketAsyncEventArgs e)
@@ -197,8 +198,7 @@ namespace Common.Server.Servers.WebSocket
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 CloseClientSocket(e);
             }
         }

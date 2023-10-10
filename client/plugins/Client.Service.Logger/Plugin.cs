@@ -1,9 +1,9 @@
 ﻿using System;
-using Common.Libs;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using client.service.logger.Implementations;
+using Serilog;
 
 namespace Client.Service.Logger
 {
@@ -25,18 +25,18 @@ namespace Client.Service.Logger
                 }
             };
 
-            Common.Libs.Logger.Instance.Warning(string.Empty.PadRight(Common.Libs.Logger.Instance.PaddingWidth, '='));
-            Common.Libs.Logger.Instance.Debug($"日志收集已加载");
+            Log.Warning(string.Empty.PadRight(Common.Libs.Logger.Instance.PaddingWidth, '='));
+            Log.Debug($"日志收集已加载");
             if (config.Enable)
             {
-                Common.Libs.Logger.Instance.Debug($"日志收集已启用：最长条数:{config.MaxLength}");
+                Log.Debug($"日志收集已启用：最长条数:{config.MaxLength}");
             }
             else
             {
-                Common.Libs.Logger.Instance.Info($"日志收集未启用");
+                Log.Information($"日志收集未启用");
             }
 
-            Common.Libs.Logger.Instance.Warning(string.Empty.PadRight(Common.Libs.Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Common.Libs.Logger.Instance.PaddingWidth, '='));
         }
 
         public void LoadBefore(IServiceCollection services, Assembly[] assemblies)

@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using client.service.ui.api.Interfaces;
 using Client.Service.Ui.Api.Service.WebServer;
+using Serilog;
 
 namespace Client.Service.Ui.Api.Service
 {
@@ -23,15 +24,15 @@ namespace Client.Service.Ui.Api.Service
             if (config.EnableWeb)
             {
                 services.GetService<IWebServer>().Start();
-                Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-                Logger.Instance.Debug("管理UI，web已启用");
-                Logger.Instance.Info($"管理UI web1 :http://{config.Web.BindIp}:{config.Web.Port}");
-                Logger.Instance.Info($"管理UI web2 :https://snltty.gitee.io/p2p-tunnel");
-                Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+                Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+                Log.Debug("管理UI，web已启用");
+                Log.Information($"管理UI web1 :http://{config.Web.BindIp}:{config.Web.Port}");
+                Log.Information($"管理UI web2 :https://snltty.gitee.io/p2p-tunnel");
+                Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             }
             else
             {
-                Logger.Instance.Debug("管理UI，web未启用");
+                Log.Debug("管理UI，web未启用");
             }
         }
 
@@ -41,38 +42,38 @@ namespace Client.Service.Ui.Api.Service
 
             var config = services.GetService<Config>();
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             if (config.EnableWeb)
             {
                 clientServer.Websocket();
-                Logger.Instance.Debug($"管理UI，websocket已启用:{config.Websocket.BindIp}:{config.Websocket.Port}");
+                Log.Debug($"管理UI，websocket已启用:{config.Websocket.BindIp}:{config.Websocket.Port}");
             }
             else
             {
-                Logger.Instance.Info($"管理UI，websocket未启用");
+                Log.Information($"管理UI，websocket未启用");
             }
 
             if (config.EnableCommand)
             {
                 clientServer.NamedPipe();
-                Logger.Instance.Debug($"管理UI，命令行已启用");
+                Log.Debug($"管理UI，命令行已启用");
             }
             else
             {
-                Logger.Instance.Info($"管理UI，命令行未启用");
+                Log.Information($"管理UI，命令行未启用");
             }
 
             if (config.EnableApi)
             {
                 clientServer.LoadPlugins(assemblies);
-                Logger.Instance.Debug($"管理UI，api已启用");
+                Log.Debug($"管理UI，api已启用");
             }
             else
             {
-                Logger.Instance.Info($"管理UI，api未启用");
+                Log.Information($"管理UI，api未启用");
             }
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
     }
 }

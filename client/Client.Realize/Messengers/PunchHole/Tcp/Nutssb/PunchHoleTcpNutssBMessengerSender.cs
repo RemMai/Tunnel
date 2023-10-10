@@ -13,10 +13,11 @@ using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.Tcp;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
 {
@@ -175,7 +176,7 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
         private void AddSendTimeout(ulong toid)
@@ -254,7 +255,7 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
             }
             else
             {
-                Logger.Instance.Warning($"tcp OnStep1 未找到通道：{model.RawData.FromId}");
+                Log.Warning($"tcp OnStep1 未找到通道：{model.RawData.FromId}");
                 await SendStep2Fail(model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
             }
         }
@@ -266,7 +267,7 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
                 ICrypto crypto = await cryptoSwap.Swap(connection, config.Client.EncodePassword);
                 if (crypto == null)
                 {
-                    Logger.Instance.Error("tcp打洞交换密钥失败，可能是两端密钥不一致，A如果设置了密钥，则B必须设置相同的密钥，如果B未设置密钥，则A必须留空");
+                    Log.Error("tcp打洞交换密钥失败，可能是两端密钥不一致，A如果设置了密钥，则B必须设置相同的密钥，如果B未设置密钥，则A必须留空");
                 }
                 else
                 {
@@ -293,7 +294,7 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
                 RemoveSendTimeout(model.RawData.FromId);
                 if (connectTcpCache.TryGetValue(model.RawData.FromId, out ConnectCacheModel cache) == false)
                 {
-                    Logger.Instance.Warning($"OnStep2 未找到缓存：{model.RawData.FromId}");
+                    Log.Warning($"OnStep2 未找到缓存：{model.RawData.FromId}");
                     await SendStep2Fail(model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
                     return;
                 }
@@ -320,7 +321,7 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
                 ips.Add(new IPEndPoint(data.Ip, data.Port + 1));
 
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Debug($"尝试连接:{string.Join("\n", ips.Select(c => c.ToString()).ToArray())}");
+                    Log.Debug($"尝试连接:{string.Join("\n", ips.Select(c => c.ToString()).ToArray())}");
 
                 for (byte i = 0; i < ips.Count; i++)
                 {
@@ -345,14 +346,14 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
                         targetSocket.KeepAlive(time: config.Client.TimeoutDelay / 1000 / 5);
                         targetSocket.ReuseBind(new IPEndPoint(bindIp, cache.LocalPort));
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                            Logger.Instance.Debug($"tcp {ip} connect");
+                            Log.Debug($"tcp {ip} connect");
                         IAsyncResult result = targetSocket.BeginConnect(ip, null, null);
                         result.AsyncWaitHandle.WaitOne(ip.IsLan() ? 50 : 1000, false);
 
                         if (result.IsCompleted == false)
                         {
                             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                                Logger.Instance.Error($"tcp {ip} connect fail");
+                                Log.Error($"tcp {ip} connect fail");
                             targetSocket.SafeClose();
                             targetSocket = null;
                             continue;
@@ -368,7 +369,7 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
                         }
 
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                            Logger.Instance.Warning($"tcp {ip} connect success");
+                            Log.Warning($"tcp {ip} connect success");
                         IConnection connection = tcpServer.BindReceive(targetSocket, bufferSize: (byte)config.Client.TcpBufferSize * 1024);
                         await CryptoSwap(connection);
                         await SendStep3(connection, model.RawData.FromId, model.RawData.NewTunnel);
@@ -381,17 +382,17 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
                         targetSocket = null;
 
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                            Logger.Instance.Error($"tcp {ip} connect fail:{ex}");
+                            Log.Error($"tcp {ip} connect fail:{ex}");
                         if (ex.SocketErrorCode == SocketError.AddressNotAvailable)
                         {
                             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                                Logger.Instance.Error($"{ex.SocketErrorCode}:{ip}");
+                                Log.Error($"{ex.SocketErrorCode}:{ip}");
                         }
                     }
                     catch (Exception ex)
                     {
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                            Logger.Instance.Error($"tcp {ip} connect fail:{ex}");
+                            Log.Error($"tcp {ip} connect fail:{ex}");
                     }
                 }
 

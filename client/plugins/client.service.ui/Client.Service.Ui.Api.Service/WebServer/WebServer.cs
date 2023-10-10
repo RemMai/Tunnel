@@ -1,11 +1,11 @@
-﻿using Common.Libs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Service.Ui.Api.Service.WebServer
 {
@@ -40,7 +40,7 @@ namespace Client.Service.Ui.Api.Service.WebServer
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             }, TaskCreationOptions.LongRunning);
         }

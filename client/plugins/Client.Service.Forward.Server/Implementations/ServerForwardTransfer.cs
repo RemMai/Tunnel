@@ -5,15 +5,14 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using Client.Service.ForWard.Server;
 using client.service.forward.server.Models;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Enums;
-using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.DataBase;
 using Common.Libs.Extends;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Server.Service.ForWard.Model;
 
 namespace client.service.forward.server.Implementations
@@ -286,11 +285,11 @@ namespace client.service.forward.server.Implementations
             }
             if (success)
             {
-                Logger.Instance.Info(sb.ToString());
+                Log.Information(sb.ToString());
             }
             else
             {
-                Logger.Instance.Warning(sb.ToString());
+                Log.Warning(sb.ToString());
             }
         }
 

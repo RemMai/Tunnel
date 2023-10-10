@@ -1,13 +1,13 @@
 ﻿using Common.Libs;
 using Common.Libs.Extends;
-using Common.Server;
 using System;
 using System.Threading.Tasks;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Realize.Messengers.Crypto
 {
@@ -78,7 +78,7 @@ namespace Client.Realize.Messengers.Crypto
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex.Message);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 return null;
             }
         }

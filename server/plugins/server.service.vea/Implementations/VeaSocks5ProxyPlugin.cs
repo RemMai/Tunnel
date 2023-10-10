@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Proxy;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Common.Vea.Implementations;
@@ -17,7 +19,7 @@ namespace Server.Service.Vea.Implementations
     }
 
 
-    [AutoInject(ServiceLifetime.Singleton, typeof(IVeaAccessValidator), typeof(IVeaSocks5ProxyPlugin), typeof(IAccess))]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IVeaAccessValidator), typeof(IVeaSocks5ProxyPlugin))]
     public class VeaSocks5ProxyPlugin : IVeaSocks5ProxyPlugin, IVeaAccessValidator
     {
         public byte Id => config.Plugin;

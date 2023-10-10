@@ -1,15 +1,15 @@
 ﻿using Common.Libs;
 using Common.Libs.Extends;
-using Common.Server;
 using Server.Messengers.SignIn;
 using System.Net;
 using System;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Server.Service.Messengers
 {
@@ -47,8 +47,7 @@ namespace Server.Service.Messengers
                 }
                 catch (Exception ex)
                 {
-                    if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             };
         }

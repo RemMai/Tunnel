@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Enums;
 using Common.ForWard.Implementations;
 using Common.ForWard.Interfaces;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Proxy;
+using Common.Proxy.Interfaces;
 using Common.Server.Attributes;
 using Common.Server.Enums;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Server.Messengers.SignIn;
 using Server.Service.ForWard.Model;
 
@@ -176,7 +178,7 @@ namespace Server.Service.ForWard.Implementations
                         }
                         catch (Exception ex)
                         {
-                            Logger.Instance.Error(ex);
+                            Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                         }
 
                         try
@@ -185,7 +187,7 @@ namespace Server.Service.ForWard.Implementations
                         }
                         catch (Exception ex)
                         {
-                            Logger.Instance.Error(ex);
+                            Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                             forwardTargetCaching.Remove(model.SourcePort);
                         }
                     }

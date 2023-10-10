@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Common.Libs;
 using Common.Libs.Extends;
+using Common.Proxy.Models;
+using Serilog;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     public sealed class ServersManager
     {
@@ -31,7 +32,7 @@ namespace Common.Proxy
             {
                 try
                 {
-                    Logger.Instance.Warning($"{c.ProxyPlugin.Name}->port:{port}  stoped");
+                    Log.Warning($"{c.ProxyPlugin.Name}->port:{port}  stoped");
                     c.ProxyPlugin.Stoped(port);
                     c.Socket.SafeClose();
                     c.UdpClient.Dispose();
@@ -39,8 +40,7 @@ namespace Common.Proxy
                 }
                 catch (Exception ex)
                 {
-                    if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             }
 
@@ -53,7 +53,7 @@ namespace Common.Proxy
             {
                 try
                 {
-                    Logger.Instance.Warning($"{item.ProxyPlugin.Name}->port:{item.Port}  stoped");
+                    Log.Warning($"{item.ProxyPlugin.Name}->port:{item.Port}  stoped");
                     item.ProxyPlugin.Stoped(item.Port);
                     item.Socket.SafeClose();
                     GC.Collect();
@@ -61,8 +61,7 @@ namespace Common.Proxy
                 }
                 catch (Exception ex)
                 {
-                    if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             }
 

@@ -6,7 +6,7 @@ using Client.Messengers.Signin;
 using client.service.ui.api.Enums;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server;
 using Common.Server.Interfaces;

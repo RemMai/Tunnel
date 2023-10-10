@@ -6,11 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.DataBase;
 using Common.Libs.Extends;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.Proxy

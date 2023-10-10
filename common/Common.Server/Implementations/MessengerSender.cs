@@ -2,11 +2,11 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
-using Common.Server;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Server.Implementations
 {
@@ -103,7 +103,7 @@ namespace Common.Server.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
             finally
             {
@@ -141,8 +141,7 @@ namespace Common.Server.Implementations
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
             finally
             {

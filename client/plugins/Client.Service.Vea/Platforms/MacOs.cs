@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using Client.Service.Vea.Models;
+using Serilog;
 
 namespace Client.Service.Vea.Platforms
 {
@@ -30,7 +31,7 @@ namespace Client.Service.Vea.Platforms
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex.Message);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 return false;
             }
 

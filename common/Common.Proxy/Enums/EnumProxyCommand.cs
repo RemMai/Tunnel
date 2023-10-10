@@ -1,4 +1,4 @@
-﻿namespace Common.proxy.Enums
+﻿namespace Common.Proxy.Enums
 {
     /// <summary>
     /// 请求指令 2位

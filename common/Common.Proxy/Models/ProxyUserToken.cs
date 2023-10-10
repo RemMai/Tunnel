@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
     public sealed class ProxyUserToken
     {

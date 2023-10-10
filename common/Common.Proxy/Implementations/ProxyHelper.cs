@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     public static class ProxyHelper
     {

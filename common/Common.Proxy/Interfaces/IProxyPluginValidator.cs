@@ -1,4 +1,6 @@
-﻿namespace Common.Proxy
+﻿using Common.Proxy.Models;
+
+namespace Common.Proxy.Interfaces
 {
     public interface IProxyPluginValidator
     {

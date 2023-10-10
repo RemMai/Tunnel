@@ -3,18 +3,19 @@ using System.Net;
 using Common.ForWard.Enums;
 using Common.ForWard.Interfaces;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Proxy;
-using Common.proxy.Enums;
-using Common.Server.Interfaces;
+using Common.Proxy.Enums;
+using Common.Proxy.Implementations;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Common.Server.Models;
-using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.ForWard.Implementations
 {
-    [AutoInject(ServiceLifetime.Singleton, typeof(IForwardProxyPlugin), typeof(IAccess))]
-    public class ForwardProxyPlugin : IForwardProxyPlugin
+    
+    public abstract class ForwardProxyPlugin : IForwardProxyPlugin
     {
         public byte Id => config.Plugin;
         public bool ConnectEnable => config.ConnectEnable;
@@ -62,7 +63,7 @@ namespace Common.ForWard.Implementations
             if (info.Connection == null || info.Connection.Connected == false)
             {
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error($"【{info.ProxyPlugin.Name}】{info.RequestId} connection fail");
+                    Log.Error($"【{info.ProxyPlugin.Name}】{info.RequestId} connection fail");
                 if (isMagicData == false)
                     info.Data = Helper.EmptyArray;
                 info.CommandStatusMsg = EnumProxyCommandStatusMsg.Connection;

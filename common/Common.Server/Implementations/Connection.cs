@@ -9,6 +9,7 @@ using Common.Libs.Extends;
 using Common.Server;
 using Common.Server.Interfaces;
 using Common.Server.Models;
+using Serilog;
 
 namespace Common.Server.Implementations
 {
@@ -228,7 +229,7 @@ namespace Common.Server.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
             //ReceiveRequestWrap = null;
             //ReceiveResponseWrap = null;
@@ -254,7 +255,7 @@ namespace Common.Server.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
 
         }
@@ -270,7 +271,7 @@ namespace Common.Server.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
     }

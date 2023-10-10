@@ -1,5 +1,5 @@
 ﻿using Client.Messengers.Signin;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;

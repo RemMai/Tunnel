@@ -1,14 +1,13 @@
 ﻿using Client.Messengers.Clients;
 using Client.Messengers.Signin;
-using Common.ForWard;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Implementations;
 using Common.ForWard.Interfaces;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
-using Common.Proxy;
-using Common.Server;
+using Common.Proxy.Models;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace client.service.forward.Implementations
 {
@@ -49,7 +48,7 @@ namespace client.service.forward.Implementations
             {
                 if (info.Connection == null || info.Connection.Connected == false)
                 {
-                    Logger.Instance.Warning(
+                    Log.Warning(
                         $"{info.ProxyPlugin.Name}->domain:{domain}->target not exists or not connect");
                 }
             }
@@ -67,7 +66,7 @@ namespace client.service.forward.Implementations
             {
                 if (info.Connection == null || info.Connection.Connected == false)
                 {
-                    Logger.Instance.Warning($"{info.ProxyPlugin.Name}->port:{port}->target not exists or not connect");
+                    Log.Warning($"{info.ProxyPlugin.Name}->port:{port}->target not exists or not connect");
                 }
             }
         }

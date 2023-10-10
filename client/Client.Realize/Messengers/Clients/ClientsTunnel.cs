@@ -1,18 +1,18 @@
 ﻿using Common.Libs;
 using Common.Server.Servers.Tcp;
 using Common.Server.Servers.Udp;
-using Common.Server;
 using System;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.Signin;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Realize.Messengers.Clients
 {
@@ -70,7 +70,7 @@ namespace Client.Realize.Messengers.Clients
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace Client.Realize.Messengers.Clients
             ushort port = await tcs.Task.ConfigureAwait(false);
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"Clients new udp port {port}");
+                Log.Debug($"Clients new udp port {port}");
             }
 
             clientInfoCaching.AddTunnelPort(targetId, localport);
@@ -163,7 +163,7 @@ namespace Client.Realize.Messengers.Clients
             ushort port = await clientsMessengerSender.AddTunnel(connection, selfId, targetId, localport);
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"Clients new tcp port {port}");
+                Log.Debug($"Clients new tcp port {port}");
             }
             clientInfoCaching.AddTunnelPort(targetId, localport);
             //clientInfoCaching.AddUdpserver(targetId, tempTcpServer);

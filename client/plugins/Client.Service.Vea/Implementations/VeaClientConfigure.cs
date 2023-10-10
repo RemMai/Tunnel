@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using client.service.ui.api.Interfaces;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Vea.Implementations

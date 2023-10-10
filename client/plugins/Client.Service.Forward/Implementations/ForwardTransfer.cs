@@ -8,17 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.Service.ForWard;
 using client.service.forward.Models;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard;
 using Common.ForWard.Enums;
 using Common.ForWard.Implementations;
 using Common.ForWard.Interfaces;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.DataBase;
 using Common.Libs.Extends;
 using Common.Proxy;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Implementations;
+using Common.Proxy.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace client.service.forward.Implementations
 {
@@ -340,7 +343,7 @@ namespace client.service.forward.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 return ex.Message;
             }
 
@@ -367,7 +370,7 @@ namespace client.service.forward.Implementations
                     string error = StartP2P(c);
                     if (string.IsNullOrWhiteSpace(error) == false)
                     {
-                        Logger.Instance.Error(error);
+                        Log.Error(error);
                     }
                 }
             });

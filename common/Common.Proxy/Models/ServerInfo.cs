@@ -1,7 +1,8 @@
 ﻿using System.Net.Sockets;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
     public sealed class ServerInfo
     {

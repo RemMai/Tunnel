@@ -1,4 +1,4 @@
-﻿namespace Common.proxy.Enums
+﻿namespace Common.Proxy.Enums
 {
 
     public enum FirewallType : byte

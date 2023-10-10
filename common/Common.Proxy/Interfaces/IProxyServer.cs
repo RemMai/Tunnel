@@ -1,19 +1,8 @@
-﻿using Common.Libs.Extends;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
-using Common.proxy.Enums;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System.Threading.Tasks;
+using Common.Proxy.Enums;
+using Common.Proxy.Models;
 
-namespace Common.Proxy
+namespace Common.Proxy.Interfaces
 {
     public interface IProxyServer
     {

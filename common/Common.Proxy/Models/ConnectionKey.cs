@@ -1,4 +1,4 @@
-﻿namespace Common.Proxy
+﻿namespace Common.Proxy.Models
 {
     public readonly struct ConnectionKey
     {

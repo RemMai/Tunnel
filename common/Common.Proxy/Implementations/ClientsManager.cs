@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Libs;
 using Common.Libs.Extends;
+using Common.Proxy;
+using Common.Proxy.Models;
+using Serilog;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     public sealed class ClientsManager
     {
@@ -32,12 +35,10 @@ namespace Common.Proxy
                     c.PoolBuffer = Helper.EmptyArray;
                     c?.Saea.Dispose();
                     GC.Collect();
-                    //  GC.SuppressFinalize(c);
                 }
                 catch (Exception ex)
                 {
-                    if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                        Logger.Instance.Error(ex);
+                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 }
             }
 

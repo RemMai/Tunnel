@@ -1,11 +1,12 @@
 ﻿using System;
 using Common.Libs;
-using Common.Proxy;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Client.Service.Vea.Implementations;
 using Client.Service.Vea.Interfaces;
+using Common.Proxy.Implementations;
+using Serilog;
 
 namespace Client.Service.Vea
 {
@@ -18,27 +19,27 @@ namespace Client.Service.Vea
 
             Models.Config config = services.GetService<Models.Config>();
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-            Logger.Instance.Debug($"虚拟网卡插件已加载，插件id:{config.Plugin}");
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Debug($"虚拟网卡插件已加载，插件id:{config.Plugin}");
             if (config.ListenEnable)
             {
-                Logger.Instance.Debug($"虚拟网卡插件已开启");
+                Log.Debug($"虚拟网卡插件已开启");
             }
             else
             {
-                Logger.Instance.Info($"虚拟网卡插件未开启");
+                Log.Information($"虚拟网卡插件未开启");
             }
 
             if (config.ConnectEnable)
             {
-                Logger.Instance.Debug($"虚拟网卡插件已允许连接");
+                Log.Debug($"虚拟网卡插件已允许连接");
             }
             else
             {
-                Logger.Instance.Info($"虚拟网卡插件未允许连接");
+                Log.Information($"虚拟网卡插件未允许连接");
             }
 
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
     }
 }

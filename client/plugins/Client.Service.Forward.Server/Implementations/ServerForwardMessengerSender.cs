@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Enums;
-using Common.Libs.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;

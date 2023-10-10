@@ -9,9 +9,12 @@ using Common.Libs.DataBase;
 using Server.Service.Validators;
 using Server.Messengers.SignIn;
 using Server.Service.Messengers.SignIn;
-using Common.Proxy;
+using Common.Proxy.Implementations;
+using Common.Proxy.Implementations.MessengerSenders;
+using Common.Proxy.Interfaces;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
+using Serilog;
 
 namespace Server.Service
 {
@@ -72,22 +75,22 @@ namespace Server.Service
             try
             {
                 server.Start(config.Tcp);
-                Logger.Instance.Info("TCP服务已开启");
+                Log.Information("TCP服务已开启");
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
 
             var udpServer = services.GetService<IUdpServer>();
             try
             {
                 udpServer.Start(config.Udp, timeout: config.TimeoutDelay);
-                Logger.Instance.Info("UDP服务已开启");
+                Log.Information("UDP服务已开启");
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
 
             MessengerResolver messengerResolver = services.GetService<MessengerResolver>();

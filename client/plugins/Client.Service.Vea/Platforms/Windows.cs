@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using Client.Service.Vea.Models;
+using Serilog;
 
 namespace Client.Service.Vea.Platforms
 {
@@ -27,7 +28,7 @@ namespace Client.Service.Vea.Platforms
             string command = $" -device {VeaName} -proxy socks5://127.0.0.1:{config.ListenPort} -loglevel silent";
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Warning($"vea windows ->exec:{command}");
+                Log.Warning($"vea windows ->exec:{command}");
             }
 
             tun2SocksProcess = Command.Execute("tun2socks-windows.exe", command);
@@ -45,7 +46,7 @@ namespace Client.Service.Vea.Platforms
                     {
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                         {
-                            Logger.Instance.Warning($"vea windows ->interface not dound");
+                            Log.Warning($"vea windows ->interface not dound");
                         }
 
                         continue;
@@ -56,7 +57,7 @@ namespace Client.Service.Vea.Platforms
                     {
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                         {
-                            Logger.Instance.Warning($"vea windows ->interface num not dound");
+                            Log.Warning($"vea windows ->interface num not dound");
                         }
 
                         continue;
@@ -74,7 +75,7 @@ namespace Client.Service.Vea.Platforms
                         {
                             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                             {
-                                Logger.Instance.Error($"vea windows ->set ip fail");
+                                Log.Error($"vea windows ->set ip fail");
                             }
 
                             continue;
@@ -86,13 +87,13 @@ namespace Client.Service.Vea.Platforms
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
 
             if (interfaceNumber <= 0)
             {
                 string msg = Command.Execute("tun2socks-windows.exe", command, Array.Empty<string>());
-                Logger.Instance.Error(msg);
+                Log.Error(msg);
             }
 
             return interfaceNumber > 0;
@@ -142,7 +143,7 @@ namespace Client.Service.Vea.Platforms
                 {
                     if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                     {
-                        Logger.Instance.Warning(
+                        Log.Warning(
                             $"vea windows ->add route:{string.Join(Environment.NewLine, commands)}");
                     }
 
@@ -160,7 +161,7 @@ namespace Client.Service.Vea.Platforms
                     .ToArray();
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                 {
-                    Logger.Instance.Warning($"vea windows ->del route:{string.Join(Environment.NewLine, commands)}");
+                    Log.Warning($"vea windows ->del route:{string.Join(Environment.NewLine, commands)}");
                 }
 
                 Command.Windows(string.Empty, commands.ToArray());

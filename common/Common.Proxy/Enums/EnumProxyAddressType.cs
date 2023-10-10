@@ -1,4 +1,4 @@
-﻿namespace Common.proxy.Enums
+﻿namespace Common.Proxy.Enums
 {
     /// <summary>
     /// 连接地址类型，3位

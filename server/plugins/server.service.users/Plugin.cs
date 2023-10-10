@@ -3,6 +3,7 @@ using Common.Server;
 using System.Reflection;
 using Common.Libs;
 using System;
+using Serilog;
 
 namespace Server.Service.Users
 {
@@ -11,17 +12,17 @@ namespace Server.Service.Users
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             var config = services.GetService<Common.User.Config>();
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-            Logger.Instance.Info("账号模块已加载");
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Information("账号模块已加载");
             if (config.Enable)
             {
-                Logger.Instance.Debug($"已启用账号验证");
+                Log.Debug($"已启用账号验证");
             }
             else
             {
-                Logger.Instance.Info($"未启用账号验证");
+                Log.Information($"未启用账号验证");
             }
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
     }
 }

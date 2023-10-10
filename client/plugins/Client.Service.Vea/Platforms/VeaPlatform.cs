@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Client.Service.Vea.Models;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Vea.Platforms

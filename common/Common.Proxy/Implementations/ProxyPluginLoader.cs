@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Common.Libs;
+using Common.Proxy;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
+using Serilog;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     public static class ProxyPluginLoader
     {
@@ -18,7 +21,7 @@ namespace Common.Proxy
         {
             if (plugins.ContainsKey(plugin.Id))
             {
-                Logger.Instance.Error($"plugin {plugin.Id} : {plugin.GetType().Name} already exists");
+                Log.Error($"plugin {plugin.Id} : {plugin.GetType().Name} already exists");
             }
             else
             {

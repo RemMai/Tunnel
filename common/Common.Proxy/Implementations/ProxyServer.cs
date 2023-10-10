@@ -5,13 +5,16 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     [AutoInject(ServiceLifetime.Singleton, typeof(IProxyServer))]
     public sealed class ProxyServer : IProxyServer
@@ -33,13 +36,13 @@ namespace Common.Proxy
         {
             if (serversManager.Contains(port))
             {
-                Logger.Instance.Error($"port:{port} already exists");
+                Log.Error($"port:{port} already exists");
                 return false;
             }
 
             if (ProxyPluginLoader.GetPlugin(pluginId, out IProxyPlugin plugin) == false)
             {
-                Logger.Instance.Error($"plugin:{pluginId} not exists");
+                Log.Error($"plugin:{pluginId} not exists");
                 return false;
             }
 
@@ -89,7 +92,7 @@ namespace Common.Proxy
             acceptEventArg.Completed += IO_Completed;
             StartAccept(acceptEventArg);
 
-            Logger.Instance.Warning($"{plugin.Name}->port:{port}  started");
+            Log.Warning($"{plugin.Name}->port:{port}  started");
             plugin.Started(port);
 
             IAsyncResult result = server.UdpClient.BeginReceive(ProcessReceiveUdp, token);
@@ -108,8 +111,7 @@ namespace Common.Proxy
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 
@@ -124,7 +126,7 @@ namespace Common.Proxy
                     ProcessReceive(e);
                     break;
                 default:
-                    Logger.Instance.Error(e.LastOperation.ToString());
+                    Log.Error(e.LastOperation.ToString());
                     break;
             }
         }
@@ -183,8 +185,7 @@ namespace Common.Proxy
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 
@@ -270,7 +271,7 @@ namespace Common.Proxy
                 CloseClientSocket(e);
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                 {
-                    Logger.Instance.Error($"{token.Request.RequestId} {ex + ""}");
+                    Log.Error($"{token.Request.RequestId} {ex + ""}");
                 }
             }
         }
@@ -294,7 +295,7 @@ namespace Common.Proxy
             catch (Exception ex)
             {
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error($"listen udp -> error " + ex);
+                    Log.Error($"listen udp -> error " + ex);
             }
         }
 
@@ -343,10 +344,7 @@ namespace Common.Proxy
             }
             catch (Exception ex)
             {
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                {
-                    Logger.Instance.Error(ex);
-                }
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
             finally
             {
@@ -505,8 +503,7 @@ namespace Common.Proxy
             catch (Exception ex)
             {
                 clientsManager.TryRemove(info.RequestId, out _);
-                if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                    Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
     }

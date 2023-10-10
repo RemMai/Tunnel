@@ -1,8 +1,8 @@
 ﻿using System.Net;
-using Common.Server;
+using Common.Proxy.Interfaces;
 using Common.Server.Interfaces;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
     public sealed class ProxyInfo : ProxyBaseInfo
     {

@@ -15,11 +15,12 @@ using Client.Realize.Messengers.Crypto;
 using Client.Realize.Messengers.Heart;
 using Client.Realize.Messengers.PunchHole;
 using Client.Realize.Messengers.Relay;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Realize.Messengers.Clients
 {
@@ -165,7 +166,7 @@ namespace Client.Realize.Messengers.Clients
                 //主动连接的，未知掉线信息的，去尝试重连一下
                 if (config.Client.UseReConnect && client.OnlineType == ClientOnlineTypes.Active && client.OfflineType == ClientOfflineTypes.Disconnect)
                 {
-                    Logger.Instance.Warning($"尝试对【{client.Name}】重新打洞");
+                    Log.Warning($"尝试对【{client.Name}】重新打洞");
                     ConnectClient(client);
                 }
             }
@@ -178,7 +179,7 @@ namespace Client.Realize.Messengers.Clients
             }
 
 
-            Logger.Instance.Warning($"{connection.ServerType} Client 断开~~~~${connection.Address}");
+            Log.Warning($"{connection.ServerType} Client 断开~~~~${connection.Address}");
             if (clientInfoCaching.Get(connection.ConnectId, out ClientInfo client))
             {
                 if (ReferenceEquals(connection, client.Connection))
@@ -212,7 +213,7 @@ namespace Client.Realize.Messengers.Clients
         {
             if (client.ConnectionId == signInState.ConnectId)
             {
-                Logger.Instance.Error($"canot connect you self");
+                Log.Error($"canot connect you self");
                 return;
             }
             if (signInState.LocalInfo.IsConnecting)
@@ -267,7 +268,7 @@ namespace Client.Realize.Messengers.Clients
                 }
                 else if (result == EnumConnectResult.BreakOff)
                 {
-                    //Logger.Instance.Error($"打洞被跳过，最大的可能是，【{Client.Name}】的打洞失败消息比本消息“反向连接”来的晚，可以重新手动尝试");
+                    //Log.Error($"打洞被跳过，最大的可能是，【{Client.Name}】的打洞失败消息比本消息“反向连接”来的晚，可以重新手动尝试");
                 }
                 client.TryReverseValue = ClientInfo.TryReverseDefault;
             });
@@ -285,7 +286,7 @@ namespace Client.Realize.Messengers.Clients
             }
             else
             {
-                Logger.Instance.Error($"收到反向连接，但是这个客户端不存在，可能是因为对面比此客户端更早收到客户端列表数据");
+                Log.Error($"收到反向连接，但是这个客户端不存在，可能是因为对面比此客户端更早收到客户端列表数据");
             }
         }
 
@@ -351,7 +352,7 @@ namespace Client.Realize.Messengers.Clients
                 {
                     return EnumConnectResult.Success;
                 }
-                Logger.Instance.Error((result.Result as ConnectFailModel).Msg);
+                Log.Error((result.Result as ConnectFailModel).Msg);
             }
 
             client.SetConnecting(false);
@@ -384,7 +385,7 @@ namespace Client.Realize.Messengers.Clients
                 {
                     return EnumConnectResult.Success;
                 }
-                Logger.Instance.Error((result.Result as ConnectFailModel).Msg);
+                Log.Error((result.Result as ConnectFailModel).Msg);
             }
 
             client.SetConnecting(false);
@@ -430,13 +431,13 @@ namespace Client.Realize.Messengers.Clients
         {
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"Clients 登出清理");
+                Log.Debug($"Clients 登出清理");
             }
             firstClients.Reset();
             clientInfoCaching.Clear();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Debug($"Clients 登出清理结束");
+                Log.Debug($"Clients 登出清理结束");
             }
         }
 
@@ -500,7 +501,7 @@ namespace Client.Realize.Messengers.Clients
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 
@@ -559,7 +560,7 @@ namespace Client.Realize.Messengers.Clients
         {
             if ((signInState.RemoteInfo.Access & 1) != 1)
             {
-                Logger.Instance.Warning($"server Relay not available");
+                Log.Warning($"server Relay not available");
                 return;
             }
 
@@ -581,12 +582,12 @@ namespace Client.Realize.Messengers.Clients
         {
             if (relayids.Length < 3)
             {
-                Logger.Instance.Error($"relayids length least 3");
+                Log.Error($"relayids length least 3");
                 return;
             };
             if (sourceConnection == null || sourceConnection.Connected == false)
             {
-                Logger.Instance.Error($"sourceConnection is null");
+                Log.Error($"sourceConnection is null");
                 return;
             }
 
@@ -599,7 +600,7 @@ namespace Client.Realize.Messengers.Clients
                 bool relayResult = await relayMessengerSender.Relay(relayids, connection);
                 if (relayResult == false)
                 {
-                    Logger.Instance.Error($"Relay fail");
+                    Log.Error($"Relay fail");
                     return;
                 }
                 if (config.Client.Encode)
@@ -607,7 +608,7 @@ namespace Client.Realize.Messengers.Clients
                     ICrypto crypto = await cryptoSwap.Swap(connection, config.Client.EncodePassword);
                     if (crypto == null)
                     {
-                        Logger.Instance.Error("交换密钥失败，如果客户端设置了密钥，则目标端必须设置相同的密钥，如果目标端未设置密钥，则客户端必须留空");
+                        Log.Error("交换密钥失败，如果客户端设置了密钥，则目标端必须设置相同的密钥，如果目标端未设置密钥，则客户端必须留空");
                         return;
                     }
                     connection.EncodeEnable(crypto);

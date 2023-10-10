@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Common.Proxy.Models;
 
-
-namespace Common.Proxy
+namespace Common.Proxy.Interfaces
 {
     public interface IProxyClient
     {

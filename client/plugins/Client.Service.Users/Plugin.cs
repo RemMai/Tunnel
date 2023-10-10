@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Common.Server;
 using System.Reflection;
 using Common.Libs;
+using Serilog;
 
 namespace Client.Service.Users
 {
@@ -11,9 +12,9 @@ namespace Client.Service.Users
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             var config = services.GetService<Common.User.Config>();
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-            Logger.Instance.Info("账号权限模块已加载");
-            Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            Log.Information("账号权限模块已加载");
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
         }
     }
 }

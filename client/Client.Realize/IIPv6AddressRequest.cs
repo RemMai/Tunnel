@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize

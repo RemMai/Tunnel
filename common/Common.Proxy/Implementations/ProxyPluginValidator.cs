@@ -1,10 +1,11 @@
-﻿using Common.Libs.AutoInject.Attributes;
-using Common.proxy.Enums;
-using Common.Server;
+﻿using Common.Extensions.AutoInject.Attributes;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     [AutoInject(ServiceLifetime.Singleton)]
     public class ProxyPluginValidator : IProxyPluginValidator

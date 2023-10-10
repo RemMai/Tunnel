@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Common.proxy.Enums
+namespace Common.Proxy.Enums
 {
     [Flags]
     public enum EnumProxyCommandStatusMsg : byte

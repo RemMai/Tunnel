@@ -1,4 +1,5 @@
 ﻿using Common.Proxy;
+using Common.Proxy.Models;
 
 namespace Common.ForWard.Interfaces
 {

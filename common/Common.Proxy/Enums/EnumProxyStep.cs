@@ -1,4 +1,4 @@
-﻿namespace Common.proxy.Enums
+﻿namespace Common.Proxy.Enums
 {
     /// <summary>
     /// 当前处于协议的哪一步， 2位

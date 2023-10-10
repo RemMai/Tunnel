@@ -1,18 +1,17 @@
-﻿using Common.Libs.Extends;
-using System.Net.Sockets;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using System;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
-using Common.proxy.Enums;
-using Common.Server;
+using Common.Libs.Extends;
+using Common.Proxy.Enums;
+using Common.Proxy.Interfaces;
+using Common.Proxy.Models;
 using Common.Server.Attributes;
 using Common.Server.Enums;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Proxy
+namespace Common.Proxy.Implementations
 {
     [MessengerIdRange((ushort)ProxyMessengerIds.Min, (ushort)ProxyMessengerIds.Max)]
     [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]

@@ -3,7 +3,7 @@ using Common.Server;
 using System;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;

@@ -1,6 +1,5 @@
 ﻿using Common.Libs;
 using Common.Libs.Extends;
-using Common.Server;
 using Common.Server.Servers.Udp;
 using LiteNetLib;
 using System;
@@ -15,10 +14,11 @@ using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.udp;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Interfaces;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Client.Realize.Messengers.PunchHole.udp
 {
@@ -151,7 +151,7 @@ namespace Client.Realize.Messengers.PunchHole.udp
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
         private void AddSendTimeout(ulong toid)
@@ -221,7 +221,7 @@ namespace Client.Realize.Messengers.PunchHole.udp
             }
             else
             {
-                Logger.Instance.Warning($"udp OnStep1 未找到通道：{model.RawData.FromId}");
+                Log.Warning($"udp OnStep1 未找到通道：{model.RawData.FromId}");
                 await SendStep2Fail(model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
             }
         }
@@ -234,13 +234,13 @@ namespace Client.Realize.Messengers.PunchHole.udp
                 PunchHoleNotifyInfo data = model.Data as PunchHoleNotifyInfo;
                 if (connectCache.TryGetValue(model.RawData.FromId, out ConnectCacheModel cache) == false)
                 {
-                    Logger.Instance.Error($"udp 找不到缓存");
+                    Log.Error($"udp 找不到缓存");
                     await SendStep2Fail(model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
                     return;
                 }
                 if (clientInfoCaching.GetUdpserver(model.RawData.FromId, out UdpServer udpServer) == false)
                 {
-                    Logger.Instance.Error($"udp 找不到通道服务器：{model.RawData.FromId}");
+                    Log.Error($"udp 找不到通道服务器：{model.RawData.FromId}");
                     await SendStep2Fail(model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
                     return;
                 }
@@ -264,7 +264,7 @@ namespace Client.Realize.Messengers.PunchHole.udp
 
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                 {
-                    Logger.Instance.Debug($"尝试连接局域网:{string.Join("\n", ips.Select(c => c.ToString()).ToArray())}");
+                    Log.Debug($"尝试连接局域网:{string.Join("\n", ips.Select(c => c.ToString()).ToArray())}");
                 }
                 try
                 {
@@ -289,7 +289,7 @@ namespace Client.Realize.Messengers.PunchHole.udp
                                 udpServer.SendUnconnectedMessage(Helper.EmptyArray, new IPEndPoint(data.Ip, data.Port + i));
                             }
                         }
-                        //Logger.Instance.DebugDebug($"尝试连接:{string.Join("\n", ips.Select(c => c.ToString()).ToArray())}");
+                        //Log.DebugDebug($"尝试连接:{string.Join("\n", ips.Select(c => c.ToString()).ToArray())}");
                         peers = ips.Select(ip => udpServer.Connect(ip)).ToList();
                         await Task.Delay(1000);
                         peer = peers.FirstOrDefault(c => c != null && c.ConnectionState == ConnectionState.Connected);
@@ -314,7 +314,7 @@ namespace Client.Realize.Messengers.PunchHole.udp
                     {
                         IConnection connection = peer.Tag as IConnection;
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                            Logger.Instance.Debug($"udp {connection.Address} connect");
+                            Log.Debug($"udp {connection.Address} connect");
                         await CryptoSwap(connection).ConfigureAwait(false);
                         await SendStep3(connection, model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
                     }
@@ -322,15 +322,15 @@ namespace Client.Realize.Messengers.PunchHole.udp
                     {
                         await SendStep2Fail(model.RawData.FromId, model.RawData.NewTunnel).ConfigureAwait(false);
                         if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
-                            Logger.Instance.Error($"udp {data.Ip}:{data.Port} connect fail");
+                            Log.Error($"udp {data.Ip}:{data.Port} connect fail");
                     }
                 }
                 catch (Exception ex)
                 {
                     if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                     {
-                        Logger.Instance.Error($"udp {data.Ip}:{data.Port} connect fail");
-                        Logger.Instance.Error(ex);
+                        Log.Error($"udp {data.Ip}:{data.Port} connect fail");
+                        Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                     }
                 }
             });
@@ -342,7 +342,7 @@ namespace Client.Realize.Messengers.PunchHole.udp
                 ICrypto crypto = await cryptoSwap.Swap(connection, config.Client.EncodePassword);
                 if (crypto == null)
                 {
-                    Logger.Instance.Error("udp打洞交换密钥失败，可能是两端密钥不一致，A如果设置了密钥，则B必须设置相同的密钥，如果B未设置密钥，则A必须留空");
+                    Log.Error("udp打洞交换密钥失败，可能是两端密钥不一致，A如果设置了密钥，则B必须设置相同的密钥，如果B未设置密钥，则A必须留空");
                 }
                 else
                 {

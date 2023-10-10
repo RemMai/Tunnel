@@ -1,5 +1,5 @@
-﻿using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
+﻿using Common.Extensions.AutoInject.Attributes;
+using Common.Libs;
 using Common.Server;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;

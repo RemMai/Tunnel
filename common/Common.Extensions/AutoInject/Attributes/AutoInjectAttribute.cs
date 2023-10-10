@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Common.Libs.AutoInject.Attributes;
+namespace Common.Extensions.AutoInject.Attributes;
 
 /// <summary>
 /// life: <br /> <para>1: Scoped (default) </para> <para>2: Singleton</para><para>3: Transient</para>

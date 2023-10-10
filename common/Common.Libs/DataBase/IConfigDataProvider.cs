@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Common.Libs.DataBase
 {
@@ -61,12 +62,12 @@ namespace Common.Libs.DataBase
                 }
                 else
                 {
-                    Logger.Instance.Warning($"{fileName} 配置文件缺失~");
+                    Log.Warning($"{fileName} 配置文件缺失~");
                 }
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error($"{fileName} 配置文件解析有误~ :{ex}");
+                Log.Error($"{fileName} 配置文件解析有误~ :{ex}");
             }
 
             return null;

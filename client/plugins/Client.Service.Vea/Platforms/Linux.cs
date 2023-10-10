@@ -5,6 +5,7 @@ using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Linq;
 using Client.Service.Vea.Models;
+using Serilog;
 
 namespace Client.Service.Vea.Platforms
 {
@@ -32,7 +33,7 @@ namespace Client.Service.Vea.Platforms
             if (str.Contains(VeaName) == false)
             {
                 string msg = Command.Linux(string.Empty, new string[] { $"ip tuntap add mode tun dev {VeaName}" });
-                Logger.Instance.Error(msg);
+                Log.Error(msg);
                 return false;
             }
 
@@ -42,13 +43,13 @@ namespace Client.Service.Vea.Platforms
                 string command = $" -device {VeaName} -proxy socks5://127.0.0.1:{config.ListenPort} -interface {interfaceLinux} -loglevel silent";
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                 {
-                    Logger.Instance.Warning($"vea linux ->exec:{command}");
+                    Log.Warning($"vea linux ->exec:{command}");
                 }
                 tun2SocksProcess = Command.Execute("./tun2socks-linux", command);
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex.Message);
+                Log.Error(ex.Message);
                 return false;
             }
 
@@ -80,7 +81,7 @@ namespace Client.Service.Vea.Platforms
             {
                 if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
                 {
-                    Logger.Instance.Warning($"vea linux ->add route:{string.Join(Environment.NewLine, commands)}");
+                    Log.Warning($"vea linux ->add route:{string.Join(Environment.NewLine, commands)}");
                 }
                 Command.Linux(string.Empty, commands);
             }
@@ -94,7 +95,7 @@ namespace Client.Service.Vea.Platforms
 
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
             {
-                Logger.Instance.Warning($"vea linux ->del route:{string.Join(Environment.NewLine, commands)}");
+                Log.Warning($"vea linux ->del route:{string.Join(Environment.NewLine, commands)}");
             }
             Command.Linux(string.Empty, commands);
         }

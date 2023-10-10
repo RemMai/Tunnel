@@ -83,6 +83,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.Vea", "Clien
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.Users", "Client.Service.Users", "{A9257451-4251-4457-B68E-60510C7DE073}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Extensions", "Common\Common.Extensions\Common.Extensions.csproj", "{0C500823-D2A6-426D-8C93-68FFE7AF137A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -331,6 +333,14 @@ Global
 		{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}.Release|x64.ActiveCfg = Release|Any CPU
 		{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}.Release|x64.Build.0 = Release|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Debug|x64.Build.0 = Debug|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Release|x64.ActiveCfg = Release|Any CPU
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -372,6 +382,7 @@ Global
 		{A9257451-4251-4457-B68E-60510C7DE073} = {689218D7-FC93-47D5-A95B-66780B9D4870}
 		{A512EF3B-E869-4D90-AAA3-579875E15C63} = {A9257451-4251-4457-B68E-60510C7DE073}
 		{66202D5B-A3AC-4DA5-94CB-F051D5F0E459} = {A9257451-4251-4457-B68E-60510C7DE073}
+		{0C500823-D2A6-426D-8C93-68FFE7AF137A} = {D425C224-EA5F-4F17-A9F5-06AD501854C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE8935B2-54F1-4FBD-98BB-8119E42B52A6}

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Common.Proxy
+namespace Common.Proxy.Models
 {
 
     [StructLayout(LayoutKind.Explicit)]

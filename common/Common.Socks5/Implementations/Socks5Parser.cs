@@ -3,7 +3,7 @@ using System.Buffers.Binary;
 using System.Net;
 using Common.Libs;
 using Common.Libs.Extends;
-using Common.proxy.Enums;
+using Common.Proxy.Enums;
 using Common.Socks5.Enums;
 
 namespace Common.Socks5.Implementations

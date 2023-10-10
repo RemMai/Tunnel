@@ -1,5 +1,5 @@
 ﻿using client.service.ui.api.Interfaces;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace client.service.ui.api.service.Implementations

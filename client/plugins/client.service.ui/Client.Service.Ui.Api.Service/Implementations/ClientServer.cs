@@ -7,14 +7,13 @@ using Client.Service.Ui.Api;
 using client.service.ui.api.Enums;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
-using Client.Service.Ui.Api.Service.ClientServer;
 using client.service.ui.api.service.Models;
-using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server.Servers.pipeLine;
 using Common.Server.Servers.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace client.service.ui.api.service.Implementations
 {
@@ -87,7 +86,7 @@ namespace client.service.ui.api.service.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
             }
 
             server.OnMessage = (connection, frame, message) =>
@@ -205,7 +204,7 @@ namespace client.service.ui.api.service.Implementations
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error(ex);
+                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
                 return new ClientServiceResponseInfo
                 {
                     Content = ex.Message,

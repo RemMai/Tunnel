@@ -1,7 +1,8 @@
-﻿using Common.ForWard.Implementations;
+﻿using Common.Extensions.AutoInject.Attributes;
+using Common.ForWard.Implementations;
 using Common.ForWard.Interfaces;
-using Common.Libs.AutoInject.Attributes;
 using Common.Proxy;
+using Common.Proxy.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Messengers.SignIn;
 

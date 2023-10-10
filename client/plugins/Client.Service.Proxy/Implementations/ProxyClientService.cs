@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
-using Common.Libs.AutoInject.Attributes;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
+using Common.Proxy.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Service.Proxy.Implementations
@@ -27,7 +28,7 @@ namespace Client.Service.Proxy.Implementations
 
         public async Task<bool> Add(ClientServiceParamsInfo arg)
         {
-            return await config.AddFirewall(arg.Content.DeJson<Common.Proxy.FirewallItem>());
+            return await config.AddFirewall(arg.Content.DeJson<FirewallItem>());
         }
 
         public async Task<bool> Remove(ClientServiceParamsInfo arg)

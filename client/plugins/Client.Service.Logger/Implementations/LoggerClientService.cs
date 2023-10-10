@@ -4,8 +4,8 @@ using Client.Service.Logger;
 using client.service.logger.Models;
 using client.service.ui.api.Interfaces;
 using client.service.ui.api.Models;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
 

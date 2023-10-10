@@ -1,7 +1,7 @@
 ﻿using Server.Messengers.SignIn;
 using System.Collections.Generic;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
-using Common.Libs.AutoInject.Attributes;
 using Common.Server;
 using Common.Server.Interfaces;
 using Common.Server.Models;
