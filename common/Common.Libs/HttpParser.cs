@@ -6,25 +6,28 @@ namespace Common.Libs
 {
     public static class HttpParser
     {
-        private static byte[] hostBytes = Encoding.ASCII.GetBytes("host: ");
-        private static byte[] httpByte = Encoding.UTF8.GetBytes(" HTTP/");
-        private static byte[] wrapByte = Encoding.UTF8.GetBytes("\r\n");
-        private static byte[] httpMinByte = Encoding.UTF8.GetBytes("GET / HTTP/2\r\n");
-        private static byte[] connectByte = Encoding.UTF8.GetBytes("CONNECT- ");
-        private static byte[][] headers = new byte[][] {
-            Encoding.UTF8.GetBytes("GET /"),
-            Encoding.UTF8.GetBytes("POST /"),
-            Encoding.UTF8.GetBytes("OPTIONS /"),
-            Encoding.UTF8.GetBytes("PUT /"),
-            Encoding.UTF8.GetBytes("DELETE /"),
-            Encoding.UTF8.GetBytes("PATCH /"),
-            Encoding.UTF8.GetBytes("HEAD /"),
+        private static readonly byte[] HostBytes = "host: "u8.ToArray();
+        private static readonly byte[] HttpByte = " HTTP/"u8.ToArray();
+        private static readonly byte[] WrapByte = "\r\n"u8.ToArray();
+        private static readonly byte[] HttpMinByte = "GET / HTTP/2\r\n"u8.ToArray();
+        private static readonly byte[] ConnectByte = "CONNECT- "u8.ToArray();
+
+        private static readonly byte[][] Headers =
+        {
+            "GET /"u8.ToArray(),
+            "POST /"u8.ToArray(),
+            "OPTIONS /"u8.ToArray(),
+            "PUT /"u8.ToArray(),
+            "DELETE /"u8.ToArray(),
+            "PATCH /"u8.ToArray(),
+            "HEAD /"u8.ToArray(),
         };
 
         /// <summary>
         /// 从http报文中获取host
         /// </summary>
-        /// <param name="span"></param>
+        /// <param name="memory"></param>
+        /// <param name="portStart"></param>
         /// <returns></returns>
         public static Memory<byte> GetHost(in Memory<byte> memory, ref int portStart)
         {
@@ -38,20 +41,20 @@ namespace Common.Libs
                     if (span[i] == 10)
                     {
                         //索引超出 或者 两个换行，headers已结束
-                        if (i + 1 + hostBytes.Length >= span.Length || i + 1 >= span.Length || span[i + 1] == 10)
+                        if (i + 1 + HostBytes.Length >= span.Length || i + 1 >= span.Length || span[i + 1] == 10)
                         {
                             break;
                         }
+
                         //因为 headers 是从第二行开始，所以，可以在碰到每个\n时，向后获取与目标key相同长度的内容与之匹配，成功则已找到key，标识位置
-                        Span<byte> keySpan = span.Slice(i + 1, hostBytes.Length);
+                        Span<byte> keySpan = span.Slice(i + 1, HostBytes.Length);
                         keySpan[0] |= 32;
-                        if (keySpan[0] == hostBytes[0] && keySpan.SequenceEqual(hostBytes))
+                        if (keySpan[0] == HostBytes[0] && keySpan.SequenceEqual(HostBytes))
                         {
-                            keyIndex = i + 1 + hostBytes.Length;
-                            i += hostBytes.Length - 1;
+                            keyIndex = i + 1 + HostBytes.Length;
+                            i += HostBytes.Length - 1;
                         }
                     }
-
                 }
                 //找到key之后，如果碰到了\n，就说明value内容已结束，截取key的位置到当前\n位置，就是值内容
                 else if (span[i] == 10)
@@ -63,13 +66,14 @@ namespace Common.Libs
                     portStart = i - keyIndex;
                 }
             }
+
             return Array.Empty<byte>();
         }
 
         public static bool GetIsCustomConnect(in Memory<byte> memory)
         {
-            if (memory.Length < connectByte.Length) return false;
-            return memory.Slice(0, connectByte.Length).Span.SequenceEqual(connectByte);
+            if (memory.Length < ConnectByte.Length) return false;
+            return memory.Slice(0, ConnectByte.Length).Span.SequenceEqual(ConnectByte);
         }
 
         /// <summary>
@@ -108,6 +112,7 @@ namespace Common.Libs
         {
             return "HTTP/1.1 200 Connection Established\r\n\r\n".ToBytes();
         }
+
         /// <summary>
         /// http connect 失败报文
         /// </summary>
@@ -124,19 +129,21 @@ namespace Common.Libs
         /// <returns></returns>
         public static int IsHttp(Memory<byte> data)
         {
-            if (data.Length < httpMinByte.Length) return -1;
+            if (data.Length < HttpMinByte.Length) return -1;
             Span<byte> span = data.Span;
-            for (int i = 0; i < headers.Length; i++)
+            foreach (var header in Headers)
             {
-                if (span.Slice(0, headers[i].Length).SequenceEqual(headers[i]))
+                if (span[..header.Length].SequenceEqual(header))
                 {
-                    if (span.Slice(headers[i].Length).IndexOf(httpByte) > 0)
+                    if (span[header.Length..].IndexOf(HttpByte) > 0)
                     {
-                        return span.IndexOf(wrapByte);
+                        return span.IndexOf(WrapByte);
                     }
+
                     return -1;
                 }
             }
+
             return -1;
         }
     }

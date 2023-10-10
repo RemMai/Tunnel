@@ -3,79 +3,85 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{D425C224-EA5F-4F17-A9F5-06AD501854C4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D425C224-EA5F-4F17-A9F5-06AD501854C4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{ED711009-8175-4193-BFDA-FD88C4B1E4AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{ED711009-8175-4193-BFDA-FD88C4B1E4AD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{445E2A5D-0BFB-4C87-AC15-B703960BB22D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{445E2A5D-0BFB-4C87-AC15-B703960BB22D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "client\Client\Client.csproj", "{E3F0F1AD-3821-455B-96E2-CEC89888908F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client\Client.csproj", "{E3F0F1AD-3821-455B-96E2-CEC89888908F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service", "client\Client.Service\Client.Service.csproj", "{F7ACA3CA-CC35-40AF-BEA6-B3EE211474BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service", "Client\Client.Service\Client.Service.csproj", "{F7ACA3CA-CC35-40AF-BEA6-B3EE211474BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{689218D7-FC93-47D5-A95B-66780B9D4870}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Logger", "client\plugins\Client.Service.Logger\Client.Service.Logger.csproj", "{A7E1A8C6-4159-4EBB-92DF-049DDEDEE7A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Logger", "Client\plugins\Client.Service.Logger\Client.Service.Logger.csproj", "{A7E1A8C6-4159-4EBB-92DF-049DDEDEE7A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service", "server\server.service\Server.Service.csproj", "{1FF71033-CC1C-44E2-B689-B0268127F29F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service", "Server\Server.Service\Server.Service.csproj", "{1FF71033-CC1C-44E2-B689-B0268127F29F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Libs", "common\Common.Libs\Common.Libs.csproj", "{612FDDA6-39B6-456F-B3A0-36725B37AF79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Libs", "Common\Common.Libs\Common.Libs.csproj", "{612FDDA6-39B6-456F-B3A0-36725B37AF79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Server", "common\Common.Server\Common.Server.csproj", "{C2114A63-05C2-409E-A30B-7E4A28F13486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Server", "Common\Common.Server\Common.Server.csproj", "{C2114A63-05C2-409E-A30B-7E4A28F13486}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Ui.Api", "client\plugins\client.service.ui\Client.Service.Ui.Api\Client.Service.Ui.Api.csproj", "{A377D8BC-9F70-4969-AC5C-F4051F5DAA21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Ui.Api", "Client\plugins\client.service.ui\Client.Service.Ui.Api\Client.Service.Ui.Api.csproj", "{A377D8BC-9F70-4969-AC5C-F4051F5DAA21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.UI", "Client.Service.UI", "{DE48968C-138E-44FA-8A4D-0A4508FA7037}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Ui.Api.Service", "client\plugins\client.service.ui\Client.Service.Ui.Api.Service\Client.Service.Ui.Api.Service.csproj", "{FE95EED5-0653-4F27-96C5-743CE31C69EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Ui.Api.Service", "Client\plugins\client.service.ui\Client.Service.Ui.Api.Service\Client.Service.Ui.Api.Service.csproj", "{FE95EED5-0653-4F27-96C5-743CE31C69EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{B678CEEF-2268-4906-9610-9B12CB9C4D7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "server\server\Server.csproj", "{0474D5EF-A792-4B48-8C3A-A799CB607CA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server\Server.csproj", "{0474D5EF-A792-4B48-8C3A-A799CB607CA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Socks5", "common\Common.Socks5\Common.Socks5.csproj", "{103E0606-960F-4F07-9D5D-09E676DE6CE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Socks5", "Common\Common.Socks5\Common.Socks5.csproj", "{103E0606-960F-4F07-9D5D-09E676DE6CE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Realize", "client\Client.Realize\Client.Realize.csproj", "{B281838A-3805-48EA-8368-5A1AFD59F95E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Realize", "Client\Client.Realize\Client.Realize.csproj", "{B281838A-3805-48EA-8368-5A1AFD59F95E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Vea", "client\plugins\Client.Service.Vea\Client.Service.Vea.csproj", "{DD690846-BCD7-464A-A330-C3B3D11B304B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Vea", "Client\plugins\Client.Service.Vea\Client.Service.Vea.csproj", "{DD690846-BCD7-464A-A330-C3B3D11B304B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0732D9F3-310A-44BE-AD37-E2346C5ACEB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Users.Server", "client\plugins\Client.Service.Users.Server\Client.Service.Users.Server.csproj", "{66202D5B-A3AC-4DA5-94CB-F051D5F0E459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Users.Server", "Client\plugins\Client.Service.Users.Server\Client.Service.Users.Server.csproj", "{66202D5B-A3AC-4DA5-94CB-F051D5F0E459}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.Users", "server\plugins\server.service.users\Server.Service.Users.csproj", "{60A33778-F37A-41FB-A085-1D5BAE300B3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.Users", "Server\plugins\server.service.users\Server.Service.Users.csproj", "{60A33778-F37A-41FB-A085-1D5BAE300B3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Service.Tray", "client\client.service.tray\Client.Service.Tray.csproj", "{9F80193D-3BA8-4DDA-B5A9-2C2498EA5255}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Service.Tray", "Client\Client.Service.Tray\Client.Service.Tray.csproj", "{9F80193D-3BA8-4DDA-B5A9-2C2498EA5255}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Service.Tray", "server\server.service.tray\Server.Service.Tray.csproj", "{506CD3C7-F88D-451E-80E4-1E6F89C490E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Service.Tray", "Server\Server.Service.Tray\Server.Service.Tray.csproj", "{506CD3C7-F88D-451E-80E4-1E6F89C490E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "tests\test\test.csproj", "{AC263F4C-CF06-4EE8-847B-DBEF56EC48F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Proxy", "common\Common.Proxy\Common.Proxy.csproj", "{FF6FE360-0B3B-4911-8A5A-FC19448D3BE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Proxy", "Common\Common.Proxy\Common.Proxy.csproj", "{FF6FE360-0B3B-4911-8A5A-FC19448D3BE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Forward", "client\plugins\Client.Service.Forward\Client.Service.Forward.csproj", "{FBBCEFF4-10FA-4CF9-B165-8D7F0497174D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.ForWard", "Client\plugins\Client.Service.ForWard\Client.Service.ForWard.csproj", "{FBBCEFF4-10FA-4CF9-B165-8D7F0497174D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Forward.Server", "client\plugins\Client.Service.Forward.Server\Client.Service.Forward.Server.csproj", "{E41B1E63-339F-4FAB-9BA4-3A253D9B714B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.ForWard.Server", "Client\plugins\Client.Service.ForWard.Server\Client.Service.ForWard.Server.csproj", "{E41B1E63-339F-4FAB-9BA4-3A253D9B714B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Forward", "common\Common.Forward\Common.Forward.csproj", "{96164CBE-72E9-43D3-B9C3-DD5AE0309C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ForWard", "Common\Common.ForWard\Common.ForWard.csproj", "{96164CBE-72E9-43D3-B9C3-DD5AE0309C9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.ForWard", "server\plugins\server.service.forward\Server.Service.ForWard.csproj", "{2DEC3466-8B66-4640-9117-0345C837B560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.ForWard", "Server\plugins\server.service.forward\Server.Service.ForWard.csproj", "{2DEC3466-8B66-4640-9117-0345C837B560}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.ForWard.Model", "server\plugins\server.service.forward.model\Server.Service.ForWard.Model.csproj", "{A4491C64-1675-4B82-B0CA-1D563A21DD29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.ForWard.Model", "Server\plugins\server.service.forward.model\Server.Service.ForWard.Model.csproj", "{A4491C64-1675-4B82-B0CA-1D563A21DD29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.User", "common\Common.User\Common.User.csproj", "{FC50EF6A-4A8E-4A82-B0D9-533A7380DACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.User", "Common\Common.User\Common.User.csproj", "{FC50EF6A-4A8E-4A82-B0D9-533A7380DACA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Users", "client\plugins\Client.Service.Users\Client.Service.Users.csproj", "{A512EF3B-E869-4D90-AAA3-579875E15C63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Users", "Client\plugins\Client.Service.Users\Client.Service.Users.csproj", "{A512EF3B-E869-4D90-AAA3-579875E15C63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Proxy", "client\plugins\Client.Service.Proxy\Client.Service.Proxy.csproj", "{574751E1-E250-4C2D-BDE1-36AE6DF0E0C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Proxy", "Client\plugins\Client.Service.Proxy\Client.Service.Proxy.csproj", "{574751E1-E250-4C2D-BDE1-36AE6DF0E0C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "udp", "tests\udp\udp.csproj", "{39EB497C-3FFC-4278-8121-34B17B86E5A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Vea", "common\Common.Vea\Common.Vea.csproj", "{8BA473E9-1A9E-4187-8094-C929BDC68B9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Vea", "Common\Common.Vea\Common.Vea.csproj", "{8BA473E9-1A9E-4187-8094-C929BDC68B9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.Vea", "server\plugins\server.service.vea\Server.Service.Vea.csproj", "{85F8253D-ED13-4391-B638-3F8148A50834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Service.Vea", "Server\plugins\Server.Service.Vea\Server.Service.Vea.csproj", "{85F8253D-ED13-4391-B638-3F8148A50834}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Vea.Server", "client\plugins\Client.Service.Vea.Server\Client.Service.Vea.Server.csproj", "{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Service.Vea.Server", "Client\plugins\Client.Service.Vea.Server\Client.Service.Vea.Server.csproj", "{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.ForWard", "Client.Service.ForWard", "{D0DEB45A-AB18-45CA-8D61-6D58C757C598}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.Vea", "Client.Service.Vea", "{7CE841D5-BE5D-4C6E-BE07-E786B77A4E3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Service.Users", "Client.Service.Users", "{A9257451-4251-4457-B68E-60510C7DE073}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -344,25 +350,28 @@ Global
 		{0474D5EF-A792-4B48-8C3A-A799CB607CA5} = {445E2A5D-0BFB-4C87-AC15-B703960BB22D}
 		{103E0606-960F-4F07-9D5D-09E676DE6CE5} = {D425C224-EA5F-4F17-A9F5-06AD501854C4}
 		{B281838A-3805-48EA-8368-5A1AFD59F95E} = {ED711009-8175-4193-BFDA-FD88C4B1E4AD}
-		{DD690846-BCD7-464A-A330-C3B3D11B304B} = {689218D7-FC93-47D5-A95B-66780B9D4870}
-		{66202D5B-A3AC-4DA5-94CB-F051D5F0E459} = {689218D7-FC93-47D5-A95B-66780B9D4870}
 		{60A33778-F37A-41FB-A085-1D5BAE300B3D} = {B678CEEF-2268-4906-9610-9B12CB9C4D7B}
 		{9F80193D-3BA8-4DDA-B5A9-2C2498EA5255} = {ED711009-8175-4193-BFDA-FD88C4B1E4AD}
 		{506CD3C7-F88D-451E-80E4-1E6F89C490E4} = {445E2A5D-0BFB-4C87-AC15-B703960BB22D}
 		{AC263F4C-CF06-4EE8-847B-DBEF56EC48F3} = {0732D9F3-310A-44BE-AD37-E2346C5ACEB6}
 		{FF6FE360-0B3B-4911-8A5A-FC19448D3BE3} = {D425C224-EA5F-4F17-A9F5-06AD501854C4}
-		{FBBCEFF4-10FA-4CF9-B165-8D7F0497174D} = {689218D7-FC93-47D5-A95B-66780B9D4870}
-		{E41B1E63-339F-4FAB-9BA4-3A253D9B714B} = {689218D7-FC93-47D5-A95B-66780B9D4870}
 		{96164CBE-72E9-43D3-B9C3-DD5AE0309C9F} = {D425C224-EA5F-4F17-A9F5-06AD501854C4}
 		{2DEC3466-8B66-4640-9117-0345C837B560} = {B678CEEF-2268-4906-9610-9B12CB9C4D7B}
 		{A4491C64-1675-4B82-B0CA-1D563A21DD29} = {B678CEEF-2268-4906-9610-9B12CB9C4D7B}
 		{FC50EF6A-4A8E-4A82-B0D9-533A7380DACA} = {D425C224-EA5F-4F17-A9F5-06AD501854C4}
-		{A512EF3B-E869-4D90-AAA3-579875E15C63} = {689218D7-FC93-47D5-A95B-66780B9D4870}
 		{574751E1-E250-4C2D-BDE1-36AE6DF0E0C5} = {689218D7-FC93-47D5-A95B-66780B9D4870}
 		{39EB497C-3FFC-4278-8121-34B17B86E5A9} = {0732D9F3-310A-44BE-AD37-E2346C5ACEB6}
 		{8BA473E9-1A9E-4187-8094-C929BDC68B9D} = {D425C224-EA5F-4F17-A9F5-06AD501854C4}
 		{85F8253D-ED13-4391-B638-3F8148A50834} = {B678CEEF-2268-4906-9610-9B12CB9C4D7B}
-		{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4} = {689218D7-FC93-47D5-A95B-66780B9D4870}
+		{D0DEB45A-AB18-45CA-8D61-6D58C757C598} = {689218D7-FC93-47D5-A95B-66780B9D4870}
+		{FBBCEFF4-10FA-4CF9-B165-8D7F0497174D} = {D0DEB45A-AB18-45CA-8D61-6D58C757C598}
+		{E41B1E63-339F-4FAB-9BA4-3A253D9B714B} = {D0DEB45A-AB18-45CA-8D61-6D58C757C598}
+		{7CE841D5-BE5D-4C6E-BE07-E786B77A4E3C} = {689218D7-FC93-47D5-A95B-66780B9D4870}
+		{6F4C29CE-AA4B-4FED-A7F7-9EABF715C8E4} = {7CE841D5-BE5D-4C6E-BE07-E786B77A4E3C}
+		{DD690846-BCD7-464A-A330-C3B3D11B304B} = {7CE841D5-BE5D-4C6E-BE07-E786B77A4E3C}
+		{A9257451-4251-4457-B68E-60510C7DE073} = {689218D7-FC93-47D5-A95B-66780B9D4870}
+		{A512EF3B-E869-4D90-AAA3-579875E15C63} = {A9257451-4251-4457-B68E-60510C7DE073}
+		{66202D5B-A3AC-4DA5-94CB-F051D5F0E459} = {A9257451-4251-4457-B68E-60510C7DE073}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE8935B2-54F1-4FBD-98BB-8119E42B52A6}

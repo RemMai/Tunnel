@@ -4,6 +4,8 @@ using Common.Proxy;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Client.Service.Vea.Implementations;
+using Client.Service.Vea.Interfaces;
 
 namespace Client.Service.Vea
 {
@@ -14,7 +16,7 @@ namespace Client.Service.Vea
             ProxyPluginLoader.LoadPlugin(services.GetService<IVeaSocks5ProxyPlugin>());
             var transfer = services.GetService<VeaTransfer>();
 
-            Config config = services.GetService<Config>();
+            Models.Config config = services.GetService<Models.Config>();
 
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             Logger.Instance.Debug($"虚拟网卡插件已加载，插件id:{config.Plugin}");
@@ -37,11 +39,6 @@ namespace Client.Service.Vea
             }
 
             Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-        }
-
-        public void LoadBefore(IServiceCollection services, Assembly[] assemblies)
-        {
-  
         }
     }
 }

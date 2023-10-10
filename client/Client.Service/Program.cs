@@ -10,17 +10,29 @@ using Client.Messengers.Signin;
 using Client.Realize.Messengers.PunchHole;
 using Client.Service.ForWard;
 using Client.Service.ForWard.Server;
+using client.service.forward.server.Implementations;
 using Client.Service.Logger;
+using client.service.logger.Implementations;
 using Client.Service.Proxy;
-using Client.Service.Ui.Api.Service.ClientServer;
-using Client.Service.Users;
-using Client.Service.Users.Server;
+using Client.Service.Proxy.Implementations;
+using client.service.ui.api.service.Implementations;
+using Client.Service.Users.Implementations;
+using Client.Service.Users.Server.Implementations;
 using Client.Service.Vea;
+using Client.Service.Vea.Implementations;
 using Client.Service.Vea.Server;
+using Client.Service.Vea.Server.Implementations;
+using Common.ForWard.Enums;
 using Common.Libs;
 using Common.Libs.AutoInject.Extensions;
 using Common.Proxy;
+using Common.proxy.Enums;
 using Common.Server;
+using Common.Server.Enums;
+using Common.Server.Interfaces;
+using Common.Server.Models;
+using Common.User.Enums;
+using Common.Vea.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -32,22 +44,24 @@ Assembly[] assemblies = new[]
     typeof(ClientServer).Assembly,
     typeof(LoggerClientService).Assembly,
     typeof(PunchHoleMessenger).Assembly,
-    typeof(Common.Server.Model.SignInMessengerIds).Assembly,
+    typeof(SignInMessengerIds).Assembly,
     typeof(ProxyMessenger).Assembly,
     typeof(ProxyClientService).Assembly,
     typeof(ProxyMessengerIds).Assembly,
     typeof(IIPv6AddressRequest).Assembly,
     typeof(ForwardClientService).Assembly,
     typeof(ServerForwardClientService).Assembly,
-    typeof(Common.ForWard.ForwardMessengerIds).Assembly,
+    typeof(ForwardMessengerIds).Assembly,
     typeof(VeaClientService).Assembly,
     typeof(ServerVeaClientService).Assembly,
-    typeof(Common.Vea.VeaSocks5MessengerIds).Assembly,
+    typeof(VeaSocks5MessengerIds).Assembly,
     typeof(UsersClientService).Assembly,
     typeof(ServerUsersClientService).Assembly,
-    typeof(Common.User.UsersMessengerIds).Assembly,
+    typeof(UsersMessengerIds).Assembly,
 }.Concat(AppDomain.CurrentDomain.GetAssemblies()).Distinct().ToArray();
+
 AppDomain.CurrentDomain.UnhandledException += (a, b) => { Logger.Instance.Error(b.ExceptionObject + ""); };
+
 LoggerConsole();
 var host = Host.CreateApplicationBuilder();
 host.Services.AddAutoInject(assemblies);
@@ -62,8 +76,6 @@ signInStateInfo.LocalInfo.RouteLevel = NetworkHelper.GetRouteLevel(out List<IPAd
 signInStateInfo.LocalInfo.RouteIps = ips.ToArray();
 Logger.Instance.Info($"外网距离:{signInStateInfo.LocalInfo.RouteLevel}");
 Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-
-Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
 Logger.Instance.Warning("没什么报红的，就说明运行成功了");
 Logger.Instance.Warning($"当前版本：{Helper.Version}，如果与服务器版本不一致，则可能无法连接");
 Logger.Instance.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
@@ -72,8 +84,6 @@ var config = app.Services.GetService<Client.Config>();
 app.Services.GetService<ISignInTransfer>().SignIn(config.Client.AutoReg);
 
 app.Run();
-return;
-
 
 
 void LoggerConsole()
