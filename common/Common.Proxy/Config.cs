@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Common.Libs;
 using Common.Libs.AutoInject.Attributes;
 using Common.Libs.DataBase;
 using Common.Libs.Extends;
+using Common.proxy.Enums;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.Proxy
 {
     [Table("proxy-appsettings")]
-    
     [AutoInject(ServiceLifetime.Singleton)]
     public sealed class Config
     {
@@ -224,51 +223,8 @@ namespace Common.Proxy
         }
     }
 
-    public sealed class FirewallCacheType
-    {
-        public FirewallProtocolType Protocols { get; set; }
-        public byte PluginIds { get; set; }
-        public ulong[] Ips { get; set; } = Array.Empty<ulong>();
-    }
-    [StructLayout(LayoutKind.Explicit)]
-    public struct FirewallCacheIp
-    {
-        [FieldOffset(0)]
-        public ulong Value;
-        [FieldOffset(0)]
-        public uint MaskValue;
-        [FieldOffset(4)]
-        public uint NetWork;
-        public FirewallCacheIp(ulong value)
-        {
-            Value = value;
-        }
-        public FirewallCacheIp(uint maskValue, uint netWork)
-        {
-            MaskValue = maskValue;
-            NetWork = netWork;
-        }
-    }
-    public enum FirewallProtocolType : byte
-    {
-        TCP = 1,
-        UDP = 2,
-        TCP_UDP = TCP | UDP,
-    }
-    public enum FirewallType : byte
-    {
-        Allow = 0,
-        Denied = 1,
-    }
-    public sealed class FirewallItem
-    {
-        public uint ID { get; set; }
-        public byte PluginId { get; set; }
-        public FirewallProtocolType Protocol { get; set; }
-        public FirewallType Type { get; set; }
-        public string Port { get; set; } = string.Empty;
-        public string[] IP { get; set; } = Array.Empty<string>();
-        public string Remark { get; set; } = string.Empty;
-    }
+
+
+   
 
 }

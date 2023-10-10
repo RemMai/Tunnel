@@ -9,7 +9,8 @@ using Common.Libs;
 using Common.Libs.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server;
-using Common.Server.Model;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize.Messengers.Signin

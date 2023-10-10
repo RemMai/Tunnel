@@ -1,9 +1,12 @@
 ﻿using Common.Libs;
 using Common.Libs.Extends;
 using Common.Server;
-using Common.Server.Model;
 using Server.Messengers.SignIn;
 using System.Threading.Tasks;
+using Common.Server.Attributes;
+using Common.Server.Enums;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 
 namespace Server.Service.Messengers.SignIn
 {
@@ -33,7 +36,7 @@ namespace Server.Service.Messengers.SignIn
             {
                 return;
             }
-            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)Common.Server.EnumServiceAccess.Setting) == false)
+            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)EnumServiceAccess.Setting) == false)
             {
                 return;
             }
@@ -49,7 +52,7 @@ namespace Server.Service.Messengers.SignIn
                 connection.Write(Helper.FalseArray);
                 return;
             }
-            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)Common.Server.EnumServiceAccess.Setting) == false)
+            if (serviceAccessValidator.Validate(connection.ConnectId, (uint)EnumServiceAccess.Setting) == false)
             {
                 connection.Write(Helper.FalseArray);
                 return;

@@ -1,7 +1,7 @@
 ﻿using Common.Libs;
-using Common.Server.Model;
 using System;
 using System.Threading.Tasks;
+using Common.Server.Models;
 
 namespace Client.Messengers.PunchHole.udp
 {

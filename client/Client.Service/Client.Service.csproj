@@ -32,8 +32,9 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Client.Realize\Client.Realize.csproj" />
-		<ProjectReference Include="..\plugins\Client.Service.Forward.Server\Client.Service.Forward.Server.csproj" />
-		<ProjectReference Include="..\plugins\Client.Service.Forward\Client.Service.Forward.csproj" />
+		<ProjectReference Include="..\plugins\Client.Service.ForWard.Server\Client.Service.ForWard.Server.csproj" />
+		<ProjectReference Include="..\plugins\Client.Service.ForWard\Client.Service.ForWard.csproj" />
+		<ProjectReference Include="..\plugins\Client.Service.ForWard_\Client.Service.ForWard_.csproj" />
 		<ProjectReference Include="..\plugins\Client.Service.Logger\Client.Service.Logger.csproj" />
 		<ProjectReference Include="..\plugins\Client.Service.Proxy\Client.Service.Proxy.csproj" />
 		<ProjectReference Include="..\plugins\client.service.ui\Client.Service.Ui.Api.Service\Client.Service.Ui.Api.Service.csproj" />

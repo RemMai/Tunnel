@@ -5,6 +5,8 @@ using Common.Proxy;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using client.service.forward.Implementations;
+using Common.ForWard.Interfaces;
 
 namespace Client.Service.ForWard
 {

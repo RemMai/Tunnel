@@ -1,5 +1,5 @@
-﻿using Common.Server.Model;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
+using Common.Server.Models;
 
 namespace Client.Messengers.Relay
 {

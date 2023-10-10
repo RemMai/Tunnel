@@ -1,6 +1,6 @@
 ﻿using System;
-using Common.Server.Model;
 using System.Collections.Generic;
+using Common.Server.Models;
 
 namespace Server.Messengers.SignIn
 {

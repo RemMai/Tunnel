@@ -1,9 +1,9 @@
 ﻿using Common.Libs.DataBase;
 using Common.Libs.Extends;
-using Common.Server.Model;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Server

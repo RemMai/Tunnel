@@ -1,8 +1,10 @@
 ﻿using Common.Server;
 using Server.Messengers.SignIn;
-using Common.Server.Model;
 using System.Collections.Generic;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Enums;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Service.Validators

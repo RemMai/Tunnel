@@ -1,11 +1,12 @@
-﻿using Common.Server.Model;
-using Server.Messengers.SignIn;
+﻿using Server.Messengers.SignIn;
 using Microsoft.Extensions.DependencyInjection;
 using Common.Libs;
 using System.Reflection;
 using System.Linq;
 using System;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Enums;
+using Common.Server.Models;
 
 namespace Server.Service.Validators
 {
@@ -79,7 +80,7 @@ namespace Server.Service.Validators
             //是管理员分组的
             if (string.IsNullOrWhiteSpace(config.AdminGroup) == false && model.GroupId == config.AdminGroup)
             {
-                access |= (uint)Common.Server.EnumServiceAccess.All;
+                access |= (uint)EnumServiceAccess.All;
             }
             else
             {

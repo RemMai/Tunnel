@@ -2,6 +2,7 @@
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using client.service.forward.server.Implementations;
 
 namespace Client.Service.ForWard.Server
 {
@@ -10,12 +11,6 @@ namespace Client.Service.ForWard.Server
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             services.GetService<ServerForwardTransfer>();
-        }
-
-        public void LoadBefore(IServiceCollection services, Assembly[] assemblies)
-        {
-            // services.AddSingleton<ServerForwardTransfer>();
-            // services.AddSingleton<ServerForwardMessengerSender>();
         }
     }
 }

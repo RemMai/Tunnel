@@ -2,6 +2,7 @@
 using Client.Messengers.Relay;
 using Common.Libs.AutoInject.Attributes;
 using Common.Server;
+using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize.Messengers.Relay

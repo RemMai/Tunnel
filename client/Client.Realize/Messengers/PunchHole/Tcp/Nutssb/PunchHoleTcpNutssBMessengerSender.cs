@@ -1,7 +1,6 @@
 ﻿using Common.Libs;
 using Common.Libs.Extends;
 using Common.Server;
-using Common.Server.Model;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,6 +14,8 @@ using Client.Messengers.PunchHole.Tcp;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB

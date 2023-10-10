@@ -1,6 +1,5 @@
 ﻿using Common.Libs;
 using Common.Libs.DataBase;
-using Common.Server.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,6 +7,7 @@ using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client

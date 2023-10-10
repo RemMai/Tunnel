@@ -3,8 +3,8 @@ using Common.Server;
 using System.Reflection;
 using Common.Libs;
 using Common.Proxy;
-using Common.Vea;
 using System;
+using Server.Service.Vea.Implementations;
 
 namespace Server.Service.Vea
 {

@@ -1,7 +1,6 @@
 ﻿using Common.Libs;
 using Microsoft.Extensions.DependencyInjection;
 using Common.Server;
-using Common.Server.Model;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -12,6 +11,9 @@ using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.udp;
 using Client.Messengers.Signin;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Implementations;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 
 namespace Client.Realize.Messengers.PunchHole
 {

@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\common\Common.Forward\Common.Forward.csproj" />
+		<ProjectReference Include="..\..\..\Common\Common.ForWard\Common.ForWard.csproj" />
 		<ProjectReference Include="..\..\..\common\Common.Libs\Common.Libs.csproj" />
 		<ProjectReference Include="..\..\Client\Client.csproj" />
 		<ProjectReference Include="..\client.service.ui\Client.Service.Ui.Api\Client.Service.Ui.Api.csproj" />

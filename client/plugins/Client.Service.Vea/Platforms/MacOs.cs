@@ -5,6 +5,7 @@ using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using Client.Service.Vea.Models;
 
 namespace Client.Service.Vea.Platforms
 {
@@ -14,8 +15,8 @@ namespace Client.Service.Vea.Platforms
         Process tun2SocksProcess;
         const string VeaNameOsx = "utun12138";
 
-        private readonly Config config;
-        public MacOs(Config config)
+        private readonly Models.Config config;
+        public MacOs(Models.Config config)
         {
             this.config = config;
         }

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace Common.Libs.JsonConverters
 {
     /// <summary>
-    /// 
+    ///  
     /// </summary>
     public sealed class IpAddressJsonConverter : JsonConverter<IPAddress>
     {
@@ -19,7 +19,7 @@ namespace Common.Libs.JsonConverters
         /// <returns></returns>
         public override IPAddress Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return IPAddress.Parse(reader.GetString());
+            return IPAddress.Parse(reader.GetString() ?? string.Empty);
         }
         /// <summary>
         /// 

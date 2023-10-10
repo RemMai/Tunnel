@@ -1,5 +1,5 @@
-﻿using Common.Server.Model;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Common.Server.Models;
 
 namespace Client.Messengers.Signin
 {

@@ -1,9 +1,10 @@
 ﻿using Common.Server;
-using Common.Server.Model;
 using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize.Messengers.PunchHole

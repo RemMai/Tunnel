@@ -1,9 +1,9 @@
-﻿using Common.Server.Model;
-using System;
+﻿using System;
 using System.Text.Json.Serialization;
 using Common.Server;
 using System.Net;
-using System.Collections.Generic;
+using Common.Server.Interfaces;
+using Common.Server.Models;
 
 namespace Client.Messengers.Clients
 {

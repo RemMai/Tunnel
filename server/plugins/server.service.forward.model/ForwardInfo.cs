@@ -3,8 +3,9 @@ using Common.Libs.Extends;
 using System;
 using System.ComponentModel;
 using System.Net;
+using Common.ForWard.Enums;
 
-namespace Server.Service.ForWard.model
+namespace Server.Service.ForWard.Model
 {
     public sealed class ForwardSignInInfo
     {

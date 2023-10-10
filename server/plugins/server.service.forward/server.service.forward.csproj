@@ -20,7 +20,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\common\common.forward\common.forward.csproj" />
+	  <ProjectReference Include="..\..\..\Common\Common.ForWard\Common.ForWard.csproj" />
 	  <ProjectReference Include="..\..\server\Server.csproj" />
 	  <ProjectReference Include="..\server.service.forward.model\Server.Service.ForWard.Model.csproj" />
 	</ItemGroup>

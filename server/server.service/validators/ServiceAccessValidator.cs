@@ -1,12 +1,13 @@
 ﻿using Common.Libs.AutoInject.Attributes;
 using Common.Server;
+using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Messengers.SignIn;
 
 namespace Server.Service.Validators
 {
     [AutoInject(ServiceLifetime.Singleton, typeof(IServiceAccessValidator))]
-    public sealed class ServiceAccessValidator : Common.Server.ServiceAccessValidator
+    public sealed class ServiceAccessValidator : Common.Server.Implementations.ServiceAccessValidator
     {
         private readonly IClientSignInCaching clientSignInCaching;
         public ServiceAccessValidator(IClientSignInCaching clientSignInCaching)

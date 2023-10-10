@@ -4,6 +4,7 @@ using System;
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Linq;
+using Client.Service.Vea.Models;
 
 namespace Client.Service.Vea.Platforms
 {
@@ -13,8 +14,8 @@ namespace Client.Service.Vea.Platforms
         Process tun2SocksProcess;
         const string VeaName = "p2p-tunnel";
 
-        private readonly Config config;
-        public Linux(Config config)
+        private readonly Models.Config config;
+        public Linux(Models.Config config)
         {
             this.config = config;
         }

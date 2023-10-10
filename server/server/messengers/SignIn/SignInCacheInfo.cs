@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.Json.Serialization;
+using Common.Server.Interfaces;
 
 namespace Server.Messengers.SignIn
 {

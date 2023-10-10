@@ -1,4 +1,6 @@
-﻿namespace Client.Service.Vea.Platforms
+﻿using Client.Service.Vea.Models;
+
+namespace Client.Service.Vea.Platforms
 {
     public interface IVeaPlatform
     {

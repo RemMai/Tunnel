@@ -3,9 +3,10 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Common.ForWard.Models;
 using Common.Libs.AutoInject.Attributes;
 using Common.Libs.DataBase;
-using Common.Server.Model;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Common.ForWard
@@ -98,33 +99,5 @@ namespace Common.ForWard
         {
             await configDataProvider.Save(this).ConfigureAwait(false);
         }
-    }
-
-    /// <summary>
-    /// 长链接端口范围
-    /// </summary>
-    public sealed class TunnelListenRangeInfo
-    {
-        /// <summary>
-        /// 最小
-        /// </summary>
-        public ushort Min { get; set; } = 10000;
-
-        /// <summary>
-        /// 最大
-        /// </summary>
-        public ushort Max { get; set; } = 60000;
-    }
-
-    public sealed class LanIPAddress
-    {
-        /// <summary>
-        /// ip，存小端
-        /// </summary>
-        public uint IPAddress { get; set; }
-
-        public byte MaskLength { get; set; }
-        public uint MaskValue { get; set; }
-        public uint NetWork { get; set; }
     }
 }

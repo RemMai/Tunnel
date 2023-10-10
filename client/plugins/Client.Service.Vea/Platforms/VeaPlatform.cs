@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Client.Service.Vea.Models;
 using Common.Libs.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,7 @@ namespace Client.Service.Vea.Platforms
     {
         private IVeaPlatform veaPlatform { get; set; }
 
-        public VeaPlatform(Config config)
+        public VeaPlatform(Models.Config config)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

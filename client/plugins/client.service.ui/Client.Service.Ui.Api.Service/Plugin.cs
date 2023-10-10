@@ -3,7 +3,7 @@ using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
-using Client.Service.Ui.Api.ClientServer;
+using client.service.ui.api.Interfaces;
 using Client.Service.Ui.Api.Service.WebServer;
 
 namespace Client.Service.Ui.Api.Service

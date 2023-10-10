@@ -2,12 +2,13 @@
 using Client.Messengers.Signin;
 using Common.Libs.AutoInject.Attributes;
 using Common.Server;
+using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize.Messengers.Clients
 {
     [AutoInject(ServiceLifetime.Singleton, typeof(IServiceAccessValidator))]
-    public sealed class ServiceAccessValidator : Common.Server.ServiceAccessValidator
+    public sealed class ServiceAccessValidator : Common.Server.Implementations.ServiceAccessValidator
     {
         private readonly IClientInfoCaching clientInfoCaching;
         private readonly SignInStateInfo signInStateInfo;

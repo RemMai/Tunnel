@@ -1,7 +1,7 @@
-﻿using Common.Server.Model;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using Client.Messengers.Relay;
 using Common.Libs.AutoInject.Attributes;
+using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.Realize.Messengers.Relay
