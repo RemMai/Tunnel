@@ -1,4 +1,4 @@
-﻿namespace client.service.ui.api.Models
+﻿namespace Client.Service.Ui.api.Models
 {
     /// <summary>
     /// 前端配置服务信息

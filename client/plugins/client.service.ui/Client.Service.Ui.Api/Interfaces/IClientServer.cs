@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using client.service.ui.api.Models;
+using Client.Service.Ui.api.Models;
 
-namespace client.service.ui.api.Interfaces
+namespace Client.Service.Ui.api.Interfaces
 {
     /// <summary>
     /// 前端接口服务
@@ -12,7 +12,7 @@ namespace client.service.ui.api.Interfaces
         /// <summary>
         /// websocket
         /// </summary>
-        public void Websocket();
+        public void WebSocket();
         /// <summary>
         /// 具名插槽
         /// </summary>
@@ -21,7 +21,7 @@ namespace client.service.ui.api.Interfaces
         /// 加载插件
         /// </summary>
         /// <param name="assemblies"></param>
-        public void LoadPlugins(Assembly[] assemblies);
+        public void LoadPlugins(IEnumerable<Assembly> assemblies);
         /// <summary>
         /// 获取配置插件列表
         /// </summary>

@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Client.Service.Logger;
-using client.service.logger.Models;
-using client.service.ui.api.Interfaces;
+using Client.Service.logger.Models;
+using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.logger.Implementations
+namespace Client.Service.Logger.Implementations
 {
     /// <summary>
     /// 日志配置文件
@@ -13,12 +13,12 @@ namespace client.service.logger.Implementations
     [AutoInject(ServiceLifetime.Singleton)]
     public sealed class LoggerClientConfigure : IClientConfigure
     {
-        private readonly Config config;
+        private readonly Client.Service.logger.Models.Config config;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="config"></param>
-        public LoggerClientConfigure(Config config)
+        public LoggerClientConfigure(Client.Service.logger.Models.Config config)
         {
             this.config = config;
         }

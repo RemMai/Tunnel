@@ -6,7 +6,7 @@ using Common.Libs.DataBase;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.logger.Models
+namespace Client.Service.logger.Models
 {
     /// <summary>
     /// 日志配置文件

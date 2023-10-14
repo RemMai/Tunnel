@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Client.Service.Ui.Api;
-using client.service.ui.api.Enums;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
-using client.service.ui.api.service.Models;
+using Client.Service.Ui.api.Enums;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
+using Client.Service.Ui.api.service.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server.Servers.pipeLine;
@@ -15,7 +15,7 @@ using Common.Server.Servers.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace client.service.ui.api.service.Implementations
+namespace Client.Service.Ui.Api.Service.Implementations
 {
     /// <summary>
     /// 前端接口服务
@@ -40,7 +40,7 @@ namespace client.service.ui.api.service.Implementations
         /// 加载插件
         /// </summary>
         /// <param name="assemblies"></param>
-        public void LoadPlugins(Assembly[] assemblies)
+        public void LoadPlugins(IEnumerable<Assembly> assemblies)
         {
             Type voidType = typeof(void);
             IEnumerable<Type> types = assemblies.SelectMany(c => c.GetTypes()).ToArray();
@@ -77,7 +77,7 @@ namespace client.service.ui.api.service.Implementations
         /// <summary>
         /// 开启WebSocket
         /// </summary>
-        public void Websocket()
+        public void WebSocket()
         {
             server = new WebSocketServer();
             try

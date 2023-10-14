@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Client.Service.Logger;
-using client.service.logger.Models;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.logger.Models;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.logger.Implementations
+namespace Client.Service.Logger.Implementations
 {
     /// <summary>
     /// 日志

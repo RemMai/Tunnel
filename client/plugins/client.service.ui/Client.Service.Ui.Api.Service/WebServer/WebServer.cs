@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Client.Service.Ui.Api.Service.WebServer
     {
         private readonly Config config;
         private readonly IWebServerFileReader webServerFileReader;
+
         public WebServer(Config config, IWebServerFileReader webServerFileReader)
         {
             this.config = config;
@@ -32,7 +34,7 @@ namespace Client.Service.Ui.Api.Service.WebServer
             {
                 try
                 {
-                    HttpListener http = new HttpListener();
+                    HttpListener http = new();
                     http.IgnoreWriteExceptions = true;
                     http.Prefixes.Add($"http://{config.Web.BindIp}:{config.Web.Port}/");
                     http.Start();
@@ -40,7 +42,7 @@ namespace Client.Service.Ui.Api.Service.WebServer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.Message + "\r\n" + ex.StackTrace);
+                    Log.Error($"{ex.Message}\r\n{ex.StackTrace}");
                 }
             }, TaskCreationOptions.LongRunning);
         }
@@ -48,65 +50,65 @@ namespace Client.Service.Ui.Api.Service.WebServer
         private void Callback(IAsyncResult result)
         {
             HttpListener http = result.AsyncState as HttpListener;
-            HttpListenerContext context = http.EndGetContext(result);
-            HttpListenerRequest request = context.Request;
-            HttpListenerResponse response = context.Response;
-
-            try
+            if (http != null)
             {
-                response.Headers.Set("Server", "snltty");
-                string path = request.Url.AbsolutePath;
-                //默认页面
-                if (path == "/") path = "index.html";
+                HttpListenerContext context = http.EndGetContext(result);
+                HttpListenerRequest request = context.Request;
+                HttpListenerResponse response = context.Response;
 
-                byte[] bytes = webServerFileReader.Read(path, out DateTime last);
-                if (bytes.Length > 0)
+                try
                 {
-                    response.ContentLength64 = bytes.Length;
-                    response.ContentType = GetContentType(path);
-                    response.Headers.Set("Last-Modified", last.ToString());
-                    response.OutputStream.Write(bytes, 0, bytes.Length);
-                    response.OutputStream.Flush();
-                    response.OutputStream.Close();
+                    response.Headers.Set("Server", "RemMai Server(Ver0.0.1beta)");
+                    string path = request.Url!.AbsolutePath;
+                    //默认页面
+                    if (path == "/") path = "index.html";
+
+                    byte[] bytes = webServerFileReader.Read(path, out DateTime last);
+                    if (bytes.Length > 0)
+                    {
+                        response.ContentLength64 = bytes.Length;
+                        response.ContentType = GetContentType(path);
+                        response.Headers.Set("Last-Modified", last.ToString(CultureInfo.InvariantCulture));
+                        response.OutputStream.Write(bytes, 0, bytes.Length);
+                        response.OutputStream.Flush();
+                        response.OutputStream.Close();
+                    }
+                    else
+                    {
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
                 }
-            }
-            catch (Exception)
-            {
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+                response.Close();
             }
 
-            response.Close();
-            http.BeginGetContext(Callback, http);
+            http?.BeginGetContext(Callback, http);
         }
 
 
-
-        private Dictionary<string, string> types = new Dictionary<string, string> {
-            { ".webp","image/webp"},
-            { ".png","image/png"},
-            { ".jpg","image/jpg"},
-            { ".jpeg","image/jpeg"},
-            { ".gif","image/gif"},
-            { ".svg","image/svg+xml"},
-            { ".ico","image/x-icon"},
-            { ".js","text/javascript; charset=utf-8"},
-            { ".html","text/html; charset=utf-8"},
-            { ".css","text/css; charset=utf-8"},
-            { ".pac","application/x-ns-proxy-autoconfig; charset=utf-8"},
+        private readonly Dictionary<string, string> types = new()
+        {
+            { ".webp", "image/webp" },
+            { ".png", "image/png" },
+            { ".jpg", "image/jpg" },
+            { ".jpeg", "image/jpeg" },
+            { ".gif", "image/gif" },
+            { ".svg", "image/svg+xml" },
+            { ".ico", "image/x-icon" },
+            { ".js", "text/javascript; charset=utf-8" },
+            { ".html", "text/html; charset=utf-8" },
+            { ".css", "text/css; charset=utf-8" },
+            { ".pac", "application/x-ns-proxy-autoconfig; charset=utf-8" },
         };
+
         private string GetContentType(string path)
         {
             string ext = Path.GetExtension(path);
-            if (types.ContainsKey(ext))
-            {
-                return types[ext];
-            }
-            return "application/octet-stream";
+            return types.TryGetValue(ext, out string type) ? type : "application/octet-stream";
         }
     }
-
 }

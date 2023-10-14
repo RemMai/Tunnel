@@ -1,8 +1,8 @@
-﻿using client.service.ui.api.Interfaces;
+﻿using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.ui.api.service.Implementations
+namespace Client.Service.Ui.Api.Service.Implementations
 {
     [AutoInject(ServiceLifetime.Singleton)]
     public sealed class ServerClientService : IClientService

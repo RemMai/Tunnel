@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using client.service.ui.api.Interfaces;
+using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.forward.Implementations
+namespace Client.Service.forward.Implementations
 {
     /// <summary>
     /// 端口转发配置文件

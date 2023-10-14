@@ -1,4 +1,4 @@
-﻿namespace client.service.ui.api.Enums
+﻿namespace Client.Service.Ui.api.Enums
 {
     /// <summary>
     /// 前端接口状态码

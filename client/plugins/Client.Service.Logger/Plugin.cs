@@ -2,7 +2,7 @@
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using client.service.logger.Implementations;
+using Client.Service.Logger.Implementations;
 using Serilog;
 
 namespace Client.Service.Logger
@@ -12,7 +12,7 @@ namespace Client.Service.Logger
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             LoggerClientService plugin = services.GetService<LoggerClientService>();
-            client.service.logger.Models.Config config = services.GetService<client.service.logger.Models.Config>();
+            Client.Service.logger.Models.Config config = services.GetService<Client.Service.logger.Models.Config>();
             Common.Libs.Logger.Instance.OnLogger += (model) =>
             {
                 if (config.Enable)

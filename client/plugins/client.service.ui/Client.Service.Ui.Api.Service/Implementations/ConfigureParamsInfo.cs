@@ -1,6 +1,6 @@
 ﻿using Client;
 
-namespace client.service.ui.api.service.Implementations
+namespace Client.Service.Ui.Api.Service.Implementations
 {
     /// <summary>
     /// 配置信息

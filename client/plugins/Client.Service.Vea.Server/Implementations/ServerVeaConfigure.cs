@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using client.service.ui.api.Interfaces;
+using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
 using Common.Libs.Extends;

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Proxy.Models;

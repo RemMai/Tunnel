@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using client.service.ui.api.Interfaces;
+using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Enums;
 using Common.Libs;
@@ -10,7 +10,7 @@ using Common.Server.Implementations;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.forward.server.Implementations
+namespace Client.Service.ForWard.Server.Implementations
 {
     /// <summary>
     /// tcp转发服务端配置文件

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.Signin;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Client.Service.Users.Interfaces;
 using Common.Libs.Extends;
 using Common.Server;

@@ -1,6 +1,6 @@
-﻿using client.service.ui.api.Enums;
+﻿using Client.Service.Ui.api.Enums;
 
-namespace client.service.ui.api.Models
+namespace Client.Service.Ui.api.Models
 {
     /// <summary>
     /// 前端接口执行参数

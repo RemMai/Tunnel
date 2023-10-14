@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace client.service.ui.api.Interfaces
+namespace Client.Service.Ui.api.Interfaces
 {
     /// <summary>
     /// 前端修改配置接口

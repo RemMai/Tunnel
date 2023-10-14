@@ -1,4 +1,4 @@
-﻿namespace client.service.ui.api.Interfaces
+﻿namespace Client.Service.Ui.api.Interfaces
 {
     /// <summary>
     /// 前段接口

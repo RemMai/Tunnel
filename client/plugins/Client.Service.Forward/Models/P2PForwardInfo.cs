@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace client.service.forward.Models
+namespace Client.Service.forward.Models
 {
     public sealed class P2PForwardInfo
     {

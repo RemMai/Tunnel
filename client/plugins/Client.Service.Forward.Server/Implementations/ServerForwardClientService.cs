@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Client.Service.ForWard.Server;
-using client.service.forward.server.Models;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.ForWard.Server.Models;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.forward.server.Implementations
+namespace Client.Service.ForWard.Server.Implementations
 {
     /// <summary>
     /// 服务器转发

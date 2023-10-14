@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace client.service.ui.api.service.Models
+namespace Client.Service.Ui.api.service.Models
 {
     /// <summary>
     /// 前段接口缓存

@@ -1,4 +1,4 @@
-﻿namespace client.service.forward.Models
+﻿namespace Client.Service.forward.Models
 {
     public sealed class TestTargetInfo
     {

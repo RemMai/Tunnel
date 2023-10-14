@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Client.Service.ForWard;
-using client.service.forward.Models;
+using Client.Service.forward.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard;
 using Common.ForWard.Enums;
@@ -23,7 +23,7 @@ using Common.Proxy.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace client.service.forward.Implementations
+namespace Client.Service.forward.Implementations
 {
     /// <summary>
     /// tcp转发中转器和入口

@@ -7,7 +7,7 @@ using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Service.ForWard.Model;
 
-namespace client.service.forward.server.Implementations
+namespace Client.Service.ForWard.Server.Implementations
 {
     [AutoInject(ServiceLifetime.Singleton)]
     public sealed class ServerForwardMessengerSender

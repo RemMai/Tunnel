@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.Signin;
-using client.service.ui.api.Enums;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.Ui.api.Enums;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Common.Server;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.ui.api.service.Implementations
+namespace Client.Service.Ui.Api.Service.Implementations
 {
     /// <summary>
     /// 客户端列表

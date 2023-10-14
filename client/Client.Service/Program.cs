@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -9,24 +8,18 @@ using Client;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.PunchHole;
 using Client.Service.ForWard;
-using Client.Service.ForWard.Server;
-using client.service.forward.server.Implementations;
-using Client.Service.Logger;
-using client.service.logger.Implementations;
-using Client.Service.Proxy;
+using Client.Service.ForWard.Server.Implementations;
+using Client.Service.Logger.Implementations;
 using Client.Service.Proxy.Implementations;
-using client.service.ui.api.service.Implementations;
+using Client.Service.Ui.Api.Service.Implementations;
 using Client.Service.Users.Implementations;
 using Client.Service.Users.Server.Implementations;
-using Client.Service.Vea;
 using Client.Service.Vea.Implementations;
-using Client.Service.Vea.Server;
 using Client.Service.Vea.Server.Implementations;
 using Common.Extensions;
 using Common.Extensions.AutoInject.Extensions;
 using Common.ForWard.Enums;
 using Common.Libs;
-using Common.Proxy;
 using Common.Proxy.Enums;
 using Common.Proxy.Implementations;
 using Common.Server;
@@ -63,13 +56,12 @@ Assembly[] assemblies = new[]
     typeof(UsersMessengerIds).Assembly,
 }.Concat(AppDomain.CurrentDomain.GetAssemblies()).Distinct().ToArray();
 
-AppDomain.CurrentDomain.UnhandledException += (a, b) => { Log.Error(b.ExceptionObject + ""); };
 var host = Host.CreateApplicationBuilder();
 host.Services.AddAutoInject(assemblies);
 host.Services.AddDefaultSerilog();
 var app = host.Build();
 PluginLoader.Init(app.Services, assemblies);
-PrintProxyPlugin(app.Services, assemblies);
+PrintProxyPlugin(app.Services);
 SignInStateInfo signInStateInfo = app.Services.GetService<SignInStateInfo>();
 Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
 Log.Information("获取外网距离ing...");
@@ -86,12 +78,9 @@ app.Services.GetService<ISignInTransfer>().SignIn(config.Client.AutoReg);
 
 app.Run();
 
-static void PrintProxyPlugin(IServiceProvider services, Assembly[] assemblies)
+static void PrintProxyPlugin(IServiceProvider services)
 {
-    var iAccesses = ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IAccess))
-        .Distinct().Select(services.GetService).Concat(ProxyPluginLoader.plugins.Values)
-        .OfType<IAccess>();
-
+    var iAccesses = services.GetServices<IAccess>();
     Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
     Log.Debug("权限值,uint 每个权限占一位，最多32个权限");
     Log.Information(

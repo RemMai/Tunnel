@@ -2,7 +2,7 @@
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using client.service.forward.server.Implementations;
+using Client.Service.ForWard.Server.Implementations;
 
 namespace Client.Service.ForWard.Server
 {

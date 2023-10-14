@@ -1,7 +1,7 @@
 ﻿using Common.ForWard;
 using Common.ForWard.Enums;
 
-namespace client.service.forward.Models
+namespace Client.Service.forward.Models
 {
     public sealed class P2PListenAddParams
     {

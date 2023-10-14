@@ -4,7 +4,7 @@ using Common.ForWard.Enums;
 using Common.Proxy;
 using Common.Proxy.Enums;
 
-namespace client.service.forward.Models
+namespace Client.Service.forward.Models
 {
     public sealed class P2PListenInfo
     {

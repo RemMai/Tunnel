@@ -1,4 +1,4 @@
-﻿namespace client.service.logger.Models
+﻿namespace Client.Service.logger.Models
 {
     /// <summary>
     /// 日志分页参数

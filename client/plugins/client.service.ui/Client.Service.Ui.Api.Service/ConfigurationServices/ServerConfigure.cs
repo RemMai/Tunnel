@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using client.service.ui.api.Interfaces;
+using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;
 using Common.Libs.Extends;
@@ -10,7 +10,7 @@ using Common.Server.Implementations;
 using Common.Server.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.ui.api.service.ConfigurationServices
+namespace Client.Service.Ui.api.service.ConfigurationServices
 {
     /// <summary>
     /// 服务端主配置文件

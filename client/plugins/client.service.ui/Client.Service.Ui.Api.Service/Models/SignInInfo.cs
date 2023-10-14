@@ -1,7 +1,7 @@
 ﻿using Client;
 using Client.Messengers.Signin;
 
-namespace client.service.ui.api.service.Models
+namespace Client.Service.Ui.api.service.Models
 {
     /// <summary>
     /// 注册信息

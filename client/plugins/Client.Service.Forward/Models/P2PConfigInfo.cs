@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Client.Service.ForWard;
 
-namespace client.service.forward.Models
+namespace Client.Service.forward.Models
 {
     [Table("forwards")]
     public sealed class P2PConfigInfo

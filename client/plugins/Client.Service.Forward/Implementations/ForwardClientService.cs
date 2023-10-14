@@ -2,11 +2,11 @@
 using Common.Proxy;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using client.service.forward.Implementations;
-using client.service.forward.Models;
-using client.service.ui.api.Enums;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.forward.Implementations;
+using Client.Service.forward.Models;
+using Client.Service.Ui.api.Enums;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Proxy.Enums;
 using Microsoft.Extensions.DependencyInjection;

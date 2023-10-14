@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using client.service.forward.server.Models;
+using Client.Service.ForWard.Server.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.ForWard.Enums;
 using Common.Libs.DataBase;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Server.Service.ForWard.Model;
 
-namespace client.service.forward.server.Implementations
+namespace Client.Service.ForWard.Server.Implementations
 {
     /// <summary>
     /// 服务器tcp转发中转器和入口

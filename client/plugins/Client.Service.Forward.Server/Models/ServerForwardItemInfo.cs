@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Common.ForWard.Enums;
 
-namespace client.service.forward.server.Models
+namespace Client.Service.ForWard.Server.Models
 {
     public sealed class ServerForwardItemInfo
     {

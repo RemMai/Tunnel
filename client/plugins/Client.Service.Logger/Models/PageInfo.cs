@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Common.Libs;
 
-namespace client.service.logger.Models
+namespace Client.Service.logger.Models
 {
     /// <summary>
     /// 日志分页返回

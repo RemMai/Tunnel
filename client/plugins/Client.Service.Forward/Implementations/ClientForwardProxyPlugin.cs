@@ -12,7 +12,7 @@ using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Config = Client.Config;
 
-namespace client.service.forward.Implementations
+namespace Client.Service.forward.Implementations
 {
     [AutoInject(ServiceLifetime.Singleton, typeof(IForwardProxyPlugin), typeof(IAccess))]
     public class ClientForwardProxyPlugin : ForwardProxyPlugin

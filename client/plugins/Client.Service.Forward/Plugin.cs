@@ -3,7 +3,7 @@ using Common.Libs;
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using client.service.forward.Implementations;
+using Client.Service.forward.Implementations;
 using Common.ForWard.Interfaces;
 using Common.Proxy.Implementations;
 using Serilog;

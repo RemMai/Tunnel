@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using client.service.ui.api.Interfaces;
+using Client.Service.Ui.api.Interfaces;
 using Common.Extensions.AutoInject.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 

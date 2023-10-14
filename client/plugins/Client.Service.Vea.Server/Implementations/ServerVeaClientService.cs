@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
 using Client.Service.Vea.Server.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs;

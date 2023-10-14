@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace client.service.ui.api.Attributes;
+namespace Client.Service.Ui.api.Attributes;
 
 /// <summary>
 /// 前端接口标识特性

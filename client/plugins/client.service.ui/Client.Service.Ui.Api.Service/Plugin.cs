@@ -2,8 +2,9 @@
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
-using client.service.ui.api.Interfaces;
+using Client.Service.Ui.api.Interfaces;
 using Client.Service.Ui.Api.Service.WebServer;
 using Serilog;
 
@@ -13,14 +14,13 @@ namespace Client.Service.Ui.Api.Service
     {
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
-            LoadWebAfter(services, assemblies);
+            LoadWebAfter(services);
             LoadApiAfter(services, assemblies);
         }
 
-        private void LoadWebAfter(IServiceProvider services, Assembly[] assemblies)
+        private static void LoadWebAfter(IServiceProvider services)
         {
             var config = services.GetService<Config>();
-
             if (config.EnableWeb)
             {
                 services.GetService<IWebServer>().Start();
@@ -36,21 +36,19 @@ namespace Client.Service.Ui.Api.Service
             }
         }
 
-        private void LoadApiAfter(IServiceProvider services, Assembly[] assemblies)
+        private static void LoadApiAfter(IServiceProvider services, IEnumerable<Assembly> assemblies)
         {
             IClientServer clientServer = services.GetService<IClientServer>();
-
             var config = services.GetService<Config>();
-
             Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             if (config.EnableWeb)
             {
-                clientServer.Websocket();
-                Log.Debug($"管理UI，websocket已启用:{config.Websocket.BindIp}:{config.Websocket.Port}");
+                clientServer.WebSocket();
+                Log.Debug($"管理UI，WebSocket已启用:{config.Websocket.BindIp}:{config.Websocket.Port}");
             }
             else
             {
-                Log.Information($"管理UI，websocket未启用");
+                Log.Information($"管理UI，WebSocket未启用");
             }
 
             if (config.EnableCommand)

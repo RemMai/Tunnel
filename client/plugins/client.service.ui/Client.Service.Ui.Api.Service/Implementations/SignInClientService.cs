@@ -2,15 +2,15 @@
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Client.Messengers.Signin;
-using client.service.ui.api.Enums;
-using client.service.ui.api.Interfaces;
-using client.service.ui.api.Models;
-using client.service.ui.api.service.Models;
+using Client.Service.Ui.api.Enums;
+using Client.Service.Ui.api.Interfaces;
+using Client.Service.Ui.api.Models;
+using Client.Service.Ui.api.service.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace client.service.ui.api.service.Implementations
+namespace Client.Service.Ui.Api.Service.Implementations
 {
     /// <summary>
     /// 注册

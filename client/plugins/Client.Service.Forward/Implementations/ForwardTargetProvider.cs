@@ -9,7 +9,7 @@ using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace client.service.forward.Implementations
+namespace Client.Service.forward.Implementations
 {
     /// <summary>
     /// 转发目标提供

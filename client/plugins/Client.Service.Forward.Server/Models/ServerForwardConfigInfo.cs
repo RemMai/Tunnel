@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Client.Service.ForWard.Server;
 
-namespace client.service.forward.server.Models
+namespace Client.Service.ForWard.Server.Models
 {
     [Table("server-forwards")]
     public sealed class ServerForwardConfigInfo
