@@ -63,7 +63,7 @@ namespace Client.Service.Ui.Api.Service
 
             if (config.EnableApi)
             {
-                clientServer.LoadPlugins(assemblies);
+                clientServer.LoadPlugins();
                 Log.Debug($"管理UI，api已启用");
             }
             else

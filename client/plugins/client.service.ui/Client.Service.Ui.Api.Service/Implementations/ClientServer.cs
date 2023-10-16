@@ -39,13 +39,12 @@ namespace Client.Service.Ui.Api.Service.Implementations
         /// <summary>
         /// 加载插件
         /// </summary>
-        /// <param name="assemblies"></param>
-        public void LoadPlugins(IEnumerable<Assembly> assemblies)
+        public void LoadPlugins()
         {
             Type voidType = typeof(void);
-            IEnumerable<Type> types = assemblies.SelectMany(c => c.GetTypes()).ToArray();
-            foreach (Type item in types.Where(c => c.GetInterfaces().Contains(typeof(IClientService))))
+            foreach (var service in _serviceProvider.GetServices<IClientService>())
             {
+                var item = service.GetType();
                 string path = item.Name.Replace("ClientService", "");
                 object obj = _serviceProvider.GetService(item);
                 foreach (MethodInfo method in item.GetMethods(BindingFlags.Instance | BindingFlags.Public |
@@ -67,10 +66,9 @@ namespace Client.Service.Ui.Api.Service.Implementations
                 }
             }
 
-            foreach (Type item in types.Where(c => c.GetInterfaces().Contains(typeof(IClientConfigure))))
+            foreach (var item in _serviceProvider.GetServices<IClientConfigure>())
             {
-                if (settingPlugins.ContainsKey(item.Name) == false)
-                    settingPlugins.Add(item.Name, (IClientConfigure)_serviceProvider.GetService(item));
+                settingPlugins.TryAdd(item.GetType().Name, item);
             }
         }
 
@@ -216,18 +214,15 @@ namespace Client.Service.Ui.Api.Service.Implementations
         }
 
 
-        private const string pipeName = "Client.cmd";
+        private const string PipeName = "Client.cmd";
 
         /// <summary>
         /// 开启具名管道
         /// </summary>
         public void NamedPipe()
         {
-            PipelineServer pipelineServer = new PipelineServer(pipeName,
-                (string message) =>
-                {
-                    return (OnMessage(message.DeJson<ClientServiceRequestInfo>()).Result).ToJson();
-                });
+            PipelineServer pipelineServer = new(PipeName,
+                message => { return OnMessage(message.DeJson<ClientServiceRequestInfo>()).Result.ToJson(); });
             pipelineServer.BeginAccept();
         }
     }

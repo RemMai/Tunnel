@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using Client.Service.Ui.api.Models;
 
 namespace Client.Service.Ui.api.Interfaces
@@ -17,11 +16,11 @@ namespace Client.Service.Ui.api.Interfaces
         /// 具名插槽
         /// </summary>
         public void NamedPipe();
+
         /// <summary>
         /// 加载插件
         /// </summary>
-        /// <param name="assemblies"></param>
-        public void LoadPlugins(IEnumerable<Assembly> assemblies);
+        public void LoadPlugins();
         /// <summary>
         /// 获取配置插件列表
         /// </summary>
