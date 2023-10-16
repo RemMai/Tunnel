@@ -84,13 +84,13 @@ namespace Client.Service.Ui.Api.Service.Implementations
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
+                Log.Error($"{ex.Message}\r\n{ex.StackTrace}");
             }
 
             server.OnMessage = (connection, frame, message) =>
             {
                 var req = message.DeJson<ClientServiceRequestInfo>();
-                OnMessage(req).ContinueWith((result) =>
+                OnMessage(req).ContinueWith(result =>
                 {
                     var resp = result.Result.ToJson().ToBytes();
                     connection.SendFrameText(resp);
@@ -202,7 +202,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message + "\r\n" + ex.StackTrace);
+                Log.Error($"{ex.Message}\r\n{ex.StackTrace}");
                 return new ClientServiceResponseInfo
                 {
                     Content = ex.Message,
@@ -222,7 +222,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
         public void NamedPipe()
         {
             PipelineServer pipelineServer = new(PipeName,
-                message => { return OnMessage(message.DeJson<ClientServiceRequestInfo>()).Result.ToJson(); });
+                message => OnMessage(message.DeJson<ClientServiceRequestInfo>()).Result.ToJson());
             pipelineServer.BeginAccept();
         }
     }
