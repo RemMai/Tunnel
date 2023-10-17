@@ -27,7 +27,7 @@ namespace Client.Realize.Messengers.Clients
     /// <summary>
     /// 客户端操作类
     /// </summary>
-    [AutoInject(ServiceLifetime.Singleton,typeof(IClientsTransfer))]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IClientsTransfer))]
     public sealed class ClientsTransfer : IClientsTransfer
     {
         private BoolSpace firstClients = new BoolSpace(true);
@@ -52,7 +52,8 @@ namespace Client.Realize.Messengers.Clients
             IPunchHoleUdp punchHoleUdp, IPunchHoleTcp punchHoleTcp, IClientInfoCaching clientInfoCaching,
             SignInStateInfo signInState, PunchHoleMessengerSender punchHoleMessengerSender, Config config,
             ITcpServer tcpServer, HeartMessengerSender heartMessengerSender,
-            RelayMessengerSender relayMessengerSender, IClientsTunnel clientsTunnel, IClientConnectsCaching connecRouteCaching,
+            RelayMessengerSender relayMessengerSender, IClientsTunnel clientsTunnel,
+            IClientConnectsCaching connecRouteCaching,
             PunchHoleDirectionConfig punchHoleDirectionConfig, CryptoSwap cryptoSwap
         )
         {
@@ -79,10 +80,7 @@ namespace Client.Realize.Messengers.Clients
             clientInfoCaching.OnOfflineAfter += OnOfflineAfter;
 
             //中继连线
-            relayMessengerSender.OnRelay += (param) =>
-            {
-                _ = Relay(param.Connection, param.RelayIds, false);
-            };
+            relayMessengerSender.OnRelay += (param) => { _ = Relay(param.Connection, param.RelayIds, false); };
 
             //有人要求反向链接
             punchHoleMessengerSender.OnReverse += OnReverse;
@@ -91,7 +89,6 @@ namespace Client.Realize.Messengers.Clients
 
             //收到来自服务器的 在线客户端 数据
             clientsMessengerSender.OnServerClientsData += OnServerSendClients;
-
         }
 
         private void OnPunchHoleStep(object sender, PunchHoleStepModel arg)
@@ -120,7 +117,9 @@ namespace Client.Realize.Messengers.Clients
                 if (clientInfoCaching.Get(arg.RawData.FromId, out ClientInfo client))
                 {
                     //3是被动方 4是主动方
-                    ClientOnlineTypes onlineType = arg.RawData.PunchStep == step3 ? ClientOnlineTypes.Passive : ClientOnlineTypes.Active;
+                    ClientOnlineTypes onlineType = arg.RawData.PunchStep == step3
+                        ? ClientOnlineTypes.Passive
+                        : ClientOnlineTypes.Active;
                     clientInfoCaching.Online(arg.RawData.FromId, arg.Connection, ClientConnectTypes.P2P, onlineType);
                     _ = clientsMessengerSender.RemoveTunnel(signInState.Connection, arg.RawData.FromId);
                     //主动方 记录一下，是我这边主动打洞成功的，下次由我这边开始尝试
@@ -152,8 +151,8 @@ namespace Client.Realize.Messengers.Clients
                 client.SetConnecting(false);
                 signInState.LocalInfo.IsConnecting = false;
             }
-
         }
+
         private void OnOfflineAfter(ClientInfo client)
         {
             if (signInState.Connected == false)
@@ -161,16 +160,19 @@ namespace Client.Realize.Messengers.Clients
                 clientInfoCaching.Remove(client.ConnectionId);
                 return;
             }
+
             if (clientInfoCaching.Get(client.ConnectionId, out _))
             {
                 //主动连接的，未知掉线信息的，去尝试重连一下
-                if (config.Client.UseReConnect && client.OnlineType == ClientOnlineTypes.Active && client.OfflineType == ClientOfflineTypes.Disconnect)
+                if (config.Client.UseReConnect && client.OnlineType == ClientOnlineTypes.Active &&
+                    client.OfflineType == ClientOfflineTypes.Disconnect)
                 {
                     Log.Warning($"尝试对【{client.Name}】重新打洞");
                     ConnectClient(client);
                 }
             }
         }
+
         private void OnDisconnect(IConnection connection, IConnection regConnection)
         {
             if (IConnection.Equals2(connection, regConnection) || connection?.Address.Port == config.Server.TcpPort)
@@ -194,6 +196,7 @@ namespace Client.Realize.Messengers.Clients
         {
             await punchHoleMessengerSender.SendOffline(toid);
         }
+
         /// <summary>
         /// 连它
         /// </summary>
@@ -205,6 +208,7 @@ namespace Client.Realize.Messengers.Clients
                 ConnectClient(client);
             }
         }
+
         /// <summary>
         /// 连它
         /// </summary>
@@ -216,6 +220,7 @@ namespace Client.Realize.Messengers.Clients
                 Log.Error($"canot connect you self");
                 return;
             }
+
             if (signInState.LocalInfo.IsConnecting)
             {
                 return;
@@ -224,7 +229,7 @@ namespace Client.Realize.Messengers.Clients
             Task.Run(async () =>
             {
                 /* 两边先试TCP，没成功，再两边都试试UDP
-                 *  
+                 *
                  * TryReverseTcpBit     0b00000010
                  * TryReverseUdpBit     0b00000001
                  * TryReverseTcpUdpBit  0b00000011
@@ -256,12 +261,15 @@ namespace Client.Realize.Messengers.Clients
                 if (result == EnumConnectResult.Fail)
                 {
                     //对面有没试过的，让对面试试
-                    if ((client.TryReverseValue >> 2 & ClientInfo.TryReverseTcpUdpBit) != ClientInfo.TryReverseTcpUdpBit)
+                    if ((client.TryReverseValue >> 2 & ClientInfo.TryReverseTcpUdpBit) !=
+                        ClientInfo.TryReverseTcpUdpBit)
                     {
                         ConnectReverse(client);
                     }
                     //都试过了， 都不行，中继 
-                    else if (config.Client.AutoRelay && ((EnumClientAccess.UseAutoRelay & (EnumClientAccess)client.ClientAccess) == EnumClientAccess.UseAutoRelay))
+                    else if (config.Client.AutoRelay &&
+                             ((EnumClientAccess.UseAutoRelay & (EnumClientAccess)client.ClientAccess) ==
+                              EnumClientAccess.UseAutoRelay))
                     {
                         _ = Relay(client, true);
                     }
@@ -270,9 +278,11 @@ namespace Client.Realize.Messengers.Clients
                 {
                     //Log.Error($"打洞被跳过，最大的可能是，【{Client.Name}】的打洞失败消息比本消息“反向连接”来的晚，可以重新手动尝试");
                 }
+
                 client.TryReverseValue = ClientInfo.TryReverseDefault;
             });
         }
+
         //收到反连接请求
         private void OnReverse(PunchHoleRequestInfo info)
         {
@@ -281,7 +291,8 @@ namespace Client.Realize.Messengers.Clients
                 PunchHoleReverseInfo model = new PunchHoleReverseInfo();
                 model.DeBytes(info.Data);
                 //交换状态 , 11 01 -> 01 11
-                client.TryReverseValue = (byte)(((model.Value & ClientInfo.TryReverseTcpUdpBit) << 2) | (model.Value >> 2));
+                client.TryReverseValue =
+                    (byte)(((model.Value & ClientInfo.TryReverseTcpUdpBit) << 2) | (model.Value >> 2));
                 ConnectClient(client);
             }
             else
@@ -301,10 +312,11 @@ namespace Client.Realize.Messengers.Clients
                 ConnectReverse(client);
             }
         }
+
         /// <summary>
         /// 连我
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="client"></param>
         public void ConnectReverse(ClientInfo client)
         {
             punchHoleMessengerSender.SendReverse(client).ConfigureAwait(false);
@@ -317,8 +329,8 @@ namespace Client.Realize.Messengers.Clients
         public void Reset(ulong id)
         {
             punchHoleMessengerSender.SendReset(id).ConfigureAwait(false);
-
         }
+
         /// <summary>
         /// 停止连接
         /// </summary>
@@ -333,7 +345,9 @@ namespace Client.Realize.Messengers.Clients
             {
                 return EnumConnectResult.BreakOff;
             }
-            if ((config.Client.UseUdp & ((EnumClientAccess.UseUdp & (EnumClientAccess)client.ClientAccess) == EnumClientAccess.UseUdp)) == false)
+
+            if ((config.Client.UseUdp & ((EnumClientAccess.UseUdp & (EnumClientAccess)client.ClientAccess) ==
+                                         EnumClientAccess.UseUdp)) == false)
             {
                 return EnumConnectResult.Fail;
             }
@@ -352,19 +366,27 @@ namespace Client.Realize.Messengers.Clients
                 {
                     return EnumConnectResult.Success;
                 }
-                Log.Error((result.Result as ConnectFailModel).Msg);
+
+                var messageTemplate = (result.Result as ConnectFailModel)?.Msg;
+                if (messageTemplate != null)
+                {
+                    Log.Error(messageTemplate);
+                }
             }
 
             client.SetConnecting(false);
             return EnumConnectResult.Fail;
         }
+
         private async Task<EnumConnectResult> ConnectTcp(ClientInfo client)
         {
             if (client.Connecting)
             {
                 return EnumConnectResult.BreakOff;
             }
-            if ((config.Client.UseTcp & ((EnumClientAccess.UseTcp & (EnumClientAccess)client.ClientAccess) == EnumClientAccess.UseTcp)) == false)
+
+            if ((config.Client.UseTcp & ((EnumClientAccess.UseTcp & (EnumClientAccess)client.ClientAccess) ==
+                                         EnumClientAccess.UseTcp)) == false)
             {
                 return EnumConnectResult.Fail;
             }
@@ -385,7 +407,12 @@ namespace Client.Realize.Messengers.Clients
                 {
                     return EnumConnectResult.Success;
                 }
-                Log.Error((result.Result as ConnectFailModel).Msg);
+
+                string messageTemplate = (result.Result as ConnectFailModel)?.Msg;
+                if (messageTemplate != null)
+                {
+                    Log.Error(messageTemplate);
+                }
             }
 
             client.SetConnecting(false);
@@ -403,7 +430,7 @@ namespace Client.Realize.Messengers.Clients
                 try
                 {
                     var start = DateTime.Now;
-                    var res = await heartMessengerSender.Alive(item.Connection);
+                    var res = await heartMessengerSender.Alive(item.Connection).ConfigureAwait(false);
                     if (res)
                     {
                         item.Connection.RoundTripTime = (ushort)(DateTime.Now - start).TotalMilliseconds;
@@ -415,15 +442,18 @@ namespace Client.Realize.Messengers.Clients
                 }
                 catch (Exception)
                 {
+                    // ignored
                 }
             }
         }
+
         public async Task<bool> Test(ulong id, Memory<byte> data)
         {
             if (clientInfoCaching.Get(id, out ClientInfo client))
             {
                 return await heartMessengerSender.Test(client.Connection, data);
             }
+
             return false;
         }
 
@@ -433,6 +463,7 @@ namespace Client.Realize.Messengers.Clients
             {
                 Log.Debug($"Clients 登出清理");
             }
+
             firstClients.Reset();
             clientInfoCaching.Clear();
             if (Logger.Instance.LoggerLevel <= LoggerTypes.DEBUG)
@@ -449,18 +480,21 @@ namespace Client.Realize.Messengers.Clients
                 {
                     return;
                 }
+
                 lock (lockObject)
                 {
                     IEnumerable<ulong> remoteIds = clients.Clients.Select(c => c.ConnectionId);
                     //下线了的
-                    IEnumerable<ulong> offlines = clientInfoCaching.All().Where(c => c.Connected == false).Select(c => c.ConnectionId).Except(remoteIds).Where(c => c != signInState.ConnectId);
+                    IEnumerable<ulong> offlines = clientInfoCaching.All().Where(c => c.Connected == false)
+                        .Select(c => c.ConnectionId).Except(remoteIds).Where(c => c != signInState.ConnectId);
                     foreach (ulong offid in offlines)
                     {
                         clientInfoCaching.Remove(offid);
                     }
 
                     //新上线的或者更新的
-                    foreach (ClientsClientInfo item in clients.Clients.Where(c => c.ConnectionId != signInState.ConnectId))
+                    foreach (ClientsClientInfo item in clients.Clients.Where(c =>
+                                 c.ConnectionId != signInState.ConnectId))
                     {
                         EnumClientAccess enumClientAccess = (EnumClientAccess)item.ClientAccess;
                         bool has = clientInfoCaching.Get(item.ConnectionId, out ClientInfo client);
@@ -476,7 +510,9 @@ namespace Client.Realize.Messengers.Clients
 
                         if (has == false && firstClients.IsDefault && client.Connected == false)
                         {
-                            if (config.Client.UsePunchHole && ((EnumClientAccess.UsePunchHole & (EnumClientAccess)client.ClientAccess) == EnumClientAccess.UsePunchHole))
+                            if (config.Client.UsePunchHole &&
+                                ((EnumClientAccess.UsePunchHole & (EnumClientAccess)client.ClientAccess) ==
+                                 EnumClientAccess.UsePunchHole))
                             {
                                 //主动打洞成功过
                                 if (punchHoleDirectionConfig.Contains(client.Name))
@@ -489,7 +525,9 @@ namespace Client.Realize.Messengers.Clients
                                     ConnectReverse(client);
                                 }
                             }
-                            else if (config.Client.AutoRelay && ((EnumClientAccess.UseAutoRelay & (EnumClientAccess)client.ClientAccess) == EnumClientAccess.UseAutoRelay))
+                            else if (config.Client.AutoRelay &&
+                                     ((EnumClientAccess.UseAutoRelay & (EnumClientAccess)client.ClientAccess) ==
+                                      EnumClientAccess.UseAutoRelay))
                             {
                                 _ = Relay(client, true);
                             }
@@ -514,6 +552,7 @@ namespace Client.Realize.Messengers.Clients
             await relayMessengerSender.AskConnects();
             return connecRouteCaching.Connects;
         }
+
         /// <summary>
         /// 各个线路的延迟
         /// </summary>
@@ -541,6 +580,7 @@ namespace Client.Realize.Messengers.Clients
                         connection = client.Connection;
                     }
                 }
+
                 if (connection == null || connection.Connected == false)
                 {
                     continue;
@@ -556,6 +596,7 @@ namespace Client.Realize.Messengers.Clients
 
             return data;
         }
+
         private async Task Relay(ClientInfo client, bool notify = false)
         {
             if ((signInState.RemoteInfo.Access & 1) != 1)
@@ -569,8 +610,10 @@ namespace Client.Realize.Messengers.Clients
             {
                 return;
             }
+
             await Relay(connection, new ulong[] { signInState.ConnectId, 0, client.ConnectionId }, notify);
         }
+
         /// <summary>
         /// 中继
         /// </summary>
@@ -584,7 +627,9 @@ namespace Client.Realize.Messengers.Clients
             {
                 Log.Error($"relayids length least 3");
                 return;
-            };
+            }
+
+            ;
             if (sourceConnection == null || sourceConnection.Connected == false)
             {
                 Log.Error($"sourceConnection is null");
@@ -603,6 +648,7 @@ namespace Client.Realize.Messengers.Clients
                     Log.Error($"Relay fail");
                     return;
                 }
+
                 if (config.Client.Encode)
                 {
                     ICrypto crypto = await cryptoSwap.Swap(connection, config.Client.EncodePassword);
@@ -611,11 +657,13 @@ namespace Client.Realize.Messengers.Clients
                         Log.Error("交换密钥失败，如果客户端设置了密钥，则目标端必须设置相同的密钥，如果目标端未设置密钥，则客户端必须留空");
                         return;
                     }
+
                     connection.EncodeEnable(crypto);
                 }
             }
 
-            ClientConnectTypes relayType = relayids.Span[1] == 0 ? ClientConnectTypes.RelayServer : ClientConnectTypes.RelayNode;
+            ClientConnectTypes relayType =
+                relayids.Span[1] == 0 ? ClientConnectTypes.RelayServer : ClientConnectTypes.RelayNode;
             ClientOnlineTypes onlineType = notify == false ? ClientOnlineTypes.Passive : ClientOnlineTypes.Active;
             clientInfoCaching.Online(relayids.Span[^1], connection, relayType, onlineType);
         }
@@ -630,15 +678,16 @@ namespace Client.Realize.Messengers.Clients
             /// 失败
             /// </summary>
             Fail = 1,
+
             /// <summary>
             /// 成功
             /// </summary>
             Success = 2,
+
             /// <summary>
             /// 跳过
             /// </summary>
             BreakOff = 4
         }
     }
-
 }

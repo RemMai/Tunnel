@@ -58,7 +58,7 @@ namespace Client.Service.Ui.Api.Service.WebServer
 
                 try
                 {
-                    response.Headers.Set("Server", "RemMai Server(Ver0.0.1beta)");
+                    response.Headers.Set("Server", "RemMai Server");
                     string path = request.Url!.AbsolutePath;
                     //默认页面
                     if (path == "/") path = "index.html";

@@ -14,13 +14,15 @@ namespace Client.Service.Ui.Api.Service
     {
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
-            LoadWebAfter(services);
-            LoadApiAfter(services, assemblies);
+            LoadManagerPlugs(services, assemblies);
         }
 
-        private static void LoadWebAfter(IServiceProvider services)
+        private static void LoadManagerPlugs(IServiceProvider services, IEnumerable<Assembly> assemblies)
         {
+            IClientServer clientServer = services.GetService<IClientServer>();
             var config = services.GetService<Config>();
+            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+
             if (config.EnableWeb)
             {
                 services.GetService<IWebServer>().Start();
@@ -34,13 +36,7 @@ namespace Client.Service.Ui.Api.Service
             {
                 Log.Debug("管理UI，web未启用");
             }
-        }
 
-        private static void LoadApiAfter(IServiceProvider services, IEnumerable<Assembly> assemblies)
-        {
-            IClientServer clientServer = services.GetService<IClientServer>();
-            var config = services.GetService<Config>();
-            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             if (config.EnableWeb)
             {
                 clientServer.WebSocket();
