@@ -8,7 +8,6 @@ using Client.Service.Ui.api.Interfaces;
 using Client.Service.Ui.api.Models;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Libs.Extends;
-using Common.Server;
 using Common.Server.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +24,8 @@ namespace Client.Service.Ui.Api.Service.Implementations
         private readonly SignInStateInfo signInStateInfo;
         private readonly IClientServer clientServer;
 
-        public ClientsClientService(IClientsTransfer clientsTransfer, IClientInfoCaching clientInfoCaching, SignInStateInfo signInStateInfo, IClientServer clientServer)
+        public ClientsClientService(IClientsTransfer clientsTransfer, IClientInfoCaching clientInfoCaching,
+            SignInStateInfo signInStateInfo, IClientServer clientServer)
         {
             this.clientsTransfer = clientsTransfer;
             this.clientInfoCaching = clientInfoCaching;
@@ -44,7 +44,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
         }
 
         /// <summary>
-        /// 连它
+        /// 我方主动连接客户端
         /// </summary>
         /// <param name="arg"></param>
         public bool Connect(ClientServiceParamsInfo arg)
@@ -54,12 +54,14 @@ namespace Client.Service.Ui.Api.Service.Implementations
             {
                 return false;
             }
+
             //clientInfoCaching.Offline(id,5);
             clientsTransfer.ConnectClient(client);
             return true;
         }
+
         /// <summary>
-        /// 连我
+        /// 客户端主动连接我方
         /// </summary>
         /// <param name="arg"></param>
         public bool ConnectReverse(ClientServiceParamsInfo arg)
@@ -69,7 +71,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
             {
                 return false;
             }
-            //clientInfoCaching.Offline(id,6);
+
             clientsTransfer.ConnectReverse(client);
             return true;
         }
@@ -83,6 +85,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
             clientsTransfer.Reset(ulong.Parse(arg.Content));
             return true;
         }
+
         /// <summary>
         /// 断开
         /// </summary>
@@ -117,6 +120,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
 
 
         private bool running = false;
+
         /// <summary>
         /// 速度测试
         /// </summary>
@@ -130,6 +134,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
                 running = false;
                 return;
             }
+
             if (running)
             {
                 return;
@@ -157,7 +162,6 @@ namespace Client.Service.Ui.Api.Service.Implementations
                     });
                     prev = current;
                     await Task.Delay(1000);
-
                 }
             });
 
@@ -191,6 +195,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
         {
             return await clientsTransfer.Connects();
         }
+
         /// <summary>
         /// 获取可用于中继的线路的延迟
         /// </summary>
@@ -200,6 +205,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
         {
             return await clientsTransfer.Delay(arg.Content.DeJson<ulong[][]>());
         }
+
         /// <summary>
         /// 中继
         /// </summary>
@@ -222,6 +228,7 @@ namespace Client.Service.Ui.Api.Service.Implementations
             {
                 sourceConnection = sourceClient.Connection;
             }
+
             if (sourceConnection == null)
             {
                 return false;
@@ -232,6 +239,5 @@ namespace Client.Service.Ui.Api.Service.Implementations
 
             return true;
         }
-
     }
 }
