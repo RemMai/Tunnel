@@ -38,10 +38,5 @@ namespace Client.Service.Logger
 
             Log.Warning(string.Empty.PadRight(Common.Libs.Logger.Instance.PaddingWidth, '='));
         }
-
-        public void LoadBefore(IServiceCollection services, Assembly[] assemblies)
-        {
-            // services.AddSingleton<Config>();
-        }
     }
 }

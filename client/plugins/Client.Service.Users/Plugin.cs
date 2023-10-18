@@ -11,10 +11,8 @@ namespace Client.Service.Users
     {
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
-            var config = services.GetService<Common.User.Config>();
-            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
-            Log.Information("账号权限模块已加载");
-            Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
+            services.GetService<Common.User.Config>();
+            Log.Information("账号权限模块已加载...");
         }
     }
 }

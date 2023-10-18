@@ -15,10 +15,8 @@ namespace Client.Service.Vea
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
             ProxyPluginLoader.LoadPlugin(services.GetService<IVeaSocks5ProxyPlugin>());
-            var transfer = services.GetService<VeaTransfer>();
-
+            services.GetService<VeaTransfer>();
             Models.Config config = services.GetService<Models.Config>();
-
             Log.Warning(string.Empty.PadRight(Logger.Instance.PaddingWidth, '='));
             Log.Debug($"虚拟网卡插件已加载，插件id:{config.Plugin}");
             if (config.ListenEnable)

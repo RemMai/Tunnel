@@ -2,7 +2,6 @@
 using Common.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Client.Service.Ui.api.Interfaces;
 using Client.Service.Ui.Api.Service.WebServer;
@@ -14,10 +13,10 @@ namespace Client.Service.Ui.Api.Service
     {
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {
-            LoadManagerPlugs(services, assemblies);
+            LoadManagerPlugs(services);
         }
 
-        private static void LoadManagerPlugs(IServiceProvider services, IEnumerable<Assembly> assemblies)
+        private static void LoadManagerPlugs(IServiceProvider services)
         {
             IClientServer clientServer = services.GetService<IClientServer>();
             var config = services.GetService<Config>();
