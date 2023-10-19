@@ -16,11 +16,12 @@ namespace Client.Service.Proxy.Implementations
     /// <summary>
     /// proxy
     /// </summary>
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IClientService))]
     public sealed class ServerProxyClientService : IClientService
     {
         private readonly SignInStateInfo signInStateInfo;
         private readonly MessengerSender messengerSender;
+
         public ServerProxyClientService(SignInStateInfo signInStateInfo, MessengerSender messengerSender)
         {
             this.signInStateInfo = signInStateInfo;
@@ -34,11 +35,7 @@ namespace Client.Service.Proxy.Implementations
                 Connection = signInStateInfo.Connection,
                 MessengerId = (ushort)ProxyMessengerIds.GetFirewall,
             });
-            if (resp.Code == MessageResponeCodes.OK)
-            {
-                return resp.Data.GetUTF8String().DeJson<Common.Proxy.Config>();
-            }
-            return new Common.Proxy.Config();
+            return resp.Code == MessageResponeCodes.OK ? resp.Data.GetUTF8String().DeJson<Common.Proxy.Config>() : new Common.Proxy.Config();
         }
 
         public async Task<bool> Add(ClientServiceParamsInfo arg)
@@ -49,11 +46,7 @@ namespace Client.Service.Proxy.Implementations
                 MessengerId = (ushort)ProxyMessengerIds.AddFirewall,
                 Payload = arg.Content.ToUTF8Bytes()
             });
-            if (resp.Code == MessageResponeCodes.OK && resp.Data.Span.SequenceEqual(Helper.TrueArray))
-            {
-                return true;
-            }
-            return false;
+            return resp.Code == MessageResponeCodes.OK && resp.Data.Span.SequenceEqual(Helper.TrueArray);
         }
 
         public async Task<bool> Remove(ClientServiceParamsInfo arg)
@@ -64,11 +57,7 @@ namespace Client.Service.Proxy.Implementations
                 MessengerId = (ushort)ProxyMessengerIds.RemoveFirewall,
                 Payload = uint.Parse(arg.Content).ToBytes(),
             });
-            if (resp.Code == MessageResponeCodes.OK && resp.Data.Span.SequenceEqual(Helper.TrueArray))
-            {
-                return true;
-            }
-            return false;
+            return resp.Code == MessageResponeCodes.OK && resp.Data.Span.SequenceEqual(Helper.TrueArray);
         }
     }
 }

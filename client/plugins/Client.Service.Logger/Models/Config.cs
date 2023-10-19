@@ -66,11 +66,11 @@ namespace Client.Service.logger.Models
         /// <returns></returns>
         public async Task SaveConfig(string jsonStr)
         {
-            Config _config = jsonStr.DeJson<Config>();
+            Config config = jsonStr.DeJson<Config>();
 
-            Enable = _config.Enable;
-            MaxLength = _config.MaxLength;
-            LoggerLevel = _config.LoggerLevel;
+            Enable = config.Enable;
+            MaxLength = config.MaxLength;
+            LoggerLevel = config.LoggerLevel;
             Common.Libs.Logger.Instance.LoggerLevel = LoggerLevel;
             await configDataProvider.Save(jsonStr).ConfigureAwait(false);
         }

@@ -11,7 +11,7 @@ namespace Client.Service.Proxy.Implementations
     /// <summary>
     /// proxy
     /// </summary>
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IClientService))]
     public sealed class ProxyClientService : IClientService
     {
         private readonly Common.Proxy.Config config;
