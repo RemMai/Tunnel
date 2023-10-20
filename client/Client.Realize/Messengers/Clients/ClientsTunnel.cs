@@ -85,8 +85,10 @@ namespace Client.Realize.Messengers.Clients
         private async Task<ushort> NewBindUdp(ushort localport, IPAddress serverAddress, ulong selfId, ulong targetId)
         {
             IConnection connection = null;
-            UdpServer tempUdpServer = new UdpServer();
-            tempUdpServer.OnPacket = udpServer.InputData;
+            UdpServer tempUdpServer = new UdpServer
+            {
+                OnPacket = udpServer.InputData
+            };
 
             tempUdpServer.OnDisconnect += (IConnection _connection) =>
             {
