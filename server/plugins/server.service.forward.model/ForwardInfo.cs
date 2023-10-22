@@ -1,15 +1,18 @@
-﻿using Common.ForWard;
-using Common.Libs.Extends;
+﻿
+
 using System;
 using System.ComponentModel;
 using System.Net;
 using Common.ForWard.Enums;
+using Common.Libs.Extends;
 
 namespace Server.Service.ForWard.Model
 {
     public sealed class ForwardSignInInfo
     {
-        public ForwardSignInInfo() { }
+        public ForwardSignInInfo()
+        {
+        }
 
         public string SourceIp { get; set; }
         public ushort SourcePort { get; set; }
@@ -22,12 +25,12 @@ namespace Server.Service.ForWard.Model
             var sipBytes = SourceIp.GetUTF16Bytes();
 
             byte[] bytes = new byte[
-                1  //AliveType
-                + 2  //SourcePort
-                + 2  //TargetPort
-                + 1 + 1 + sipBytes.Length  //SourceIp
-                + 4  //TargetIp
-             ];
+                1 //AliveType
+                + 2 //SourcePort
+                + 2 //TargetPort
+                + 1 + 1 + sipBytes.Length //SourceIp
+                + 4 //TargetIp
+            ];
             var memory = bytes.AsMemory();
             var span = bytes.AsSpan();
 
@@ -52,7 +55,6 @@ namespace Server.Service.ForWard.Model
 
             TargetIp.TryWriteBytes(span.Slice(index), out int length);
             return bytes;
-
         }
 
         public void DeBytes(Memory<byte> data)
@@ -74,16 +76,19 @@ namespace Server.Service.ForWard.Model
 
             TargetIp = new IPAddress(span.Slice(index));
             index += 1 + 1 + span[index];
-
         }
-
     }
+
     public sealed class ForwardSignOutInfo
     {
-        public ForwardSignOutInfo() { }
+        public ForwardSignOutInfo()
+        {
+        }
+
         public string SourceIp { get; set; }
         public ushort SourcePort { get; set; }
         public ForwardAliveTypes AliveType { get; set; }
+
         public byte[] ToBytes()
         {
             var ipBytes = SourceIp.GetUTF16Bytes();
@@ -104,6 +109,7 @@ namespace Server.Service.ForWard.Model
 
             return bytes;
         }
+
         public void DeBytes(Memory<byte> data)
         {
             var span = data.Span;
@@ -118,11 +124,13 @@ namespace Server.Service.ForWard.Model
             SourceIp = span.Slice(index + 1).GetUTF16String(span[index]);
         }
     }
+
     public sealed class ForwardSignInResultInfo
     {
         public ForwardSignInResultCodes Code { get; set; }
         public ulong ID { get; set; }
         public string Msg { get; set; } = string.Empty;
+
         public byte[] ToBytes()
         {
             var msgBytes = Msg.GetUTF16Bytes();
@@ -147,6 +155,7 @@ namespace Server.Service.ForWard.Model
 
             return bytes;
         }
+
         public void DeBytes(ReadOnlyMemory<byte> data)
         {
             var span = data.Span;
@@ -165,15 +174,10 @@ namespace Server.Service.ForWard.Model
     [Flags]
     public enum ForwardSignInResultCodes : byte
     {
-        [Description("成功")]
-        OK = 0,
-        [Description("插件未开启")]
-        DISABLED = 1,
-        [Description("已存在")]
-        EXISTS = 2,
-        [Description("端口超出范围")]
-        OUT_RANGE = 4,
-        [Description("未知")]
-        UNKNOW = 8,
+        [Description("成功")] OK = 0,
+        [Description("插件未开启")] DISABLED = 1,
+        [Description("已存在")] EXISTS = 2,
+        [Description("端口超出范围")] OUT_RANGE = 4,
+        [Description("未知")] UNKNOW = 8,
     }
 }

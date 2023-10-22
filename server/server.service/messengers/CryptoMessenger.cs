@@ -13,8 +13,8 @@ namespace Server.Service.Messengers
     /// <summary>
     /// 加密
     /// </summary>
-    [MessengerIdRange((ushort)CryptoMessengerIds.Min, (ushort)CryptoMessengerIds.Max)]   
-    [AutoInject(ServiceLifetime.Singleton)]
+    [MessengerIdRange((ushort)CryptoMessengerIds.Min, (ushort)CryptoMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class CryptoMessenger : IMessenger
     {
         private readonly IAsymmetricCrypto asymmetricCrypto;

@@ -20,51 +20,6 @@ namespace Server.Service
 {
     public sealed class Plugin : IPlugin
     {
-        public void LoadBefore(ServiceCollection services, Assembly[] assemblies)
-        {
-            // TODO
-
-            services.AddTransient(typeof(IConfigDataProvider<>), typeof(ConfigDataFileProvider<>));
-            services.AddSingleton<Config>();
-            services.AddSingleton<ITcpServer, TcpServer>();
-            services.AddSingleton<IUdpServer, UdpServer>();
-
-            services.AddSingleton<IClientSignInCaching, ClientSignInCaching>();
-            services.AddSingleton<IRelaySourceConnectionSelector, RelaySourceConnectionSelector>();
-
-
-            services.AddSingleton<ISignInValidatorHandler, SignInValidatorHandler>();
-            services.AddSingleton<IRelayValidator, RelayValidator>();
-            services.AddSingleton<IServiceAccessValidator, Validators.ServiceAccessValidator>();
-
-
-            services.AddSingleton<MessengerResolver>();
-            services.AddSingleton<MessengerSender>();
-            services.AddSingleton<ICryptoFactory, CryptoFactory>();
-            services.AddSingleton<IAsymmetricCrypto, RsaCrypto>();
-            services.AddSingleton<WheelTimer<object>>();
-
-            services.AddSingleton<Common.Proxy.Config>();
-            services.AddSingleton<IProxyMessengerSender, ProxyMessengerSender>();
-            services.AddSingleton<IProxyClient, ProxyClient>();
-            services.AddSingleton<IProxyServer, ProxyServer>();
-            services.AddSingleton<ProxyPluginValidatorHandler>();
-            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IProxyPluginValidator)))
-            {
-                services.AddSingleton(item);
-            }
-
-
-            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(IMessenger)))
-            {
-                services.AddSingleton(item);
-            }
-
-            foreach (Type item in ReflectionHelper.GetInterfaceSchieves(assemblies, typeof(ISignInValidator)))
-            {
-                services.AddSingleton(item);
-            }
-        }
 
         public void Init(IServiceProvider services, Assembly[] assemblies)
         {

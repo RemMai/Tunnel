@@ -1,12 +1,13 @@
-﻿using Common.Libs;
-using Common.Libs.Extends;
-using Common.Server;
-using Server.Messengers.SignIn;
+﻿using Server.Messengers.SignIn;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
+using Common.Libs;
+using Common.Libs.Extends;
 using Common.Server.Attributes;
 using Common.Server.Enums;
 using Common.Server.Interfaces;
 using Common.Server.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Service.Messengers.SignIn
 {
@@ -14,6 +15,7 @@ namespace Server.Service.Messengers.SignIn
     /// 服务端配置
     /// </summary>
     [MessengerIdRange((ushort)SignInMessengerIds.Min, (ushort)SignInMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class SettingMessenger : IMessenger
     {
         private readonly IClientSignInCaching clientSignInCaching;
@@ -21,7 +23,8 @@ namespace Server.Service.Messengers.SignIn
         private readonly Config config;
         private readonly ITcpServer tcpServer;
 
-        public SettingMessenger(IClientSignInCaching clientSignInCaching, IServiceAccessValidator serviceAccessValidator, Config config, ITcpServer tcpServer)
+        public SettingMessenger(IClientSignInCaching clientSignInCaching,
+            IServiceAccessValidator serviceAccessValidator, Config config, ITcpServer tcpServer)
         {
             this.clientSignInCaching = clientSignInCaching;
             this.serviceAccessValidator = serviceAccessValidator;
@@ -36,10 +39,12 @@ namespace Server.Service.Messengers.SignIn
             {
                 return;
             }
+
             if (serviceAccessValidator.Validate(connection.ConnectId, (uint)EnumServiceAccess.Setting) == false)
             {
                 return;
             }
+
             string str = await config.ReadString();
             connection.WriteUTF8(str);
         }
@@ -52,6 +57,7 @@ namespace Server.Service.Messengers.SignIn
                 connection.Write(Helper.FalseArray);
                 return;
             }
+
             if (serviceAccessValidator.Validate(connection.ConnectId, (uint)EnumServiceAccess.Setting) == false)
             {
                 connection.Write(Helper.FalseArray);

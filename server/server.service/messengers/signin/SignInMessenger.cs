@@ -1,30 +1,29 @@
-﻿using Common.Libs;
-using Common.Server;
-using Server.Messengers;
-using Server.Messengers.SignIn;
-using Server.Service.Validators;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Implementations;
 using Common.Server.Interfaces;
 using Common.Server.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Server.Messengers.SignIn;
 using EnumServiceAccess = Common.Server.Enums.EnumServiceAccess;
 
 namespace Server.Service.Messengers.SignIn
 {
-
     /// <summary>
     /// 注册
     /// </summary>
     [MessengerIdRange((ushort)SignInMessengerIds.Min, (ushort)SignInMessengerIds.Max)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class SignInMessenger : IMessenger
     {
         private readonly IClientSignInCaching clientSignInCache;
         private readonly MessengerSender messengerSender;
         private readonly ISignInValidatorHandler signInValidatorHandler;
 
-        public SignInMessenger(IClientSignInCaching clientSignInCache, MessengerSender messengerSender, ISignInValidatorHandler signInValidatorHandler)
+        public SignInMessenger(IClientSignInCaching clientSignInCache, MessengerSender messengerSender,
+            ISignInValidatorHandler signInValidatorHandler)
         {
             this.clientSignInCache = clientSignInCache;
             this.messengerSender = messengerSender;
@@ -93,7 +92,6 @@ namespace Server.Service.Messengers.SignIn
                 Connection = connection,
                 MessengerId = (ushort)HeartMessengerIds.Alive,
                 Timeout = 2000,
-
             });
             Console.WriteLine(res.Code);
         }

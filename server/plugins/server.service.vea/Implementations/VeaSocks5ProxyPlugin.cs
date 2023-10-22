@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using Common.Extensions.AutoInject.Attributes;
-using Common.Proxy;
 using Common.Proxy.Enums;
 using Common.Proxy.Interfaces;
 using Common.Proxy.Models;
