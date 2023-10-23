@@ -17,8 +17,7 @@ namespace Client.Realize.Messengers.Relay
     /// 中继
     /// </summary>
     [MessengerIdRange((ushort)RelayMessengerIds.Min, (ushort)RelayMessengerIds.Max)]
-    
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class RelayMessenger : IMessenger
     {
         private readonly IClientInfoCaching clientInfoCaching;
@@ -73,7 +72,9 @@ namespace Client.Realize.Messengers.Relay
                 {
                     Id = signInStateInfo.ConnectId,
                     ToId = fromid,
-                    Connects = clientInfoCaching.All().Where(c => c.Connected && c.ConnectType == ClientConnectTypes.P2P && relayValidator.Validate(connection)).Select(c => c.ConnectionId).ToArray(),
+                    Connects = clientInfoCaching.All()
+                        .Where(c => c.Connected && c.ConnectType == ClientConnectTypes.P2P &&
+                                    relayValidator.Validate(connection)).Select(c => c.ConnectionId).ToArray(),
                 });
             }
         }

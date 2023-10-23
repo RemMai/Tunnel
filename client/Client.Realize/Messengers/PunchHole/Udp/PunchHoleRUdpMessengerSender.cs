@@ -11,7 +11,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
-using Client.Messengers.PunchHole.udp;
+using Client.Messengers.PunchHole.Udp;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;
 using Common.Extensions.AutoInject.Attributes;

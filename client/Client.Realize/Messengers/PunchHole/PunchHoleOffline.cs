@@ -1,5 +1,4 @@
-﻿using Common.Server;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Common.Extensions.AutoInject.Attributes;
@@ -12,7 +11,7 @@ namespace Client.Realize.Messengers.PunchHole
     /// <summary>
     /// 掉线
     /// </summary>
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton,typeof(IPunchHole))]
     public sealed class PunchHoleOffline : IPunchHole
     {
         private readonly IClientInfoCaching clientInfoCaching;

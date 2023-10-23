@@ -1,5 +1,4 @@
-﻿using Common.Server;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Common.Extensions.AutoInject.Attributes;
 using Common.Server.Attributes;
 using Common.Server.Interfaces;
@@ -12,14 +11,13 @@ namespace Client.Realize.Messengers.PunchHole
     /// 打洞消息
     /// </summary>
     [MessengerIdRange((ushort)PunchHoleMessengerIds.Min, (ushort)PunchHoleMessengerIds.Max)]
-    
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IMessenger))]
     public sealed class PunchHoleMessenger : IMessenger
     {
         private readonly PunchHoleMessengerSender punchHoleMessengerSender;
+
         public PunchHoleMessenger(PunchHoleMessengerSender punchHoleMessengerSender)
         {
-
             this.punchHoleMessengerSender = punchHoleMessengerSender;
         }
 

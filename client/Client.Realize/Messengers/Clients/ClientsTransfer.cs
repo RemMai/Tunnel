@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Client.Messengers.Clients;
 using Client.Messengers.PunchHole;
 using Client.Messengers.PunchHole.Tcp;
-using Client.Messengers.PunchHole.udp;
+using Client.Messengers.PunchHole.Udp;
 using Client.Messengers.Relay;
 using Client.Messengers.Signin;
 using Client.Realize.Messengers.Crypto;

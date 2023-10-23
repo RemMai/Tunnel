@@ -11,10 +11,11 @@ namespace Client.Realize.Messengers.PunchHole.Tcp.NutsSB
     /// <summary>
     /// tcp打洞消息
     /// </summary>
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IPunchHole))]
     public sealed class PunchHoleTcpNutsSB : IPunchHole
     {
         private readonly IPunchHoleTcp punchHoleTcp;
+
         public PunchHoleTcpNutsSB(IPunchHoleTcp punchHoleTcp)
         {
             this.punchHoleTcp = punchHoleTcp;

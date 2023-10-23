@@ -12,16 +12,18 @@ namespace Client.Realize.Messengers.PunchHole
     /// <summary>
     /// 重启
     /// </summary>
-    [AutoInject(ServiceLifetime.Singleton)]
+    [AutoInject(ServiceLifetime.Singleton, typeof(IPunchHole))]
     public sealed class PunchHoleReset : IPunchHole
     {
         private readonly ISignInTransfer signinTransfer;
+
         public PunchHoleReset(ISignInTransfer signinTransfer)
         {
-
             this.signinTransfer = signinTransfer;
         }
+
         public PunchHoleTypes Type => PunchHoleTypes.RESET;
+
         public async Task Execute(IConnection connection, PunchHoleRequestInfo info)
         {
             _ = signinTransfer.SignIn(true);
